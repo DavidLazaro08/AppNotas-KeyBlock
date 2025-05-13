@@ -46,6 +46,4 @@ public class GestorBBDD {
             return stmt.executeUpdate(sql); // devuelve el número de filas afectadas
         }
 
-
-
 }

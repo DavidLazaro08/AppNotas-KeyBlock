@@ -1,5 +1,7 @@
 package vista;
 
+import bbdd.GestorBBDD;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,23 +46,52 @@ public class PrincipalVista extends JFrame {
         btnNuevaNota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Simula abrir una ventana secundaria modal (como ejemplo visto en VentanaSecundaria.java)
-                JDialog dialogo = new JDialog(PrincipalVista.this, "Crear Nota", true);
-                dialogo.setSize(300, 200);
+                // Crear ventana secundaria (modal) para nueva nota
+                JDialog dialogo = new JDialog(PrincipalVista.this, "Nueva Nota", true);
+                dialogo.setSize(400, 300);
                 dialogo.setLocationRelativeTo(null);
                 dialogo.setLayout(new BorderLayout());
 
-                JLabel etiqueta = new JLabel("Aquí se crearán las notas");
-                etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
-                dialogo.add(etiqueta, BorderLayout.CENTER);
+                // Panel para el título
+                JTextField campoTitulo = new JTextField();
+                campoTitulo.setBorder(BorderFactory.createTitledBorder("Título"));
+                dialogo.add(campoTitulo, BorderLayout.NORTH);
 
-                JButton btnCerrar = new JButton("Cerrar");
-                btnCerrar.addActionListener(ev -> dialogo.dispose());
-                dialogo.add(btnCerrar, BorderLayout.SOUTH);
+                // Panel para el contenido (como <textarea>)
+                JTextArea campoContenido = new JTextArea();
+                campoContenido.setBorder(BorderFactory.createTitledBorder("Contenido"));
+                dialogo.add(new JScrollPane(campoContenido), BorderLayout.CENTER);
+
+                // Panel inferior con botón de guardar
+                JPanel panelBotones = new JPanel(new FlowLayout());
+                JButton btnGuardar = new JButton("Guardar");
+                panelBotones.add(btnGuardar);
+                dialogo.add(panelBotones, BorderLayout.SOUTH);
+
+                // Acción del botón guardar
+                btnGuardar.addActionListener(ev -> {
+                    String titulo = campoTitulo.getText();
+                    String contenido = campoContenido.getText();
+
+                    if (!titulo.isEmpty() && !contenido.isEmpty()) {
+                        try {
+                            // Guarda en la base de datos
+                            GestorBBDD.executeUpdate("INSERT INTO notas(titulo, contenido) VALUES('" + titulo + "', '" + contenido + "')");
+                            JOptionPane.showMessageDialog(dialogo, "Nota guardada.");
+                            dialogo.dispose();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                            JOptionPane.showMessageDialog(dialogo, "Error al guardar la nota.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
+                    }
+                });
 
                 dialogo.setVisible(true);
             }
         });
+
 
         setVisible(true);
     }

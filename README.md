@@ -33,3 +33,8 @@ Este proyecto es una base para nuestra aplicación de notas. Ya incluye la estru
 ---
 
 ## 🚀 VAMOS
+
+
+Gestion notas.
+
+Sería importante que por cada usuario hubiese un documento .json con los nombres de las notas que hay, para que de esa manera fuese mas sencillo según se elija, crear las lineas de comando para ejecutar los select o los update.
