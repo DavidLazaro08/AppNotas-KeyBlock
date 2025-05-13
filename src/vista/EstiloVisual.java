@@ -11,7 +11,13 @@ public class EstiloVisual {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getModel().isRollover() ? color.darker() : color);
+                Color c = color;
+                if (getModel().isPressed()) {
+                    c = color.darker().darker();
+                } else if (getModel().isRollover()) {
+                    c = color.darker();
+                }
+                g2.setColor(c);
                 g2.fillOval(0, 0, getWidth(), getHeight());
                 g2.dispose();
                 super.paintComponent(g);
@@ -32,6 +38,21 @@ public class EstiloVisual {
         return boton;
     }
 
-    // Aquí podemos añadir más métodos visuales que hagan falta
+    // Método para crear degradado.
+
+    public static JPanel crearPanelDegradado(Color color1, Color color2) {
+        return new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                GradientPaint gp = new GradientPaint(0, 0, color1, 0, getHeight(), color2);
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+    }
+
 }
 

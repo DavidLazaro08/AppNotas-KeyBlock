@@ -3,19 +3,21 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 
-/** PanelContras representa la vista secundaria para gestión de contraseñas.
- *  Por ahora es solo un diseño inicial a la espera de conectar con datos reales.
- *
- * ➤ Asociado a "Contras" en el CardLayout desde PrincipalVista. */
+/**
+ * PanelContras con un tono ligeramente distinto para crear contraste visual respecto a PanelNotas.
+ * Inspirado en interfaces oscuras de desarrollo, manteniendo jerarquía y profundidad.
+ */
 public class PanelContras extends JPanel {
 
     public PanelContras() {
         setLayout(new BorderLayout());
-        setBackground(new Color(232, 245, 233)); // Verde muy suave
+        setBackground(new Color(36, 36, 36)); // Más oscuro que PanelNotas
 
         JLabel mensaje = new JLabel("Aquí irán tus contraseñas 🔐", SwingConstants.CENTER);
-        mensaje.setFont(new Font("SansSerif", Font.PLAIN, 20));
+        mensaje.setFont(new Font("Consolas", Font.PLAIN, 20));
+        mensaje.setForeground(new Color(187, 187, 187));
         mensaje.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
+
         add(mensaje, BorderLayout.CENTER);
     }
 }
