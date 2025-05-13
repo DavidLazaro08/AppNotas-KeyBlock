@@ -34,11 +34,9 @@ Este proyecto es una base para nuestra aplicación de notas. Ya incluye la estru
 
 ## 🚀 VAMOS
 
-
 Gestion notas.
 
 Sería importante que por cada usuario hubiese un documento .json con los nombres de las notas que hay, para que de esa manera fuese mas sencillo según se elija, crear las lineas de comando para ejecutar los select o los update.
-
 
 ### Patrones de búsqueda
 
@@ -50,4 +48,34 @@ Pattern pattern = Pattern.compile("### (.*)");
 
 qué hace el código anterior? pattern registra una expresión regular, quen en el caso de ("### (.*)") apunta a todos los elementos que aparezcan después de tres almohadillas y un espacio. De esta manera podemos aplicar estilos diferentes a los elementos que haya en escritos en el txt.
 
-Por otro lado
+Por otro lado tenemos Matcher
+
+````
+Pattern pattern = Pattern.compile("### (.*)");
+Matcher matcher = pattern.matcher(text);
+
+matcher.start(1); // para "###"
+matcher.start(2); // para el texto después
+```
+````
+
+Usamos `start(1)` y `end(1)` para aplicar estilo **solo** al texto tras `###`.
+
+
+| Grupo | Qué captura         | Ejemplo              |
+| ----- | -------------------- | -------------------- |
+| `0`   | Coincidencia total   | `### Título grande` |
+| `1`   | Lo que hay tras`###` | `Título grande`     |
+
+G
+
+
+| Formato en texto      | Estilo visual        | Regex (Java)        | Grupo útil |
+| --------------------- | -------------------- | ------------------- | ----------- |
+| `### Encabezado`      | Título (como H3)    | `### (.*)`          | `1`         |
+| `**negrita**`         | Negrita              | `\\*\\*(.*?)\\*\\*` | `1`         |
+| `*cursiva*`           | Cursiva              | `\\*(.*?)\\*`       | `1`         |
+| `~~tachado~~`         | Tachado              | `~~(.*?)~~`         | `1`         |
+| ``código``           | Texto estilo código | ``([^`]+)``         | `1`         |
+| `- elemento de lista` | Viñeta simple       | `(?m)^- (.*)`       | `1`         |
+| `> cita`              | Cita estilo bloque   | `(?m)^> (.*)`       | `1`         |
