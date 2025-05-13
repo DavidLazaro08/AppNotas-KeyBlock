@@ -65,6 +65,10 @@ public class PrincipalVista extends JFrame {
         // ---------------------- EVENTOS ----------------------
         btnVerNotas.addActionListener(e -> cardLayout.show(panelCartas, "Notas"));
         btnVerContras.addActionListener(e -> cardLayout.show(panelCartas, "Contras"));
+        botonMas.addActionListener(e -> {
+            EditarNotaVista vistaEditar = new EditarNotaVista(this);
+            vistaEditar.mostrar();
+        });
 
         setVisible(true);
     }
