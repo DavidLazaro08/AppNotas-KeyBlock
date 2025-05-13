@@ -10,9 +10,9 @@ import java.sql.*;
 public class GestorBBDD {
 
     // ⬇️⬇️⬇️HAY QUE PONER LA URL REAL DE LA BASE DE DATOS⬇️⬇️⬇️
-        private static final String URL = "jdbc:mysql://localhost:3306/tu_base_de_datos";
-        private static final String USER = "tu_usuario";
-        private static final String PASSWORD = "tu_contraseña";
+        private static final String URL = "jdbc:mysql://localhost:3306/notelab";
+        private static final String USER = "root";
+        private static final String PASSWORD = "";
 
         private static Connection connection;
 
