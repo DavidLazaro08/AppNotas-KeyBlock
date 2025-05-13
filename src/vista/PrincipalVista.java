@@ -57,10 +57,25 @@ public class PrincipalVista extends JFrame {
                 campoTitulo.setBorder(BorderFactory.createTitledBorder("Título"));
                 dialogo.add(campoTitulo, BorderLayout.NORTH);
 
-                // Panel para el contenido (como <textarea>)
+                // Panel intermedio con BoxLayout para hashtags + contenido
+                JPanel panelCentro = new JPanel();
+                panelCentro.setLayout(new BoxLayout(panelCentro, BoxLayout.Y_AXIS));
+
+                // Panel para los hashtags
+                JTextPane campoHashtags = new JTextPane();
+                campoHashtags.setBorder(BorderFactory.createTitledBorder("Hashtags"));
+
+                JScrollPane scrollHashtags = new JScrollPane(campoHashtags);
+                scrollHashtags.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80)); // altura máxima 80 px
+                panelCentro.add(scrollHashtags);
+
+                // Panel para el contenido
                 JTextPane campoContenido = new JTextPane();
                 campoContenido.setBorder(BorderFactory.createTitledBorder("Contenido"));
-                dialogo.add(new JScrollPane(campoContenido), BorderLayout.CENTER);
+                panelCentro.add(new JScrollPane(campoContenido));
+
+                // Agregar el panel combinado al centro del diálogo
+                dialogo.add(panelCentro, BorderLayout.CENTER);
 
                 // Panel inferior con botón de guardar
                 JPanel panelBotones = new JPanel(new FlowLayout());
@@ -71,12 +86,13 @@ public class PrincipalVista extends JFrame {
                 // Acción del botón guardar
                 btnGuardar.addActionListener(ev -> {
                     String titulo = campoTitulo.getText();
+                    String hashtags = campoHashtags.getText();
                     String contenido = campoContenido.getText();
 
                     if (!titulo.isEmpty() && !contenido.isEmpty()) {
                         try {
                             // Guarda en la base de datos
-                            GestorBBDD.executeUpdate("INSERT INTO notas(titulo, contenido) VALUES('" + titulo + "', '" + contenido + "')");
+                            GestorBBDD.executeUpdate("INSERT INTO notas(titulo, hashtags, contenido) VALUES('" + titulo + "', '" + contenido + "')");
                             JOptionPane.showMessageDialog(dialogo, "Nota guardada.");
                             dialogo.dispose();
                         } catch (Exception ex) {
