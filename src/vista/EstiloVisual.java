@@ -34,3 +34,4 @@ public class EstiloVisual {
 
     // Aquí podemos añadir más métodos visuales que hagan falta
 }
+
