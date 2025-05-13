@@ -58,7 +58,7 @@ public class PrincipalVista extends JFrame {
                 dialogo.add(campoTitulo, BorderLayout.NORTH);
 
                 // Panel para el contenido (como <textarea>)
-                JTextArea campoContenido = new JTextArea();
+                JTextPane campoContenido = new JTextPane();
                 campoContenido.setBorder(BorderFactory.createTitledBorder("Contenido"));
                 dialogo.add(new JScrollPane(campoContenido), BorderLayout.CENTER);
 

@@ -38,3 +38,16 @@ Este proyecto es una base para nuestra aplicación de notas. Ya incluye la estru
 Gestion notas.
 
 Sería importante que por cada usuario hubiese un documento .json con los nombres de las notas que hay, para que de esa manera fuese mas sencillo según se elija, crear las lineas de comando para ejecutar los select o los update.
+
+
+### Patrones de búsqueda
+
+````
+Pattern pattern = Pattern.compile("### (.*)");
+
+```
+````
+
+qué hace el código anterior? pattern registra una expresión regular, quen en el caso de ("### (.*)") apunta a todos los elementos que aparezcan después de tres almohadillas y un espacio. De esta manera podemos aplicar estilos diferentes a los elementos que haya en escritos en el txt.
+
+Por otro lado
