@@ -3,7 +3,7 @@ package controlador;
 import modelo.*;
 import vista.EditarNotaVista;
 import vista.PrincipalVista;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,18 +33,26 @@ public class NotasControlador {
         // Vincular los campos
         ActualizarNota.vincularCampos(vista, nota);
 
-        // Mostrar la nota
+        // Agregar la funcionalidad para el botón "Actualizar Estilos"
+        JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
+        btnActualizarEstilos.addActionListener(e -> {
+            // Aplicar los estilos a los campos de texto cuando el botón sea presionado
+            EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido());
+        });
+        vista.getPanelBotones().add(btnActualizarEstilos);
+
+        // Mostrar la vista
         vista.mostrar();
 
         // Tras cerrar el diálogo muestro la nota por consola
         System.out.println("✔ Nota creada:");
         System.out.println("Título: " + nota.getTitulo());
         System.out.println("Contenido: " + nota.getContenido());
-        System.out.println("Hashtags:");
+        System.out.println("Hashtags: ");
 
         if (nota.getHashtags() != null) {
-            for (var notas : nota.getHashtags()) {
-                System.out.println("#" + notas.getTexto());
+            for (var hashtag : nota.getHashtags()) {
+                System.out.println("#" + hashtag.getTexto());
             }
         }
     }

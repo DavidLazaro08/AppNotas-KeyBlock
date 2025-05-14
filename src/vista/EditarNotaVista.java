@@ -11,6 +11,7 @@ public class EditarNotaVista {
     private final JTextField campoTitulo;
     private final JTextPane campoHashtags;
     private final JTextPane campoContenido;
+    private final JPanel panelBotones;
 
     public EditarNotaVista(JFrame padre) {
         dialogo = new JDialog(padre, "Nueva Nota", true);
@@ -37,20 +38,21 @@ public class EditarNotaVista {
 
         dialogo.add(panelCentro, BorderLayout.CENTER);
 
-        JPanel panelBotones = new JPanel(new FlowLayout());
+        // Crear y configurar el panel de botones
+        panelBotones = new JPanel(new FlowLayout());
         JButton btnGuardar = new JButton("Guardar");
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
         /*btnGuardar.addActionListener(e -> guardarNota());*/
-        btnGuardar.addActionListener(e-> dialogo.dispose());
+        btnGuardar.addActionListener(e -> dialogo.dispose());
     }
 
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
-    //HAY QUE TRABAJAR EL GUARDAR LA NOTA EN LA BBDD⬇️⬇️
+    // HAY QUE TRABAJAR EL GUARDAR LA NOTA EN LA BBDD⬇️⬇️
     private void guardarNota() {
         String titulo = campoTitulo.getText();
         String hashtags = campoHashtags.getText();
@@ -81,5 +83,10 @@ public class EditarNotaVista {
 
     public JTextPane getCampoContenido() {
         return campoContenido;
+    }
+
+    // Método para acceder al panel de botones
+    public JPanel getPanelBotones() {
+        return panelBotones;
     }
 }
