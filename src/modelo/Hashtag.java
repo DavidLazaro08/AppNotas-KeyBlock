@@ -11,8 +11,7 @@ public class Hashtag {
         return texto;
     }
 
-    @Override
-    public String toString() {
-        return "#" + texto;
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 }

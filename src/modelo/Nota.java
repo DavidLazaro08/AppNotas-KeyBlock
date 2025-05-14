@@ -2,7 +2,6 @@ package modelo;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Nota {
     private int id;
@@ -10,7 +9,7 @@ public class Nota {
     private String contenido;
     private LocalDate fecha;
     private int usuarioId;
-    private ArrayList<Hashtag> hashtags= new ArrayList<>();
+    private ArrayList<Hashtag> hashtags = new ArrayList<>();
 
     public Nota(int id, String titulo, String contenido, LocalDate fecha, int usuarioId) {
         this.id = id;
@@ -20,46 +19,17 @@ public class Nota {
         this.usuarioId = usuarioId;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public String getTitulo() { return titulo; }
+    public String getContenido() { return contenido; }
+    public LocalDate getFecha() { return fecha; }
+    public int getUsuarioId() { return usuarioId; }
+    public ArrayList<Hashtag> getHashtags() { return hashtags; }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getContenido() {
-        return contenido;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public ArrayList<Hashtag> getHashtags() {
-        return hashtags;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
-    }
-
-    public void setHashtags(ArrayList<Hashtag> hashtags) {
-        this.hashtags = hashtags;
-    }
-
-
-    public void setHashtag(Hashtag hashtag){
-        hashtags.add(hashtag);
-    }
+    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public void setContenido(String contenido) { this.contenido = contenido; }
+    public void setHashtags(ArrayList<Hashtag> hashtags) { this.hashtags = hashtags; }
+    public void setHashtag(Hashtag hashtag) { hashtags.add(hashtag); }
 
     @Override
     public String toString() {

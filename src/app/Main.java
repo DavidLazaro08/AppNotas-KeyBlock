@@ -1,10 +1,10 @@
 package app;
 
-//import bbdd.GestorBBDD;
+import bbdd.GestorBBDD;
 import vista.PrincipalVista;
 
-//import java.sql.ResultSet;
-//import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 public class Main {
@@ -31,4 +31,5 @@ public class Main {
         }
     }
 }
-*/
+
+ */

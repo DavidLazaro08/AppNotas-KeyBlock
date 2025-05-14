@@ -1,17 +1,15 @@
 package vista;
 
-import bbdd.GestorBBDD;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class EditarNotaVista {
-
     private final JDialog dialogo;
     private final JTextField campoTitulo;
     private final JTextPane campoHashtags;
     private final JTextPane campoContenido;
     private final JPanel panelBotones;
+    private final JButton btnGuardar;
 
     public EditarNotaVista(JFrame padre) {
         dialogo = new JDialog(padre, "Nueva Nota", true);
@@ -38,55 +36,20 @@ public class EditarNotaVista {
 
         dialogo.add(panelCentro, BorderLayout.CENTER);
 
-        // Crear y configurar el panel de botones
         panelBotones = new JPanel(new FlowLayout());
-        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar = new JButton("Guardar");
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
-
-        /*btnGuardar.addActionListener(e -> guardarNota());*/
-        btnGuardar.addActionListener(e -> dialogo.dispose());
     }
 
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
-    // HAY QUE TRABAJAR EL GUARDAR LA NOTA EN LA BBDD⬇️⬇️
-    private void guardarNota() {
-        String titulo = campoTitulo.getText();
-        String hashtags = campoHashtags.getText();
-        String contenido = campoContenido.getText();
-
-        if (!titulo.isEmpty() && !contenido.isEmpty()) {
-            try {
-                GestorBBDD.executeUpdate("INSERT INTO notas(titulo, hashtags, contenido) VALUES('" +
-                        titulo + "', '" + hashtags + "', '" + contenido + "')");
-                JOptionPane.showMessageDialog(dialogo, "Nota guardada.");
-                dialogo.dispose();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(dialogo, "Error al guardar la nota.");
-            }
-        } else {
-            JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
-        }
-    }
-
-    public JTextField getCampoTitulo() {
-        return campoTitulo;
-    }
-
-    public JTextPane getCampoHashtags() {
-        return campoHashtags;
-    }
-
-    public JTextPane getCampoContenido() {
-        return campoContenido;
-    }
-
-    // Método para acceder al panel de botones
-    public JPanel getPanelBotones() {
-        return panelBotones;
-    }
+    public JDialog getDialogo() { return dialogo; }
+    public JButton getBtnGuardar() { return btnGuardar; }
+    public JTextField getCampoTitulo() { return campoTitulo; }
+    public JTextPane getCampoHashtags() { return campoHashtags; }
+    public JTextPane getCampoContenido() { return campoContenido; }
+    public JPanel getPanelBotones() { return panelBotones; }
 }
