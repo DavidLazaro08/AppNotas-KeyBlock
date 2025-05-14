@@ -3,6 +3,7 @@ package vista;
 import bbdd.GestorBBDD;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class EditarNotaVista {
@@ -46,6 +47,53 @@ public class EditarNotaVista {
 
         /*btnGuardar.addActionListener(e -> guardarNota());*/
         btnGuardar.addActionListener(e -> dialogo.dispose());
+
+        // 🎨 ESTILOS VISUALES AÑADIDOS PARA UNIFICAR CON LA APP
+        Color fondo = new Color(43, 43, 43);
+        Color campos = new Color(30, 30, 30);
+        Color textoClaro = new Color(220, 220, 220);
+        Color bordeClaro = new Color(100, 100, 100);
+
+        dialogo.getContentPane().setBackground(fondo);
+        panelCentro.setBackground(fondo);
+        panelBotones.setBackground(fondo);
+
+// Borde personalizado y fondo/forma
+        campoTitulo.setBackground(campos);
+        campoTitulo.setForeground(textoClaro);
+        TitledBorder bordeTitulo = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(bordeClaro), "Título");
+        bordeTitulo.setTitleColor(textoClaro);
+        campoTitulo.setBorder(bordeTitulo);
+
+
+        campoHashtags.setBackground(campos);
+        campoHashtags.setForeground(textoClaro);
+        TitledBorder bordeHashtags = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(bordeClaro), "Hashtags");
+        bordeHashtags.setTitleColor(textoClaro);
+        campoHashtags.setBorder(bordeHashtags);
+
+        campoContenido.setBackground(campos);
+        campoContenido.setForeground(textoClaro);
+        TitledBorder bordeContenido = BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(bordeClaro), "Contenido");
+        bordeContenido.setTitleColor(textoClaro);
+        campoContenido.setBorder(bordeContenido);
+
+// Estilo de botones unificado
+        for (Component c : panelBotones.getComponents()) {
+            if (c instanceof JButton) {
+                JButton btn = (JButton) c;
+                btn.setBackground(new Color(60, 63, 65));
+                btn.setForeground(textoClaro);
+                btn.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+                btn.setFocusPainted(false);
+                btn.setBorderPainted(false);
+                btn.setContentAreaFilled(true);
+            }
+        }
+
     }
 
     public void mostrar() {
