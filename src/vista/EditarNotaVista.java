@@ -42,8 +42,8 @@ public class EditarNotaVista {
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        // Acción provisional
-        btnGuardar.addActionListener(e -> dialogo.dispose());
+        // Acción provisional para que el botón guardar simplemente cierre la ventana
+        //btnGuardar.addActionListener(e -> dialogo.dispose());
 
         // 🎨 ESTILOS VISUALES AÑADIDOS PARA UNIFICAR CON LA APP
         Color fondo = new Color(43, 43, 43);
