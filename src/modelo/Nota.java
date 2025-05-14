@@ -1,6 +1,7 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Nota {
@@ -9,15 +10,14 @@ public class Nota {
     private String contenido;
     private LocalDate fecha;
     private int usuarioId;
-    private List<String> hashtags;
+    private ArrayList<Hashtag> hashtags= new ArrayList<>();
 
-    public Nota(int id, String titulo, String contenido, LocalDate fecha, int usuarioId, List<String> hashtags) {
+    public Nota(int id, String titulo, String contenido, LocalDate fecha, int usuarioId) {
         this.id = id;
         this.titulo = titulo;
         this.contenido = contenido;
         this.fecha = fecha;
         this.usuarioId = usuarioId;
-        this.hashtags = hashtags;
     }
 
     public int getId() {
@@ -40,8 +40,25 @@ public class Nota {
         return usuarioId;
     }
 
-    public List<String> getHashtags() {
+    public ArrayList<Hashtag> getHashtags() {
         return hashtags;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
+    }
+
+    public void setHashtags(ArrayList<Hashtag> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+
+    public void setHashtag(Hashtag hashtag){
+        hashtags.add(hashtag);
     }
 
     @Override

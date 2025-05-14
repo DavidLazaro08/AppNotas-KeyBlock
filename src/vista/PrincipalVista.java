@@ -1,5 +1,7 @@
 package vista;
 
+import controlador.NotasControlador;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -156,9 +158,9 @@ public class PrincipalVista extends JFrame {
         btnVerNotas.addActionListener(e -> cardLayout.show(panelCartas, "Notas"));
         btnVerContras.addActionListener(e -> cardLayout.show(panelCartas, "Contras"));
         botonMas.addActionListener(e -> {
-            EditarNotaVista vistaEditar = new EditarNotaVista(this);
-            vistaEditar.mostrar(); // abrir la vista de edición
+            NotasControlador.crearYEditarNota(PrincipalVista.this); // envío el JFrame
         });
+
 
         setVisible(true);
     }

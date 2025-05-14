@@ -1,10 +1,13 @@
 package modelo;
 
+import java.util.ArrayList;
+
 public class Usuario {
     private int id;
     private String nombre;
     private String contraseña;
     private String tipo; // "admin" o "normal"
+    private ArrayList<Nota> notas;
 
     public Usuario(int id, String nombre, String contraseña, String tipo) {
         this.id = id;

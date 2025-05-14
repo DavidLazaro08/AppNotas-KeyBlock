@@ -42,13 +42,15 @@ public class EditarNotaVista {
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        btnGuardar.addActionListener(e -> guardarNota());
+        /*btnGuardar.addActionListener(e -> guardarNota());*/
+        btnGuardar.addActionListener(e-> dialogo.dispose());
     }
 
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
+    //HAY QUE TRABAJAR EL GUARDAR LA NOTA EN LA BBDD⬇️⬇️
     private void guardarNota() {
         String titulo = campoTitulo.getText();
         String hashtags = campoHashtags.getText();
@@ -67,5 +69,17 @@ public class EditarNotaVista {
         } else {
             JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
         }
+    }
+
+    public JTextField getCampoTitulo() {
+        return campoTitulo;
+    }
+
+    public JTextPane getCampoHashtags() {
+        return campoHashtags;
+    }
+
+    public JTextPane getCampoContenido() {
+        return campoContenido;
     }
 }
