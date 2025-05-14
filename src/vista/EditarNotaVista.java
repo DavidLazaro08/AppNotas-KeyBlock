@@ -13,6 +13,7 @@ public class EditarNotaVista {
     private final JTextPane campoHashtags;
     private final JTextPane campoContenido;
     private final JPanel panelBotones;
+    private final JButton btnGuardar;
 
     public EditarNotaVista(JFrame padre) {
         dialogo = new JDialog(padre, "Nueva Nota", true);
@@ -21,31 +22,27 @@ public class EditarNotaVista {
         dialogo.setLayout(new BorderLayout());
 
         campoTitulo = new JTextField();
-        campoTitulo.setBorder(BorderFactory.createTitledBorder("Título"));
         dialogo.add(campoTitulo, BorderLayout.NORTH);
 
         JPanel panelCentro = new JPanel();
         panelCentro.setLayout(new BoxLayout(panelCentro, BoxLayout.Y_AXIS));
 
         campoHashtags = new JTextPane();
-        campoHashtags.setBorder(BorderFactory.createTitledBorder("Hashtags"));
         JScrollPane scrollHashtags = new JScrollPane(campoHashtags);
         scrollHashtags.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
         panelCentro.add(scrollHashtags);
 
         campoContenido = new JTextPane();
-        campoContenido.setBorder(BorderFactory.createTitledBorder("Contenido"));
         panelCentro.add(new JScrollPane(campoContenido));
 
         dialogo.add(panelCentro, BorderLayout.CENTER);
 
-        // Crear y configurar el panel de botones
         panelBotones = new JPanel(new FlowLayout());
-        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar = new JButton("Guardar");
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        /*btnGuardar.addActionListener(e -> guardarNota());*/
+        // Acción provisional
         btnGuardar.addActionListener(e -> dialogo.dispose());
 
         // 🎨 ESTILOS VISUALES AÑADIDOS PARA UNIFICAR CON LA APP
@@ -58,14 +55,13 @@ public class EditarNotaVista {
         panelCentro.setBackground(fondo);
         panelBotones.setBackground(fondo);
 
-// Borde personalizado y fondo/forma
+        // Bordes personalizados
         campoTitulo.setBackground(campos);
         campoTitulo.setForeground(textoClaro);
         TitledBorder bordeTitulo = BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(bordeClaro), "Título");
         bordeTitulo.setTitleColor(textoClaro);
         campoTitulo.setBorder(bordeTitulo);
-
 
         campoHashtags.setBackground(campos);
         campoHashtags.setForeground(textoClaro);
@@ -81,27 +77,22 @@ public class EditarNotaVista {
         bordeContenido.setTitleColor(textoClaro);
         campoContenido.setBorder(bordeContenido);
 
-// Estilo de botones unificado
-        for (Component c : panelBotones.getComponents()) {
-            if (c instanceof JButton) {
-                JButton btn = (JButton) c;
-                btn.setBackground(new Color(60, 63, 65));
-                btn.setForeground(textoClaro);
-                btn.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-                btn.setFocusPainted(false);
-                btn.setBorderPainted(false);
-                btn.setContentAreaFilled(true);
-            }
-        }
-
+        // Estilo de botón
+        btnGuardar.setBackground(new Color(60, 63, 65));
+        btnGuardar.setForeground(textoClaro);
+        btnGuardar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setBorderPainted(false);
+        btnGuardar.setContentAreaFilled(true);
     }
 
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
-    // HAY QUE TRABAJAR EL GUARDAR LA NOTA EN LA BBDD⬇️⬇️
-    private void guardarNota() {
+    // Método opcional para guardar desde la propia vista (no se usa por defecto)
+    // Puedes eliminarlo si prefieres gestionar todo desde el controlador
+    /* private void guardarNota() {
         String titulo = campoTitulo.getText();
         String hashtags = campoHashtags.getText();
         String contenido = campoContenido.getText();
@@ -119,7 +110,8 @@ public class EditarNotaVista {
         } else {
             JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
         }
-    }
+    } */
+
 
     public JTextField getCampoTitulo() {
         return campoTitulo;
@@ -133,8 +125,15 @@ public class EditarNotaVista {
         return campoContenido;
     }
 
-    // Método para acceder al panel de botones
     public JPanel getPanelBotones() {
         return panelBotones;
+    }
+
+    public JDialog getDialogo() {
+        return dialogo;
+    }
+
+    public JButton getBtnGuardar() {
+        return btnGuardar;
     }
 }
