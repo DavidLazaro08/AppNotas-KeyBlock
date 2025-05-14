@@ -30,7 +30,7 @@ public class EstiloVisual {
         };
 
         boton.setFont(new Font("SansSerif", Font.BOLD, 24));
-        boton.setForeground(Color.WHITE);
+        boton.setForeground(new Color(220, 220, 220));
         boton.setContentAreaFilled(false);
         boton.setFocusPainted(false);
         boton.setBorderPainted(false);

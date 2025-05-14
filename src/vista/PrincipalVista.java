@@ -52,7 +52,7 @@ public class PrincipalVista extends JFrame {
             JButton btn = new JButton(iconos[i]);
             btn.setToolTipText(tooltips[i]);
             btn.setFont(new Font("SansSerif", Font.PLAIN, 18));
-            btn.setForeground(Color.WHITE);
+            btn.setForeground(new Color(220, 220, 220));
             btn.setBackground(new Color(60, 63, 65));
             btn.setFocusPainted(false);
             btn.setBorderPainted(false);
@@ -75,9 +75,6 @@ public class PrincipalVista extends JFrame {
             panelLateral.add(btn);
         }
 
-
-
-
         // Añadir panel al oeste del frame
         add(panelLateral, BorderLayout.WEST);
 
@@ -85,10 +82,9 @@ public class PrincipalVista extends JFrame {
         cardLayout = new CardLayout();
         panelCartas = new JPanel(cardLayout);
         panelCartas.setBackground(new Color(25, 25, 25)); // Fondo base unificado
-        JPanel panelNotas = EstiloVisual.crearPanelDegradado(new Color(43, 43, 43), new Color(35, 35, 35));
-        JPanel panelContras = EstiloVisual.crearPanelDegradado(new Color(36, 36, 36), new Color(28, 28, 28));
-        panelCartas.add(panelNotas, "Notas");
-        panelCartas.add(panelContras, "Contras");
+        panelCartas.add(new PanelNotas(), "Notas");
+        panelCartas.add(new PanelContras(), "Contras");
+
 
         add(panelCartas, BorderLayout.CENTER);
 
@@ -99,7 +95,7 @@ public class PrincipalVista extends JFrame {
 
         // Botón para ver notas
         JButton btnVerNotas = new JButton("📄 Ver Notas");
-        btnVerNotas.setForeground(Color.WHITE);
+        btnVerNotas.setForeground(new Color(220, 220, 220));
         btnVerNotas.setBackground(new Color(60, 63, 65));
         btnVerNotas.setFocusPainted(false);
         btnVerNotas.setBorderPainted(false);
@@ -121,7 +117,7 @@ public class PrincipalVista extends JFrame {
 
         // Botón para ver contraseñas
         JButton btnVerContras = new JButton("🔐 Contraseñas");
-        btnVerContras.setForeground(Color.WHITE);
+        btnVerContras.setForeground(new Color(220, 220, 220));
         btnVerContras.setBackground(new Color(60, 63, 65));
         btnVerContras.setFocusPainted(false);
         btnVerContras.setBorderPainted(false);
@@ -165,7 +161,7 @@ public class PrincipalVista extends JFrame {
         setVisible(true);
     }
 
-//    // ---------------------- MAIN DE PRUEBA ----------------------
+//    ---------------------- MAIN DE PRUEBA ----------------------
 //    public static void main(String[] args) {
 //        new PrincipalVista();
 //    }
