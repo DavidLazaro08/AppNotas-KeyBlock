@@ -5,6 +5,7 @@ import controlador.NotasControlador;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 /** Clase PrincipalVista que representa la ventana principal del programa.
  * Usa BorderLayout como distribución principal y un panel central con CardLayout
@@ -24,7 +25,7 @@ public class PrincipalVista extends JFrame {
     // ---------------------- CONSTRUCTOR ----------------------
     public PrincipalVista() {
         setTitle("KeyBlock");
-        ImageIcon icono = new ImageIcon(getClass().getResource("/recursos/ICON_KEYBLOCK.png"));
+        ImageIcon icono = new ImageIcon(Objects.requireNonNull(getClass().getResource("/ICON_KEYBLOCK.png")));
         setIconImage(icono.getImage());
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
