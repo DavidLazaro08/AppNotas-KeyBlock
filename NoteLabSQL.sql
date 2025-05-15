@@ -1,3 +1,6 @@
+create database if not exists notelab ;
+use notelab;
+
 -- Crear tabla de usuarios (si aún no existe)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
