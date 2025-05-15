@@ -46,4 +46,5 @@ CREATE TABLE IF NOT EXISTS contrasenas_guardadas (
 );
 
 
+
 SELECT * FROM notas;
