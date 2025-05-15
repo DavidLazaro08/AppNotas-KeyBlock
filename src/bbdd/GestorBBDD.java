@@ -1,49 +1,40 @@
 package bbdd;
 
 import java.sql.*;
-/*IMPORTANTE:
-*   lo que recibe cada método son las líneas de código que se van a ejecutar. Por ej en excecuteSelect(),
-*    se le envía en formate String, la línea de código que se quiere ejecutar:
-*    Ejemplo: GestroBBDD.executeSelect("SELECT * FROM usuarios")
-*    Ejemplo en executeUpdate: GestorBBDD.executeUpdate("INSERT INTO productos(nombre, precio) VALUES('Zapato', 29.99)")*/
 
 public class GestorBBDD {
+    private static final String URL = "jdbc:mysql://localhost:3306/notelab";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
 
-    // ⬇️⬇️⬇️HAY QUE PONER LA URL REAL DE LA BASE DE DATOS⬇️⬇️⬇️
-        private static final String URL = "jdbc:mysql://localhost:3306/notelab";
-        private static final String USER = "root";
-        private static final String PASSWORD = "";
+    private static Connection connection;
 
-        private static Connection connection;
-
-        // Inicializa la conexión
-        public static void connect() throws SQLException {
-            if (connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("Conexión establecida correctamente.");
-            }
+    public static void connect() throws SQLException {
+        if (connection == null || connection.isClosed()) {
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         }
+    }
 
-        // Cierra la conexión
-        public static void disconnect() throws SQLException {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("Conexión cerrada.");
-            }
+    public static void disconnect() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
         }
+    }
 
-        // Ejecuta un SELECT y devuelve los resultados
-        public static ResultSet executeSelect(String sql) throws SQLException {
-            connect();
-            Statement stmt = connection.createStatement();
-            return stmt.executeQuery(sql);
-        }
+    public static ResultSet executeSelect(String sql) throws SQLException {
+        connect();
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(sql);
+    }
 
-        // Ejecuta INSERT, UPDATE o DELETE
-        public static int executeUpdate(String sql) throws SQLException {
-            connect();
-            Statement stmt = connection.createStatement();
-            return stmt.executeUpdate(sql); // devuelve el número de filas afectadas
-        }
+    public static int executeUpdate(String sql) throws SQLException {
+        connect();
+        Statement stmt = connection.createStatement();
+        return stmt.executeUpdate(sql);
+    }
 
+    public static Connection getConnection() throws SQLException {
+        connect();
+        return connection;
+    }
 }

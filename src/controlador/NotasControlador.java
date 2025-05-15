@@ -2,54 +2,45 @@ package controlador;
 
 import modelo.*;
 import vista.EditarNotaVista;
-import vista.PrincipalVista;
 import javax.swing.*;
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 public class NotasControlador {
 
     public static void procesarHashtags(String textoHashtags, Nota nota) {
-        // El patrón detecta solo palabras precedidas por #
         Pattern pattern = Pattern.compile("#([\\p{L}0-9_-]+)");
         Matcher matcher = pattern.matcher(textoHashtags);
-
         while (matcher.find()) {
-            String texto = matcher.group(1); // Extrae el texto sin el '#'
-            Hashtag hashtag = new Hashtag(texto);
-            nota.setHashtag(hashtag); // Agrega el hashtag a la nota
+            String texto = matcher.group(1);
+            nota.setHashtag(new Hashtag(texto));
         }
     }
 
     public static void crearYEditarNota(JFrame padre) {
-        // Crear la vista del panel
         EditarNotaVista vista = new EditarNotaVista(padre);
-
-        // Crear la nota vacía
-        // HAY QUE: Ajustar el usuarioId según la app
         Nota nota = new Nota(0, "", "", LocalDate.now(), 1);
-
-        // Vincular los campos
         ActualizarNota.vincularCampos(vista, nota);
 
-        // Agregar la funcionalidad para el botón "Actualizar Estilos"
         JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
-        btnActualizarEstilos.addActionListener(e -> {
-            // Aplicar los estilos a los campos de texto cuando el botón sea presionado
-            EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido());
-        });
+        btnActualizarEstilos.addActionListener(e -> EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
         vista.getPanelBotones().add(btnActualizarEstilos);
 
-        // Mostrar la vista
-        vista.mostrar();
+        vista.getBtnGuardar().addActionListener(e -> {
+            try {
+                NotaDAO.guardarNota(nota);
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
+                vista.getDialogo().dispose();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
+            }
+        });
 
-        // Tras cerrar el diálogo muestro la nota por consola
+        vista.mostrar();
         System.out.println("✔ Nota creada:");
         System.out.println("Título: " + nota.getTitulo());
         System.out.println("Contenido: " + nota.getContenido());
-        System.out.println("Hashtags: ");
-
         if (nota.getHashtags() != null) {
             for (var hashtag : nota.getHashtags()) {
                 System.out.println("#" + hashtag.getTexto());

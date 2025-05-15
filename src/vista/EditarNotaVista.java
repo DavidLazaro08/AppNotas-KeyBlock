@@ -136,4 +136,6 @@ public class EditarNotaVista {
     public JButton getBtnGuardar() {
         return btnGuardar;
     }
+
 }
+
