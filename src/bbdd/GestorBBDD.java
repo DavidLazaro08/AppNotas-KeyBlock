@@ -1,6 +1,9 @@
 package bbdd;
 
+import modelo.Usuario;
+
 import java.sql.*;
+import java.util.prefs.Preferences;
 
 public class GestorBBDD {
     private static final String URL = "jdbc:mysql://localhost:3306/notelab";
@@ -36,5 +39,19 @@ public class GestorBBDD {
     public static Connection getConnection() throws SQLException {
         connect();
         return connection;
+    }
+
+    // Método para guardar el último usuario en las preferencias (cuando inicie sesión)
+    public static void guardarUltimoUsuario(Usuario usuario) {
+        Preferences prefs = Preferences.userNodeForPackage(Usuario.class);
+        prefs.putInt("ultimoUsuarioId", usuario.getId());
+        prefs.put("ultimoUsuarioNombre", usuario.getNombre());
+    }
+
+    // Método para borrar el último usuario guardado
+    public static void borrarUltimoUsuario() {
+        Preferences prefs = Preferences.userNodeForPackage(Usuario.class);
+        prefs.remove("ultimoUsuarioId");
+        prefs.remove("ultimoUsuarioNombre");
     }
 }
