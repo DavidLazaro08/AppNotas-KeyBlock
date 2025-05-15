@@ -23,7 +23,9 @@ public class PrincipalVista extends JFrame {
 
     // ---------------------- CONSTRUCTOR ----------------------
     public PrincipalVista() {
-        setTitle("NotasApp - Principal");
+        setTitle("KeyBlock");
+        ImageIcon icono = new ImageIcon(getClass().getResource("/recursos/ICON_KEYBLOCK.png"));
+        setIconImage(icono.getImage());
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -45,7 +47,7 @@ public class PrincipalVista extends JFrame {
         panelLateral.setLayout(new GridLayout(5, 1, 0, 10)); // 5 botones con separación
 
         // Iconos y tooltips ficticios por ahora
-        String[] iconos = {"👤", "🗓️", "🌓", "⚙️", "🔍"};
+        String[] iconos = {"👤", "🗓️", "🌓", "🛠️", "🔍"};
         String[] tooltips = {"Usuario|Login", "Calendario", "Cambiar Tema", "Configuración", "Buscar Notas"};
 
         for (int i = 0; i < iconos.length; i++) {
