@@ -1,32 +1,29 @@
-create database notelab if not exists;
-USE notelab;
-
--- Crear tabla de usuarios
-CREATE TABLE usuarios (
+-- Crear tabla de usuarios (si aún no existe)
+CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    email VARCHAR(100),
-    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+    nombre VARCHAR(255) NOT NULL,
+    correo VARCHAR(255) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL
 );
 
 -- Crear tabla de notas
-CREATE TABLE notas (
+CREATE TABLE IF NOT EXISTS notas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    titulo VARCHAR(255),
-    contenido TEXT,
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    usuario_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    titulo VARCHAR(255) NOT NULL,
+    contenido TEXT NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    usuario_id INT
 );
+
 
 -- Crear tabla de hashtags
-CREATE TABLE hashtags (
+CREATE TABLE IF NOT EXISTS hashtags (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    hashtag VARCHAR(50)
+    nombre VARCHAR(50) NOT NULL UNIQUE
 );
 
--- Crear tabla intermedia nota_hashtag
-CREATE TABLE nota_hashtag (
+-- Tabla intermedia para la relación entre notas y hashtags
+CREATE TABLE IF NOT EXISTS nota_hashtag (
     nota_id INT,
     hashtag_id INT,
     FOREIGN KEY (nota_id) REFERENCES notas(id),
@@ -34,10 +31,16 @@ CREATE TABLE nota_hashtag (
     PRIMARY KEY (nota_id, hashtag_id)
 );
 
--- Crear tabla de contraseñas_guardadas
-CREATE TABLE contrasenas_guardadas (
+-- Crear tabla de contraseñas guardadas
+CREATE TABLE IF NOT EXISTS contrasenas_guardadas (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    sitio VARCHAR(255) NOT NULL,
+    usuario VARCHAR(255) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     usuario_id INT,
-    contrasena VARCHAR(255),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+
+SELECT * FROM notas;

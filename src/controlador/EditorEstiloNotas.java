@@ -70,4 +70,21 @@ public class EditorEstiloNotas {
             ex.printStackTrace();
         }
     }
+    /**
+     * Clase auxiliar para definir un patrón y su acción de estilo.
+     */
+  /*
+    private static class PatronEstilo {
+        final Pattern pattern;
+        final BiConsumer<Style, Matcher> aplicarFormato;
+
+        PatronEstilo(String regex, BiConsumer<Style, Matcher> aplicarFormato) {
+            this.pattern = Pattern.compile(regex);
+            this.aplicarFormato = aplicarFormato;
+        }
+    }
+*/
+
+
+
 }
