@@ -1,28 +1,53 @@
 package controlador;
 
-
-import bbdd.GestorBBDD;
-import modelo.Usuario;
+import modelo.UsuarioDAO;
+import vista.LoginVista;
+import vista.PanelAdmin;
+import vista.PrincipalVista;
 
 import javax.swing.*;
-import java.sql.SQLException;
 
 public class LoginControlador {
-    public LoginControlador() {
-        // Controlador del login
+
+    private LoginVista vista;
+    private UsuarioDAO usuarioDAO;
+
+    public LoginControlador(LoginVista vista) {
+        this.vista = vista;
+        this.usuarioDAO = new UsuarioDAO();
+
+        this.vista.getLoginButton().addActionListener(e -> {
+            String usuario = vista.getUsuario();
+            String contrasena = vista.getContrasena();
+
+            if (usuarioDAO.validarUsuario(usuario, contrasena)) {
+                vista.dispose(); // cerrar login
+                if (usuarioDAO.esAdmin(usuario)) {
+                    new PanelAdmin().setVisible(true);
+                } else {
+                    new PrincipalVista().setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        this.vista.getRegistrarButton().addActionListener(e -> {
+            String usuario = vista.getUsuario();
+            String contrasena = vista.getContrasena();
+
+            if (usuario.isEmpty() || contrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            boolean registrado = usuarioDAO.registrarUsuario(usuario, contrasena);
+            if (registrado) {
+                JOptionPane.showMessageDialog(vista, "Registro exitoso. Ahora puedes iniciar sesión.");
+                vista.limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al registrar. El usuario ya existe o fallo de conexión.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
-
-
-    public static void registrarYGuardarUltimoUsuario(JTextPane nombrePane, JTextPane contraseñaPane) throws SQLException {
-        String nombre = nombrePane.getText().trim();
-        String contraseña = contraseñaPane.getText().trim();
-
-        // Crear el usuario con los datos
-        Usuario nuevoUsuario = new Usuario(0, nombre, contraseña, "normal"); // Asume "normal" como tipo de usuario
-
-        // Guardar el nuevo usuario en la base de datos (inserción, y obtener el ID generado)
-        String sql = "INSERT INTO usuarios (nombre, contraseña, tipo) VALUES ('" + nombre + "', '" + contraseña + "', 'normal')";
-
-        // Guardar el último usuario en las preferencias
-        GestorBBDD.guardarUltimoUsuario(nuevoUsuario);
-    }}
+}

@@ -2,16 +2,20 @@ package app;
 
 import bbdd.GestorBBDD;
 import vista.PrincipalVista;
+import controlador.LoginControlador;
+import vista.LoginVista;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+import controlador.LoginControlador;
+import vista.LoginVista;
+
 public class Main {
     public static void main(String[] args) {
-
-        // Usamos el Main para simplemente lanzar la interfaz.
-        new PrincipalVista();
+        LoginVista loginVista = new LoginVista();
+        new controlador.LoginControlador(loginVista);
     }
 }
 
