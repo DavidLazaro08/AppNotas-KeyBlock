@@ -1,12 +1,13 @@
-create database if not exists notelab ;
-use notelab;
+CREATE database notelab;
+USE notelab;
 
 -- Crear tabla de usuarios (si aún no existe)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     correo VARCHAR(255) NOT NULL UNIQUE,
-    contraseña VARCHAR(255) NOT NULL
+    contraseña VARCHAR(255) NOT NULL,
+    rol ENUM('admin', 'usuario') NOT NULL DEFAULT 'usuario'
 );
 
 -- Crear tabla de notas
@@ -48,3 +49,7 @@ CREATE TABLE IF NOT EXISTS contrasenas_guardadas (
 
 
 SELECT * FROM notas;
+INSERT INTO usuarios (nombre, contraseña, rol) VALUES ('admin', 'admin', 'admin');
+
+ALTER TABLE usuarios DROP INDEX correo;
+ALTER TABLE usuarios MODIFY correo VARCHAR(255) NULL;
