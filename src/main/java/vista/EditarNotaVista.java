@@ -5,6 +5,9 @@ import bbdd.GestorBBDD;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class EditarNotaVista {
 
@@ -42,8 +45,8 @@ public class EditarNotaVista {
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        // Acción provisional para que el botón guardar simplemente cierre la ventana
-        //btnGuardar.addActionListener(e -> dialogo.dispose());
+        // Acción: guardar la nota al pulsar
+        btnGuardar.addActionListener(e -> guardarNota());
 
         // 🎨 ESTILOS VISUALES AÑADIDOS PARA UNIFICAR CON LA APP
         Color fondo = new Color(43, 43, 43);
@@ -55,7 +58,6 @@ public class EditarNotaVista {
         panelCentro.setBackground(fondo);
         panelBotones.setBackground(fondo);
 
-        // Bordes personalizados
         campoTitulo.setBackground(campos);
         campoTitulo.setForeground(textoClaro);
         TitledBorder bordeTitulo = BorderFactory.createTitledBorder(
@@ -77,7 +79,6 @@ public class EditarNotaVista {
         bordeContenido.setTitleColor(textoClaro);
         campoContenido.setBorder(bordeContenido);
 
-        // Estilo de botón
         btnGuardar.setBackground(new Color(60, 63, 65));
         btnGuardar.setForeground(textoClaro);
         btnGuardar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
@@ -90,19 +91,76 @@ public class EditarNotaVista {
         dialogo.setVisible(true);
     }
 
-    // Método opcional para guardar desde la propia vista (no se usa por defecto)
-    // Puedes eliminarlo si prefieres gestionar todo desde el controlador
-    /* private void guardarNota() {
+    // ✅ NUEVO MÉTODO AÑADIDO
+    private void guardarNota() {
         String titulo = campoTitulo.getText();
-        String hashtags = campoHashtags.getText();
         String contenido = campoContenido.getText();
+        String textoHashtags = campoHashtags.getText();
 
         if (!titulo.isEmpty() && !contenido.isEmpty()) {
             try {
-                GestorBBDD.executeUpdate("INSERT INTO notas(titulo, hashtags, contenido) VALUES('" +
-                        titulo + "', '" + hashtags + "', '" + contenido + "')");
-                JOptionPane.showMessageDialog(dialogo, "Nota guardada.");
+                Connection connection = GestorBBDD.getConnection();
+
+                // Insertar nota
+                String sqlNota = "INSERT INTO notas(titulo, contenido) VALUES (?, ?)";
+                PreparedStatement psNota = connection.prepareStatement(sqlNota, PreparedStatement.RETURN_GENERATED_KEYS);
+                psNota.setString(1, titulo);
+                psNota.setString(2, contenido);
+                psNota.executeUpdate();
+
+                ResultSet rsNota = psNota.getGeneratedKeys();
+                int notaId = -1;
+                if (rsNota.next()) {
+                    notaId = rsNota.getInt(1);
+                }
+                rsNota.close();
+                psNota.close();
+
+                // Procesar hashtags
+                if (textoHashtags != null && !textoHashtags.trim().isEmpty()) {
+                    String[] tagsSeparados = textoHashtags.split(",");
+                    for (int i = 0; i < tagsSeparados.length; i++) {
+                        String texto = tagsSeparados[i].trim().toLowerCase();
+                        if (texto.startsWith("#")) {
+                            texto = texto.substring(1);
+                        }
+
+
+                        // Insertar hashtag si no existe
+                        String insertarHashtag = "INSERT IGNORE INTO hashtags(nombre) VALUES (?)";
+                        PreparedStatement ps1 = connection.prepareStatement(insertarHashtag);
+                        ps1.setString(1, texto);
+                        ps1.executeUpdate();
+                        ps1.close();
+
+                        // Obtener ID del hashtag
+                        String buscarHashtag = "SELECT id FROM hashtags WHERE nombre = ?";
+                        PreparedStatement ps2 = connection.prepareStatement(buscarHashtag);
+                        ps2.setString(1, texto);
+                        ResultSet rs = ps2.executeQuery();
+
+                        int hashtagId = -1;
+                        if (rs.next()) {
+                            hashtagId = rs.getInt("id");
+                        }
+                        rs.close();
+                        ps2.close();
+
+                        // Insertar en tabla intermedia
+                        if (hashtagId != -1) {
+                            String insertarRelacion = "INSERT IGNORE INTO nota_hashtag(nota_id, hashtag_id) VALUES (?, ?)";
+                            PreparedStatement ps3 = connection.prepareStatement(insertarRelacion);
+                            ps3.setInt(1, notaId);
+                            ps3.setInt(2, hashtagId);
+                            ps3.executeUpdate();
+                            ps3.close();
+                        }
+                    }
+                }
+
+                JOptionPane.showMessageDialog(dialogo, "Nota guardada correctamente.");
                 dialogo.dispose();
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(dialogo, "Error al guardar la nota.");
@@ -110,8 +168,7 @@ public class EditarNotaVista {
         } else {
             JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
         }
-    } */
-
+    }
 
     public JTextField getCampoTitulo() {
         return campoTitulo;
@@ -136,6 +193,4 @@ public class EditarNotaVista {
     public JButton getBtnGuardar() {
         return btnGuardar;
     }
-
 }
-

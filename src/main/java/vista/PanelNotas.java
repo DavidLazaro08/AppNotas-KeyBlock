@@ -2,41 +2,25 @@ package vista;
 
 import modelo.Hashtag;
 import modelo.Nota;
+import bbdd.GestorBBDD;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
 /**
- * PanelNotas con estilo oscuro, inspirado en editores tipo IntelliJ o Eclipse.
- * Fondo gris oscuro, texto claro, y diseño minimalista para enfoque de desarrollo.
+ * PanelNotas con estilo oscuro y scroll.
+ * Estética tipo entorno de desarrollo, con tarjetas alternas y hashtags visibles.
  */
 public class PanelNotas extends JPanel {
 
     public PanelNotas() {
         setLayout(new BorderLayout());
-        setBackground(new Color(43, 43, 43)); // Fondo oscuro
+        setBackground(new Color(43, 43, 43)); // Fondo oscuro general
 
-        // Este será el contenedor de notas reales o temporales
-        JPanel contenedor = new NotasTemporal(); // <-- más adelante se cambiará por uno real
-
-        if (contenedor.getComponentCount() == 0) {
-            // Si no hay notas, mostrar un mensaje centrado
-            JLabel mensaje = new JLabel("Aquí se mostrarán tus notas 🗒️", SwingConstants.CENTER);
-            mensaje.setFont(new Font("Consolas", Font.PLAIN, 20));
-            mensaje.setForeground(new Color(187, 187, 187));
-            mensaje.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
-            add(mensaje, BorderLayout.CENTER);
-        } else {
-            JScrollPane scroll = new JScrollPane(contenedor);
-            scroll.setBorder(null);
-            scroll.getVerticalScrollBar().setUnitIncrement(16); // Desplazamiento más suave
-            add(scroll, BorderLayout.CENTER);
-        }
+        List<Nota> listaNotas = GestorBBDD.obtenerTodasLasNotas();
+        mostrarNotas(listaNotas);
     }
-
-    /*
-    // 🔜 MÉTODO PARA MOSTRAR NOTAS REALES (se activará cuando llegue List<Nota>)
 
     public void mostrarNotas(List<Nota> listaNotas) {
         removeAll();
@@ -58,7 +42,7 @@ public class PanelNotas extends JPanel {
                 boolean alternar = i % 2 == 0;
                 JPanel tarjeta = crearTarjetaNota(nota, alternar);
                 contenedor.add(tarjeta);
-                contenedor.add(Box.createVerticalStrut(8));
+                contenedor.add(Box.createVerticalStrut(8)); // Separación entre tarjetas
             }
 
             JScrollPane scroll = new JScrollPane(contenedor);
@@ -70,8 +54,6 @@ public class PanelNotas extends JPanel {
         revalidate();
         repaint();
     }
-
-    // 🔧 MÉTODO DE ESTILO PARA MOSTRAR UNA NOTA COMO TARJETA
 
     private JPanel crearTarjetaNota(Nota nota, boolean alternarColor) {
         Color fondo = alternarColor ? new Color(43, 43, 43) : new Color(36, 36, 36);
@@ -90,8 +72,19 @@ public class PanelNotas extends JPanel {
         panelTags.setBackground(fondo);
         panelTags.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
 
-        for (Hashtag tag : nota.getHashtags()) {
-            JLabel lbl = new JLabel(tag.toString());
+        List<Hashtag> tags = nota.getHashtags();
+        if (tags != null && !tags.isEmpty()) {
+            for (Hashtag tag : tags) {
+                JLabel lbl = new JLabel("#" + tag.getTexto());
+                lbl.setFont(new Font("SansSerif", Font.PLAIN, 11));
+                lbl.setForeground(Color.LIGHT_GRAY);
+                lbl.setOpaque(true);
+                lbl.setBackground(new Color(30, 30, 30));
+                lbl.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
+                panelTags.add(lbl);
+            }
+        } else {
+            JLabel lbl = new JLabel("#demo");
             lbl.setFont(new Font("SansSerif", Font.PLAIN, 11));
             lbl.setForeground(Color.LIGHT_GRAY);
             lbl.setOpaque(true);
@@ -99,6 +92,7 @@ public class PanelNotas extends JPanel {
             lbl.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
             panelTags.add(lbl);
         }
+
 
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.setBackground(fondo);
@@ -115,5 +109,4 @@ public class PanelNotas extends JPanel {
 
         return tarjeta;
     }
-    */
 }

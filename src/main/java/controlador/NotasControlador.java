@@ -31,13 +31,21 @@ public class NotasControlador {
                 NotaDAO.guardarNota(nota);
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
+
+                // 👇 MUÉVELO AQUÍ DENTRO, DESPUÉS DE CERRAR EL DIALOG
+                if (padre instanceof vista.PrincipalVista) {
+                    ((vista.PrincipalVista) padre).refrescarNotas();
+                }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
             }
         });
 
+
         vista.mostrar();
+
         System.out.println("✔ Nota creada:");
         System.out.println("Título: " + nota.getTitulo());
         System.out.println("Contenido: " + nota.getContenido());

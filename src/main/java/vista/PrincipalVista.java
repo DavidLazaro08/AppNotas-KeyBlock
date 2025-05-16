@@ -24,7 +24,7 @@ public class PrincipalVista extends JFrame {
     // ---------------------- CONSTRUCTOR ----------------------
     public PrincipalVista() {
         setTitle("KeyBlock");
-        ImageIcon icono = new ImageIcon(getClass().getResource("/recursos/ICON_KEYBLOCK.png"));
+        ImageIcon icono = new ImageIcon(getClass().getResource("/ICON_KEYBLOCK.png"));
         setIconImage(icono.getImage());
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -153,7 +153,13 @@ public class PrincipalVista extends JFrame {
         add(panelInferior, BorderLayout.SOUTH);
 
         // ---------------------- EVENTOS ----------------------
-        btnVerNotas.addActionListener(e -> cardLayout.show(panelCartas, "Notas"));
+        btnVerNotas.addActionListener(e -> {
+            panelCartas.removeAll(); // limpia lo anterior
+            panelCartas.add(new PanelNotas(), "Notas"); // añade panel actualizado
+            cardLayout.show(panelCartas, "Notas");
+            panelCartas.revalidate();
+            panelCartas.repaint();
+        });
         btnVerContras.addActionListener(e -> cardLayout.show(panelCartas, "Contras"));
         botonMas.addActionListener(e -> {
             NotasControlador.crearYEditarNota(PrincipalVista.this); // envío el JFrame
@@ -162,6 +168,16 @@ public class PrincipalVista extends JFrame {
 
         setVisible(true);
     }
+
+    // 🔄 Método público para refrescar las notas desde fuera
+    public void refrescarNotas() {
+        panelCartas.removeAll();
+        panelCartas.add(new PanelNotas(), "Notas");
+        cardLayout.show(panelCartas, "Notas");
+        panelCartas.revalidate();
+        panelCartas.repaint();
+    }
+
 
 //    ---------------------- MAIN DE PRUEBA ----------------------
 //    public static void main(String[] args) {
