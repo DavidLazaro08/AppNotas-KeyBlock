@@ -14,14 +14,14 @@ import static controlador.NotasControlador.procesarHashtags;
 
 public class ActualizarNota {
 
+    /**
+     * 🎨 Vincula los campos de texto con la nota y aplica estilos al hashtag.
+     * Solo aplica color, sin guardar la nota automáticamente.
+     */
     public static void vincularCampos(EditarNotaVista vista, Nota nota) {
-        // Título
         vincularCampo(vista.getCampoTitulo(), (texto, e) -> nota.setTitulo(texto));
-
-        // Contenido (sin lógica adicional)
         vincularCampo(vista.getCampoContenido(), (texto, e) -> nota.setContenido(texto));
 
-        // Hashtags
         vincularCampo(vista.getCampoHashtags(), (texto, e) -> {
             if (nota.getHashtags() == null) {
                 nota.setHashtags(new ArrayList<>());
@@ -51,3 +51,4 @@ public class ActualizarNota {
         void cambio(String texto, DocumentEvent e);
     }
 }
+

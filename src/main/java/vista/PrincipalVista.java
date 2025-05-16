@@ -20,6 +20,7 @@ public class PrincipalVista extends JFrame {
     // ---------------------- ATRIBUTOS ----------------------
     private JPanel panelCartas;
     private CardLayout cardLayout;
+    private PanelNotas panelNotas; // ✅ Instancia única para evitar duplicados
 
     // ---------------------- CONSTRUCTOR ----------------------
     public PrincipalVista() {
@@ -84,9 +85,10 @@ public class PrincipalVista extends JFrame {
         cardLayout = new CardLayout();
         panelCartas = new JPanel(cardLayout);
         panelCartas.setBackground(new Color(25, 25, 25)); // Fondo base unificado
-        panelCartas.add(new PanelNotas(), "Notas");
-        panelCartas.add(new PanelContras(), "Contras");
 
+        panelNotas = new PanelNotas(); // ✅ Solo una vez
+        panelCartas.add(panelNotas, "Notas");
+        panelCartas.add(new PanelContras(), "Contras");
 
         add(panelCartas, BorderLayout.CENTER);
 
@@ -103,7 +105,7 @@ public class PrincipalVista extends JFrame {
         btnVerNotas.setBorderPainted(false);
         btnVerNotas.setContentAreaFilled(true);
         btnVerNotas.setRolloverEnabled(false);
-        btnVerNotas.setUI(new javax.swing.plaf.basic.BasicButtonUI()); // Forzamos el estilo básico
+        btnVerNotas.setUI(new javax.swing.plaf.basic.BasicButtonUI());
 
         // MouseListener para efecto pressed en btnVerNotas
         btnVerNotas.addMouseListener(new MouseAdapter() {
@@ -111,6 +113,7 @@ public class PrincipalVista extends JFrame {
             public void mousePressed(MouseEvent e) {
                 btnVerNotas.setBackground(new Color(50, 53, 57));
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 btnVerNotas.setBackground(new Color(60, 63, 65));
@@ -133,6 +136,7 @@ public class PrincipalVista extends JFrame {
             public void mousePressed(MouseEvent e) {
                 btnVerContras.setBackground(new Color(50, 53, 57));
             }
+
             @Override
             public void mouseReleased(MouseEvent e) {
                 btnVerContras.setBackground(new Color(60, 63, 65));
@@ -149,38 +153,31 @@ public class PrincipalVista extends JFrame {
         panelInferior.add(botonMas);
         panelInferior.add(btnVerContras);
 
-        // Añadir el panel inferior al JFrame
         add(panelInferior, BorderLayout.SOUTH);
 
         // ---------------------- EVENTOS ----------------------
         btnVerNotas.addActionListener(e -> {
-            panelCartas.removeAll(); // limpia lo anterior
-            panelCartas.add(new PanelNotas(), "Notas"); // añade panel actualizado
+            panelNotas.refrescar(); // ✅ solo se refresca, no se instancia de nuevo
             cardLayout.show(panelCartas, "Notas");
-            panelCartas.revalidate();
-            panelCartas.repaint();
         });
+
         btnVerContras.addActionListener(e -> cardLayout.show(panelCartas, "Contras"));
+
         botonMas.addActionListener(e -> {
             NotasControlador.crearYEditarNota(PrincipalVista.this); // envío el JFrame
         });
-
 
         setVisible(true);
     }
 
     // 🔄 Método público para refrescar las notas desde fuera
     public void refrescarNotas() {
-        panelCartas.removeAll();
-        panelCartas.add(new PanelNotas(), "Notas");
+        panelNotas.refrescar(); // ✅ usa la misma instancia
         cardLayout.show(panelCartas, "Notas");
-        panelCartas.revalidate();
-        panelCartas.repaint();
     }
 
-
-//    ---------------------- MAIN DE PRUEBA ----------------------
-//    public static void main(String[] args) {
-//        new PrincipalVista();
-//    }
+    // ---------------------- MAIN DE PRUEBA ----------------------
+    // public static void main(String[] args) {
+    //     new PrincipalVista();
+    // }
 }

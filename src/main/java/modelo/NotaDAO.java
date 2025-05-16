@@ -56,4 +56,19 @@ public class NotaDAO {
         nota.setId(idGenerado);
         nota.setHashtags(GestorBBDD.obtenerHashtagsDeNota(idGenerado));
     }
+
+    public static void eliminarNotaPorId(int idNota) {
+        try {
+            // Primero borra relaciones
+            String sql1 = "DELETE FROM nota_hashtag WHERE nota_id = " + idNota;
+            GestorBBDD.executeUpdate(sql1);
+
+            // Luego borra la nota
+            String sql2 = "DELETE FROM notas WHERE id = " + idNota;
+            GestorBBDD.executeUpdate(sql2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

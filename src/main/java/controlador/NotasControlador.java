@@ -2,6 +2,7 @@ package controlador;
 
 import modelo.*;
 import vista.EditarNotaVista;
+
 import javax.swing.*;
 import java.time.LocalDate;
 import java.util.regex.*;
@@ -19,6 +20,8 @@ public class NotasControlador {
 
     public static void crearYEditarNota(JFrame padre) {
         EditarNotaVista vista = new EditarNotaVista(padre);
+
+        // ✅ Usamos una sola nota
         Nota nota = new Nota(0, "", "", LocalDate.now(), 1);
         ActualizarNota.vincularCampos(vista, nota);
 
@@ -28,11 +31,11 @@ public class NotasControlador {
 
         vista.getBtnGuardar().addActionListener(e -> {
             try {
+                // ⛔ Ya no se crea una nota nueva, usamos la enlazada
                 NotaDAO.guardarNota(nota);
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
 
-                // 👇 MUÉVELO AQUÍ DENTRO, DESPUÉS DE CERRAR EL DIALOG
                 if (padre instanceof vista.PrincipalVista) {
                     ((vista.PrincipalVista) padre).refrescarNotas();
                 }
@@ -43,16 +46,6 @@ public class NotasControlador {
             }
         });
 
-
         vista.mostrar();
-
-        System.out.println("✔ Nota creada:");
-        System.out.println("Título: " + nota.getTitulo());
-        System.out.println("Contenido: " + nota.getContenido());
-        if (nota.getHashtags() != null) {
-            for (var hashtag : nota.getHashtags()) {
-                System.out.println("#" + hashtag.getTexto());
-            }
-        }
     }
 }

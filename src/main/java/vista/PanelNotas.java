@@ -3,6 +3,7 @@ package vista;
 import modelo.Hashtag;
 import modelo.Nota;
 import bbdd.GestorBBDD;
+import modelo.NotaDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -68,23 +69,12 @@ public class PanelNotas extends JPanel {
         lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 18));
         lblTitulo.setForeground(new Color(220, 220, 220));
 
+        // 🟦 Etiquetas (hashtags)
         JPanel panelTags = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         panelTags.setBackground(fondo);
         panelTags.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
-
-        List<Hashtag> tags = nota.getHashtags();
-        if (tags != null && !tags.isEmpty()) {
-            for (Hashtag tag : tags) {
-                JLabel lbl = new JLabel("#" + tag.getTexto());
-                lbl.setFont(new Font("SansSerif", Font.PLAIN, 11));
-                lbl.setForeground(Color.LIGHT_GRAY);
-                lbl.setOpaque(true);
-                lbl.setBackground(new Color(30, 30, 30));
-                lbl.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 6));
-                panelTags.add(lbl);
-            }
-        } else {
-            JLabel lbl = new JLabel("#demo");
+        for (Hashtag tag : nota.getHashtags()) {
+            JLabel lbl = new JLabel("#" + tag.getTexto());
             lbl.setFont(new Font("SansSerif", Font.PLAIN, 11));
             lbl.setForeground(Color.LIGHT_GRAY);
             lbl.setOpaque(true);
@@ -93,20 +83,85 @@ public class PanelNotas extends JPanel {
             panelTags.add(lbl);
         }
 
-
+        // 🟦 Panel izquierdo con título y hashtags
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.setBackground(fondo);
         panelSuperior.add(lblTitulo, BorderLayout.NORTH);
         panelSuperior.add(panelTags, BorderLayout.CENTER);
 
+        // 📅 Fecha
         JLabel lblFecha = new JLabel("📅 " + nota.getFecha());
         lblFecha.setFont(new Font("Monospaced", Font.PLAIN, 11));
         lblFecha.setForeground(Color.GRAY);
         lblFecha.setHorizontalAlignment(SwingConstants.RIGHT);
 
+        // 🗑️ Botón de eliminar
+        JButton btnEliminar = new JButton("🗑️");
+        btnEliminar.setToolTipText("Eliminar nota");
+        btnEliminar.setFocusPainted(false);
+        btnEliminar.setBorderPainted(false);
+        btnEliminar.setBackground(new Color(60, 63, 65));
+        btnEliminar.setForeground(Color.LIGHT_GRAY);
+        btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        btnEliminar.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar esta nota?", "Confirmar", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                NotaDAO.eliminarNotaPorId(nota.getId()); // método que ahora añadiremos
+                refrescar(); // recarga la vista (lo añadimos también si no lo tienes aún)
+            }
+        });
+
+        // Panel derecho (fecha y botón)
+        JPanel panelDerecho = new JPanel(new BorderLayout());
+        panelDerecho.setBackground(fondo);
+        panelDerecho.add(lblFecha, BorderLayout.NORTH);
+        panelDerecho.add(btnEliminar, BorderLayout.SOUTH);
+
         tarjeta.add(panelSuperior, BorderLayout.CENTER);
-        tarjeta.add(lblFecha, BorderLayout.EAST);
+        tarjeta.add(panelDerecho, BorderLayout.EAST);
 
         return tarjeta;
     }
+
+    /**
+     * 🔄 Método público para refrescar el listado de notas.
+     * Elimina todo lo que haya y vuelve a cargar las notas desde la base de datos.
+     */
+    public void refrescar() {
+        removeAll(); // Elimina los componentes actuales
+        setLayout(new BorderLayout());
+
+        List<Nota> listaNotas = GestorBBDD.obtenerTodasLasNotas();
+
+        if (listaNotas == null || listaNotas.isEmpty()) {
+            JLabel mensaje = new JLabel("Aquí se mostrarán tus notas 🗒️", SwingConstants.CENTER);
+            mensaje.setFont(new Font("Consolas", Font.PLAIN, 20));
+            mensaje.setForeground(new Color(187, 187, 187));
+            mensaje.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
+            add(mensaje, BorderLayout.CENTER);
+        } else {
+            JPanel contenedor = new JPanel();
+            contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.Y_AXIS));
+            contenedor.setBackground(new Color(43, 43, 43));
+
+            for (int i = 0; i < listaNotas.size(); i++) {
+                Nota nota = listaNotas.get(i);
+                boolean alternar = i % 2 == 0;
+                JPanel tarjeta = crearTarjetaNota(nota, alternar);
+                contenedor.add(tarjeta);
+                contenedor.add(Box.createVerticalStrut(8));
+            }
+
+            JScrollPane scroll = new JScrollPane(contenedor);
+            scroll.setBorder(null);
+            scroll.getVerticalScrollBar().setUnitIncrement(16);
+            add(scroll, BorderLayout.CENTER);
+        }
+
+        revalidate();
+        repaint();
+    }
+
+
 }
