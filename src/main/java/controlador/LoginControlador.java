@@ -2,7 +2,6 @@ package controlador;
 
 import modelo.UsuarioDAO;
 import vista.LoginVista;
-import vista.PanelAdmin;
 import vista.PrincipalVista;
 
 import javax.swing.*;
@@ -22,14 +21,17 @@ public class LoginControlador {
 
             if (usuarioDAO.validarUsuario(usuario, contrasena)) {
                 vista.dispose(); // cerrar login
+
+                PrincipalVista principal = new PrincipalVista();
+                principal.setVisible(true);
+
                 if (usuarioDAO.esAdmin(usuario)) {
-                    new PanelAdmin().setVisible(true);
-                } else {
-                    new PrincipalVista().setVisible(true);
+                    principal.mostrarAdmin();
                 }
             } else {
                 JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         });
 
         this.vista.getRegistrarButton().addActionListener(e -> {

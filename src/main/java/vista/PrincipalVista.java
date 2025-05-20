@@ -12,139 +12,77 @@ import java.awt.event.*;
  *
  * ➤ Inspirado en teoría módulo 1.3 (BorderLayout), 1.6 (CardLayout)
  * ➤ Requisitos del proyecto: uso de interfaz gráfica organizada, mínimo 2 vistas conectadas.
- * ➤ Estilo visual mejorado con botón "+" central y estética tipo entorno de desarrollo.
- */
+ * ➤ Estilo visual mejorado con botón "+" central y estética tipo entorno de desarrollo. */
 
-public class PrincipalVista extends JFrame {
+public class PrincipalVista extends VentanaBase {
 
     // ---------------------- ATRIBUTOS ----------------------
+
     private JPanel panelCartas;
     private CardLayout cardLayout;
-    private PanelNotas panelNotas; // ✅ Instancia única para evitar duplicados
+    private PanelContenido panelContenido; // ✅ Ahora se usa PanelContenido fusionado
 
     // ---------------------- CONSTRUCTOR ----------------------
+
     public PrincipalVista() {
-        setTitle("KeyBlock");
-        ImageIcon icono = new ImageIcon(getClass().getResource("/ICON_KEYBLOCK.png"));
-        setIconImage(icono.getImage());
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        super("KeyBlock");
 
         // ---------------------- PANEL SUPERIOR ----------------------
+
         JLabel titulo = new JLabel("📝 Mis Notas y Más", SwingConstants.CENTER);
-        titulo.setFont(new Font("SansSerif", Font.BOLD, 26));
+        titulo.setFont(fuenteTitulo);
         titulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         titulo.setOpaque(true);
-        titulo.setBackground(new Color(25, 25, 25)); // Fondo superior tipo IDE oscuro
-        titulo.setForeground(new Color(220, 220, 220)); // Texto gris claro
+
+        // Fondo superior tipo IDE oscuro
+        titulo.setBackground(colorFondoOscuro);
+        titulo.setForeground(colorTextoClaro);
         add(titulo, BorderLayout.NORTH);
 
         // ---------------------- PANEL LATERAL IZQUIERDO (simulación menú tipo IDE) ----------------------
+
         JPanel panelLateral = new JPanel();
-        panelLateral.setPreferredSize(new Dimension(70, 0)); // ancho fijo estilo barra lateral
-        panelLateral.setBackground(new Color(25, 25, 25));   // igual que el superior
+        panelLateral.setPreferredSize(new Dimension(70, 0));
+        panelLateral.setBackground(colorFondoOscuro);   // igual que el superior
         panelLateral.setLayout(new GridLayout(5, 1, 0, 10)); // 5 botones con separación
 
-        // Iconos y tooltips ficticios por ahora
+        // Iconos ficticios por ahora
         String[] iconos = {"👤", "🗓️", "🌓", "🛠️", "🔍"};
         String[] tooltips = {"Usuario|Login", "Calendario", "Cambiar Tema", "Configuración", "Buscar Notas"};
 
         for (int i = 0; i < iconos.length; i++) {
-            JButton btn = new JButton(iconos[i]);
+            JButton btn = crearBotonEstiloIDE(iconos[i], fuenteNormal);
             btn.setToolTipText(tooltips[i]);
-            btn.setFont(new Font("SansSerif", Font.PLAIN, 18));
-            btn.setForeground(new Color(220, 220, 220));
-            btn.setBackground(new Color(60, 63, 65));
-            btn.setFocusPainted(false);
-            btn.setBorderPainted(false);
-            btn.setContentAreaFilled(true);
-            btn.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-
-            // Hover (oscurece visualmente)
-            btn.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    btn.setBackground(new Color(50, 53, 57));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    btn.setBackground(new Color(60, 63, 65));
-                }
-            });
-
             panelLateral.add(btn);
         }
 
-        // Añadir panel al oeste del frame
         add(panelLateral, BorderLayout.WEST);
 
         // ---------------------- PANEL CENTRAL CON CARDLAYOUT ----------------------
+
         cardLayout = new CardLayout();
         panelCartas = new JPanel(cardLayout);
-        panelCartas.setBackground(new Color(25, 25, 25)); // Fondo base unificado
+        panelCartas.setBackground(colorFondoOscuro); // Fondo base unificado
 
-        panelNotas = new PanelNotas(); // ✅ Solo una vez
-        panelCartas.add(panelNotas, "Notas");
-        panelCartas.add(new PanelContras(), "Contras");
+        panelContenido = new PanelContenido(); // ✅ Panel fusionado con CardLayout interno
+        panelCartas.add(panelContenido, "Contenido");
 
         add(panelCartas, BorderLayout.CENTER);
 
         // ---------------------- PANEL INFERIOR DE NAVEGACIÓN (modo oscuro y adaptativo) ----------------------
+
         JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
         panelInferior.setPreferredSize(new Dimension(800, 100));
         panelInferior.setBackground(new Color(30, 30, 30)); // Fondo inferior oscuro para contraste
 
         // Botón para ver notas
-        JButton btnVerNotas = new JButton("📄 Ver Notas");
-        btnVerNotas.setForeground(new Color(220, 220, 220));
-        btnVerNotas.setBackground(new Color(60, 63, 65));
-        btnVerNotas.setFocusPainted(false);
-        btnVerNotas.setBorderPainted(false);
-        btnVerNotas.setContentAreaFilled(true);
-        btnVerNotas.setRolloverEnabled(false);
-        btnVerNotas.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-
-        // MouseListener para efecto pressed en btnVerNotas
-        btnVerNotas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                btnVerNotas.setBackground(new Color(50, 53, 57));
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                btnVerNotas.setBackground(new Color(60, 63, 65));
-            }
-        });
+        JButton btnVerNotas = crearBotonEstiloIDE("📄 Ver Notas", fuenteNormal);
 
         // Botón para ver contraseñas
-        JButton btnVerContras = new JButton("🔐 Contraseñas");
-        btnVerContras.setForeground(new Color(220, 220, 220));
-        btnVerContras.setBackground(new Color(60, 63, 65));
-        btnVerContras.setFocusPainted(false);
-        btnVerContras.setBorderPainted(false);
-        btnVerContras.setContentAreaFilled(true);
-        btnVerContras.setRolloverEnabled(false);
-        btnVerContras.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-
-        // MouseListener para efecto pressed en btnVerContras
-        btnVerContras.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                btnVerContras.setBackground(new Color(50, 53, 57));
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                btnVerContras.setBackground(new Color(60, 63, 65));
-            }
-        });
+        JButton btnVerContras = crearBotonEstiloIDE("🔐 Contraseñas", fuenteNormal);
 
         // Botón flotante "+" para crear nueva nota
-        JButton botonMas = EstiloVisual.crearBotonCircular("+", 80, new Color(60, 63, 65));
+        JButton botonMas = EstiloVisual.crearBotonCircular("+", 80, colorBoton);
         botonMas.setFont(new Font("SansSerif", Font.BOLD, 36));
         botonMas.setUI(new javax.swing.plaf.basic.BasicButtonUI());
 
@@ -156,12 +94,14 @@ public class PrincipalVista extends JFrame {
         add(panelInferior, BorderLayout.SOUTH);
 
         // ---------------------- EVENTOS ----------------------
+
         btnVerNotas.addActionListener(e -> {
-            panelNotas.refrescar(); // ✅ solo se refresca, no se instancia de nuevo
-            cardLayout.show(panelCartas, "Notas");
+            panelContenido.mostrarNotas();
         });
 
-        btnVerContras.addActionListener(e -> cardLayout.show(panelCartas, "Contras"));
+        btnVerContras.addActionListener(e -> {
+            panelContenido.mostrarContras();
+        });
 
         botonMas.addActionListener(e -> {
             NotasControlador.crearYEditarNota(PrincipalVista.this); // envío el JFrame
@@ -172,11 +112,16 @@ public class PrincipalVista extends JFrame {
 
     // 🔄 Método público para refrescar las notas desde fuera
     public void refrescarNotas() {
-        panelNotas.refrescar(); // ✅ usa la misma instancia
-        cardLayout.show(panelCartas, "Notas");
+        panelContenido.mostrarNotas();
     }
 
+    public void mostrarAdmin() {
+        panelContenido.mostrarAdmin();
+    }
+
+
     // ---------------------- MAIN DE PRUEBA ----------------------
+
     // public static void main(String[] args) {
     //     new PrincipalVista();
     // }
