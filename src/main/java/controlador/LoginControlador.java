@@ -6,10 +6,11 @@ import vista.PrincipalVista;
 
 import javax.swing.*;
 
-/** Clase LoginControlador que gestiona el comportamiento del login y registro de usuarios.
+/** Clase LoginControlador que gestiona la lógica de inicio de sesión.
  *
- * ➤ Se conecta con UsuarioDAO para validar usuarios contra la base de datos.
- * ➤ Si el usuario es válido, se abre la ventana principal. */
+ * ➤ Valida usuario y contraseña usando UsuarioDAO.
+ * ➤ Si el login es correcto, abre la ventana principal.
+ * ➤ El registro de usuario ahora se gestiona desde LoginVista directamente. */
 
 public class LoginControlador {
 
@@ -32,34 +33,20 @@ public class LoginControlador {
 
             if (usuarioDAO.validarUsuario(usuario, contrasena)) {
                 vista.dispose(); // cerrar login
-                PrincipalVista principal = new PrincipalVista(usuario); // ✅ se pasa el usuario logueado
+                PrincipalVista principal = new PrincipalVista(usuario);
                 principal.setVisible(true);
 
                 if (usuarioDAO.esAdmin(usuario)) {
                     principal.mostrarAdmin();
                 }
             } else {
+                // Estilo oscuro para el mensaje de error
+                UIManager.put("OptionPane.background", new java.awt.Color(43, 43, 43));
+                UIManager.put("Panel.background", new java.awt.Color(43, 43, 43));
+                UIManager.put("OptionPane.messageForeground", java.awt.Color.WHITE);
+                UIManager.put("OptionPane.buttonFont", new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 13));
+
                 JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        // ---------------------- EVENTO: Registrar usuario ----------------------
-
-        this.vista.getRegistrarButton().addActionListener(e -> {
-            String usuario = vista.getUsuario();
-            String contrasena = vista.getContrasena();
-
-            if (usuario.isEmpty() || contrasena.isEmpty()) {
-                JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            boolean registrado = usuarioDAO.registrarUsuario(usuario, contrasena);
-            if (registrado) {
-                JOptionPane.showMessageDialog(vista, "Registro exitoso. Ahora puedes iniciar sesión.");
-                vista.limpiarCampos();
-            } else {
-                JOptionPane.showMessageDialog(vista, "Error al registrar. El usuario ya existe o fallo de conexión.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

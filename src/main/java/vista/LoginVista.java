@@ -57,6 +57,34 @@ public class LoginVista extends VentanaBase {
         // Añadir panel al contenido
         add(panel);
 
+        // ---------------------- EVENTO: Registrar usuario en el mismo cuadro ----------------------
+
+        btnRegistrar.addActionListener(e -> {
+            String nuevoUsuario = tfUsuario.getText().trim();
+            String nuevaContrasena = new String(pfContrasena.getPassword());
+
+            if (nuevoUsuario.isEmpty() || nuevaContrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Por favor, rellena todos los campos", "Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            modelo.UsuarioDAO dao = new modelo.UsuarioDAO();
+            boolean registrado = dao.registrarUsuario(nuevoUsuario, nuevaContrasena);
+
+            // Aplicar estilo oscuro al JOptionPane
+            UIManager.put("OptionPane.background", new Color(43, 43, 43));
+            UIManager.put("Panel.background", new Color(43, 43, 43));
+            UIManager.put("OptionPane.messageForeground", Color.WHITE);
+            UIManager.put("OptionPane.buttonFont", new Font("SansSerif", Font.PLAIN, 13));
+
+            if (registrado) {
+                JOptionPane.showMessageDialog(this, "Registro exitoso. Ahora puedes iniciar sesión.");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error al registrar. El usuario ya existe o fallo de conexión.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         setVisible(true);
     }
 
