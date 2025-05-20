@@ -6,14 +6,25 @@ import vista.PrincipalVista;
 
 import javax.swing.*;
 
+/** Clase LoginControlador que gestiona el comportamiento del login y registro de usuarios.
+ *
+ * ➤ Se conecta con UsuarioDAO para validar usuarios contra la base de datos.
+ * ➤ Si el usuario es válido, se abre la ventana principal. */
+
 public class LoginControlador {
+
+    // ---------------------- ATRIBUTOS ----------------------
 
     private LoginVista vista;
     private UsuarioDAO usuarioDAO;
 
+    // ---------------------- CONSTRUCTOR ----------------------
+
     public LoginControlador(LoginVista vista) {
         this.vista = vista;
         this.usuarioDAO = new UsuarioDAO();
+
+        // ---------------------- EVENTO: Iniciar sesión ----------------------
 
         this.vista.getLoginButton().addActionListener(e -> {
             String usuario = vista.getUsuario();
@@ -21,8 +32,7 @@ public class LoginControlador {
 
             if (usuarioDAO.validarUsuario(usuario, contrasena)) {
                 vista.dispose(); // cerrar login
-
-                PrincipalVista principal = new PrincipalVista();
+                PrincipalVista principal = new PrincipalVista(usuario); // ✅ se pasa el usuario logueado
                 principal.setVisible(true);
 
                 if (usuarioDAO.esAdmin(usuario)) {
@@ -31,8 +41,9 @@ public class LoginControlador {
             } else {
                 JOptionPane.showMessageDialog(vista, "Credenciales incorrectas", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         });
+
+        // ---------------------- EVENTO: Registrar usuario ----------------------
 
         this.vista.getRegistrarButton().addActionListener(e -> {
             String usuario = vista.getUsuario();

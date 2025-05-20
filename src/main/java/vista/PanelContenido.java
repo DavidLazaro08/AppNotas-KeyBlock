@@ -6,7 +6,9 @@ import bbdd.GestorBBDD;
 import modelo.NotaDAO;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.*;
 import java.util.List;
 
 /** Clase PanelContenido que centraliza las tres secciones visuales principales de la app:
@@ -23,6 +25,7 @@ public class PanelContenido extends JPanel {
     private JPanel panelNotas;
     private JPanel panelContras;
     private JPanel panelAdmin;
+    private JTable tablaAdmin;
 
     // ---------------------- CONSTRUCTOR ----------------------
     public PanelContenido() {
@@ -51,6 +54,7 @@ public class PanelContenido extends JPanel {
     }
 
     public void mostrarAdmin() {
+        cargarNotasAdmin();
         cardLayout.show(this, "Admin");
     }
 
@@ -165,7 +169,7 @@ public class PanelContenido extends JPanel {
     private JPanel crearPanelContras() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(36, 36, 36)); // Más oscuro que PanelNotas
+        panel.setBackground(new Color(36, 36, 36));
 
         JLabel mensaje = new JLabel("Aquí irán tus contraseñas 🔐", SwingConstants.CENTER);
         mensaje.setFont(new Font("Consolas", Font.PLAIN, 20));
@@ -176,28 +180,67 @@ public class PanelContenido extends JPanel {
         return panel;
     }
 
-    // ---------------------- PANEL ADMIN (placeholder actual) ----------------------
+    // ---------------------- PANEL ADMIN (tabla con estilo oscuro) ----------------------
 
     private JPanel crearPanelAdmin() {
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(new Color(40, 40, 40));
-        panel.setLayout(new BorderLayout());
 
-        JLabel lblTitulo = new JLabel("⚙️ Panel de Administración", SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("SansSerif", Font.BOLD, 22));
-        lblTitulo.setForeground(Color.WHITE);
-        panel.add(lblTitulo, BorderLayout.NORTH);
+        tablaAdmin = new JTable();
+        tablaAdmin.setBackground(new Color(30, 30, 30));
+        tablaAdmin.setForeground(Color.WHITE);
+        tablaAdmin.setGridColor(new Color(60, 60, 60));
+        tablaAdmin.setSelectionBackground(new Color(70, 70, 70));
+        tablaAdmin.setSelectionForeground(Color.WHITE);
+        tablaAdmin.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        tablaAdmin.setRowHeight(28);
+        tablaAdmin.getTableHeader().setBackground(new Color(25, 25, 25));
+        tablaAdmin.getTableHeader().setForeground(Color.LIGHT_GRAY);
+        tablaAdmin.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 14));
 
-        JTextArea areaAdmin = new JTextArea("Herramientas de administración aquí...");
-        areaAdmin.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        areaAdmin.setForeground(Color.WHITE);
-        areaAdmin.setBackground(new Color(30, 30, 30));
-        areaAdmin.setLineWrap(true);
-        areaAdmin.setWrapStyleWord(true);
+        JButton btnRefrescar = new JButton("Refrescar");
+        btnRefrescar.setBackground(new Color(60, 63, 65));
+        btnRefrescar.setForeground(Color.WHITE);
+        btnRefrescar.setFocusPainted(false);
+        btnRefrescar.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        btnRefrescar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
 
-        JScrollPane scroll = new JScrollPane(areaAdmin);
-        panel.add(scroll, BorderLayout.CENTER);
+        btnRefrescar.addActionListener(e -> cargarNotasAdmin());
+
+        panel.add(new JScrollPane(tablaAdmin), BorderLayout.CENTER);
+        panel.add(btnRefrescar, BorderLayout.SOUTH);
 
         return panel;
+    }
+
+    private void cargarNotasAdmin() {
+        try {
+            Connection conn = GestorBBDD.getConnection();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM notas");
+
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnas = meta.getColumnCount();
+            String[] nombres = new String[columnas];
+            for (int i = 0; i < columnas; i++) {
+                nombres[i] = meta.getColumnName(i + 1);
+            }
+
+            DefaultTableModel modelo = new DefaultTableModel(nombres, 0);
+
+            while (rs.next()) {
+                Object[] fila = new Object[columnas];
+                for (int i = 0; i < columnas; i++) {
+                    fila[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(fila);
+            }
+
+            tablaAdmin.setModel(modelo);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
+        }
     }
 }
