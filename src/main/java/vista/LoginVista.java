@@ -68,7 +68,7 @@ public class LoginVista extends VentanaBase {
                 return;
             }
 
-            modelo.UsuarioDAO dao = new modelo.UsuarioDAO();
+            controlador.UsuarioDAO dao = new controlador.UsuarioDAO();
             boolean registrado = dao.registrarUsuario(nuevoUsuario, nuevaContrasena);
 
             // Estilo oscuro para mensaje

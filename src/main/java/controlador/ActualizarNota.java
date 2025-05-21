@@ -1,4 +1,4 @@
-package modelo;
+package controlador;
 
 import modelo.Nota;
 import vista.EditarNotaVista;
@@ -12,12 +12,17 @@ import java.util.ArrayList;
 
 import static controlador.NotasControlador.procesarHashtags;
 
+/* Clase ActualizarNota que se encarga de conectar los campos de texto con la nota que se está editando.
+ *
+ * ➤ Cada vez que se escribe algo, los cambios se guardan automáticamente en el objeto Nota.
+ * ➤ Además, si se están escribiendo hashtags, se procesan en tiempo real y se colorean en pantalla.
+ * ➤ Esta clase no guarda nada en la base de datos, solo mantiene sincronizado lo que se ve con lo que se va a guardar.
+ * ➤ Usa un pequeño sistema propio para detectar cambios en cada campo y reaccionar de forma ordenada. */
+
 public class ActualizarNota {
 
-    /**
-     * 🎨 Vincula los campos de texto con la nota y aplica estilos al hashtag.
-     * Solo aplica color, sin guardar la nota automáticamente.
-     */
+    // ---------------------- MÉTODO PÚBLICO ----------------------
+
     public static void vincularCampos(EditarNotaVista vista, Nota nota) {
         vincularCampo(vista.getCampoTitulo(), (texto, e) -> nota.setTitulo(texto));
         vincularCampo(vista.getCampoContenido(), (texto, e) -> nota.setContenido(texto));
@@ -34,6 +39,8 @@ public class ActualizarNota {
         });
     }
 
+    // ---------------------- MÉTODO AUXILIAR ----------------------
+
     private static void vincularCampo(JTextComponent campo, CampoListener listener) {
         campo.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { actualizar(e); }
@@ -46,9 +53,10 @@ public class ActualizarNota {
         });
     }
 
+    // ---------------------- INTERFAZ FUNCIONAL ----------------------
+
     @FunctionalInterface
     private interface CampoListener {
         void cambio(String texto, DocumentEvent e);
     }
 }
-

@@ -1,6 +1,5 @@
 package controlador;
 
-import modelo.UsuarioDAO;
 import vista.LoginVista;
 
 import javax.swing.*;
@@ -17,12 +16,14 @@ import java.awt.event.ActionListener;
 
 public class RegistroControlador {
 
+    // ---------------------- ATRIBUTOS ----------------------
+
     private LoginVista loginVista;
-    private UsuarioDAO usuarioDAO;
+
+    // ---------------------- CONSTRUCTOR ----------------------
 
     public RegistroControlador(LoginVista loginVista) {
         this.loginVista = loginVista;
-        this.usuarioDAO = new UsuarioDAO();
 
         // Acción para el botón "Registrarse"
         this.loginVista.getRegistrarButton().addActionListener(new ActionListener() {
@@ -36,7 +37,7 @@ public class RegistroControlador {
                     return;
                 }
 
-                boolean registrado = usuarioDAO.registrarUsuario(nuevoUsuario, nuevaContrasena);
+                boolean registrado = UsuarioDAO.registrarUsuario(nuevoUsuario, nuevaContrasena);
 
                 // Estilo oscuro para los JOptionPane
                 UIManager.put("OptionPane.background", new java.awt.Color(43, 43, 43));

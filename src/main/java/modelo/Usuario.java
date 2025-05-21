@@ -3,15 +3,26 @@ package modelo;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
+/* Clase Usuario que representa a un usuario del sistema, ya sea normal o administrador.
+ *
+ * ➤ Almacena nombre, contraseña, tipo y su lista de notas asociadas.
+ * ➤ Ofrece métodos para guardar y recuperar el último usuario logueado usando Preferences de Java.
+ * ➤ Incluye utilidad para comprobar si es un administrador y para mostrarlo como texto. */
+
 public class Usuario {
+
+    // ---------------------- ATRIBUTOS ----------------------
+
     private int id;
     private String nombre;
     private String contraseña;
     private String tipo; // "admin" o "normal"
     private ArrayList<Nota> notas;
 
-    // Instancia de Preferences para guardar la información de usuario
+    // Instancia para guardar datos localmente (último usuario)
     private static final Preferences prefs = Preferences.userNodeForPackage(Usuario.class);
+
+    // ---------------------- CONSTRUCTOR ----------------------
 
     public Usuario(int id, String nombre, String contraseña, String tipo) {
         this.id = id;
@@ -20,7 +31,8 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // Métodos para obtener los datos del usuario
+    // ---------------------- GETTERS ----------------------
+
     public int getId() {
         return id;
     }
@@ -37,6 +49,8 @@ public class Usuario {
         return tipo;
     }
 
+    // ---------------------- OTROS MÉTODOS ----------------------
+
     public boolean esAdmin() {
         return "admin".equalsIgnoreCase(tipo);
     }
@@ -46,28 +60,27 @@ public class Usuario {
         return nombre + " (" + tipo + ")";
     }
 
-    //guardar el ID del último usuario registrado
+    /* Guarda en las preferencias del sistema el último usuario que se ha logueado. */
+
     public static void guardarUltimoUsuario(Usuario usuario) {
-        prefs.putInt("ultimoUsuarioId", usuario.getId()); // Guardamos el ID del usuario
-        prefs.put("ultimoUsuarioNombre", usuario.getNombre()); // Guardamos el nombre del usuario
+        prefs.putInt("ultimoUsuarioId", usuario.getId());
+        prefs.put("ultimoUsuarioNombre", usuario.getNombre());
     }
 
-  //obtener el último usuario registrado
+    /* Recupera los datos del último usuario registrado (solo ID y nombre). */
+
     public static Usuario obtenerUltimoUsuario() {
-        int ultimoId = prefs.getInt("ultimoUsuarioId", -1); // Recuperamos el ID del último usuario
-        String ultimoNombre = prefs.get("ultimoUsuarioNombre", null); // Recuperamos el nombre del usuario
+        int ultimoId = prefs.getInt("ultimoUsuarioId", -1);
+        String ultimoNombre = prefs.get("ultimoUsuarioNombre", null);
 
-        // Si hay un ID válido (distinto de -1) y un nombre, devolvemos el último usuario
         if (ultimoId != -1 && ultimoNombre != null) {
-            // En un caso real, deberías buscar el usuario en tu base de datos
-            // o en una lista de usuarios cargados. Por ahora, devolvemos un usuario de ejemplo.
-            // Este código debe ser ajustado para recuperar correctamente el usuario.
-            return new Usuario(ultimoId, ultimoNombre, "", "normal"); // Suponiendo que sea de tipo "normal"
+            return new Usuario(ultimoId, ultimoNombre, "", "normal"); // El tipo se asume como "normal"
         }
-        return null; // No hay último usuario guardado
+        return null;
     }
 
-    //borrar las preferencias del último usuario (si es necesario)
+    /* Borra los datos del último usuario guardado en las preferencias. */
+
     public static void borrarUltimoUsuario() {
         prefs.remove("ultimoUsuarioId");
         prefs.remove("ultimoUsuarioNombre");

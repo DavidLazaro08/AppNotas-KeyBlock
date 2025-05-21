@@ -1,12 +1,25 @@
-package modelo;
+package controlador;
 
 import bbdd.GestorBBDD;
+import modelo.Hashtag;
+import modelo.Nota;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/* Clase NotaDAO encargada de manejar el acceso a la base de datos para objetos Nota.
+ *
+ * ➤ Permite guardar una nota con sus hashtags asociados.
+ * ➤ Permite eliminar una nota y sus relaciones.
+ * ➤ Se comunica con la base de datos a través de la clase GestorBBDD.
+ *
+ * Esta clase debería residir en el paquete controlador por su función lógica. */
+
 public class NotaDAO {
+
+    // ---------------------- GUARDAR NOTA ----------------------
 
     public static void guardarNota(Nota nota) throws SQLException {
         Connection con = GestorBBDD.getConnection();
@@ -57,6 +70,8 @@ public class NotaDAO {
         nota.setHashtags(GestorBBDD.obtenerHashtagsDeNota(idGenerado));
     }
 
+    // ---------------------- ELIMINAR NOTA ----------------------
+
     public static void eliminarNotaPorId(int idNota) {
         try {
             // Primero borra relaciones
@@ -70,5 +85,4 @@ public class NotaDAO {
             e.printStackTrace();
         }
     }
-
 }

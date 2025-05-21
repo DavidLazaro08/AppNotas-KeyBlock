@@ -4,10 +4,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Clase Nota que representa una nota individual dentro de la aplicación.
+ *
+ * ➤ Almacena información como título, contenido, fecha y usuario al que pertenece.
+ * ➤ También gestiona la lista de hashtags asociados.
+ * ➤ Se utiliza tanto para mostrar como para guardar o editar notas. */
+
 public class Nota {
-    public Nota() {
-        // Constructor vacío necesario
-    }
+
+    // ---------------------- ATRIBUTOS ----------------------
 
     private int id;
     private String titulo;
@@ -16,6 +21,11 @@ public class Nota {
     private int usuarioId;
     private List<Hashtag> hashtags = new ArrayList<>();
 
+    // ---------------------- CONSTRUCTORES ----------------------
+
+    public Nota() {
+        // Constructor vacío necesario para frameworks o compatibilidad
+    }
 
     public Nota(int id, String titulo, String contenido, LocalDate fecha, int usuarioId) {
         this.id = id;
@@ -25,30 +35,62 @@ public class Nota {
         this.usuarioId = usuarioId;
     }
 
-    public int getId() { return id; }
-    public String getTitulo() { return titulo; }
-    public String getContenido() { return contenido; }
-    public LocalDate getFecha() { return fecha; }
-    public int getUsuarioId() { return usuarioId; }
-    public List<Hashtag> getHashtags() { return hashtags; }
+    // ---------------------- GETTERS ----------------------
 
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-    public void setContenido(String contenido) { this.contenido = contenido; }
-    public void setHashtags(List<Hashtag> hashtags) { this.hashtags = hashtags; }
-    public void setHashtag(Hashtag hashtag) { hashtags.add(hashtag); }
-
-    @Override
-    public String toString() {
-        return "[" + fecha + "] " + titulo;
+    public int getId() {
+        return id;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public List<Hashtag> getHashtags() {
+        return hashtags;
+    }
+
+    // ---------------------- SETTERS ----------------------
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public void setContenido(String contenido) {
+        this.contenido = contenido;
     }
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
+    public void setHashtags(List<Hashtag> hashtags) {
+        this.hashtags = hashtags;
+    }
 
+    public void setHashtag(Hashtag hashtag) {
+        hashtags.add(hashtag);
+    }
+
+    // ---------------------- TO STRING ----------------------
+
+    @Override
+    public String toString() {
+        return "[" + fecha + "] " + titulo;
+    }
 }

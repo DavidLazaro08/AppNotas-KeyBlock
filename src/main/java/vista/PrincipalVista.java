@@ -1,14 +1,13 @@
 package vista;
 
 import controlador.NotasControlador;
-import modelo.UsuarioDAO;
+import controlador.UsuarioDAO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
- * Clase PrincipalVista que representa la ventana principal de la aplicación.
+/* Clase PrincipalVista que representa la ventana principal de la aplicación.
  *
  * ➤ Usa BorderLayout como layout principal y CardLayout para cambiar entre vistas internas:
  *     - Notas
@@ -16,8 +15,7 @@ import java.awt.event.*;
  *     - Panel de Administración (solo para usuarios admin)
  *
  * ➤ Estilo visual basado en interfaz tipo IDE, con modo oscuro, botones flotantes e iconografía.
- * ➤ Integra PanelContenido como componente central unificado para vistas internas.
- */
+ * ➤ Integra PanelContenido como componente central unificado para vistas internas.*/
 
 public class PrincipalVista extends VentanaBase {
 
@@ -63,8 +61,7 @@ public class PrincipalVista extends VentanaBase {
 
             if (tooltips[i].equals("Configuración")) {
                 btn.addActionListener(e -> {
-                    UsuarioDAO usuarioDAO = new UsuarioDAO();
-                    if (usuarioDAO.esAdmin(usuarioLogueado)) {
+                    if (UsuarioDAO.esAdmin(usuarioLogueado)) {
                         mostrarAdmin();
                     } else {
                         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -93,7 +90,7 @@ public class PrincipalVista extends VentanaBase {
                         if (opcion == JOptionPane.OK_OPTION) {
                             String user = tfUsuario.getText();
                             String pass = new String(pfClave.getPassword());
-                            if (usuarioDAO.validarUsuario(user, pass) && usuarioDAO.esAdmin(user)) {
+                            if (UsuarioDAO.validarUsuario(user, pass) && UsuarioDAO.esAdmin(user)) {
                                 mostrarAdmin();
                             } else {
                                 JOptionPane.showMessageDialog(this, "Credenciales incorrectas o sin privilegios", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
@@ -146,8 +143,6 @@ public class PrincipalVista extends VentanaBase {
         });
 
         btnVerContras.addActionListener(e -> {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-
             JPanel panel = new JPanel(new GridLayout(2, 2));
             panel.setBackground(new Color(43, 43, 43));
 
@@ -174,7 +169,7 @@ public class PrincipalVista extends VentanaBase {
             if (opcion == JOptionPane.OK_OPTION) {
                 String user = tfUsuario.getText();
                 String pass = new String(pfClave.getPassword());
-                if (usuarioDAO.validarUsuario(user, pass)) {
+                if (UsuarioDAO.validarUsuario(user, pass)) {
                     lblTituloCabecera.setText("🔐 Gestor de Contraseñas");
                     panelContenido.mostrarContras();
                 } else {

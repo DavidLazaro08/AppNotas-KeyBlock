@@ -7,7 +7,16 @@ import javax.swing.*;
 import java.time.LocalDate;
 import java.util.regex.*;
 
+/* Clase NotasControlador que gestiona la creación y edición de notas.
+ *
+ * ➤ Controla el vínculo entre la vista de edición y el modelo de nota.
+ * ➤ Aplica estilo visual a hashtags y guarda en base de datos.
+ * ➤ Se encarga de refrescar la interfaz tras guardar la nota. */
+
 public class NotasControlador {
+
+    /* Extrae los hashtags del texto escrito y los añade al objeto Nota.
+     * Usa expresiones regulares para identificar palabras que empiecen por #. */
 
     public static void procesarHashtags(String textoHashtags, Nota nota) {
         Pattern pattern = Pattern.compile("#([\\p{L}0-9_-]+)");
@@ -18,6 +27,12 @@ public class NotasControlador {
         }
     }
 
+    /* Crea la ventana de edición de notas y vincula los campos a un objeto Nota.
+     * Se utiliza un solo objeto Nota reutilizable y se enlaza con los campos visuales.
+     *
+     * ➤ Incluye botón para aplicar estilos a hashtags manualmente.
+     * ➤ Guarda la nota en la base de datos al pulsar "Guardar". */
+
     public static void crearYEditarNota(JFrame padre) {
         EditarNotaVista vista = new EditarNotaVista(padre);
 
@@ -26,14 +41,16 @@ public class NotasControlador {
         ActualizarNota.vincularCampos(vista, nota);
 
         JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
-        btnActualizarEstilos.addActionListener(e -> EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
+        btnActualizarEstilos.addActionListener(e ->
+                EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
         vista.getPanelBotones().add(btnActualizarEstilos);
 
         vista.getBtnGuardar().addActionListener(e -> {
             try {
                 // ⛔ Ya no se crea una nota nueva, usamos la enlazada
                 NotaDAO.guardarNota(nota);
-                JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
+                JOptionPane.showMessageDialog(vista.getDialogo(),
+                        "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
 
                 if (padre instanceof vista.PrincipalVista) {
@@ -42,7 +59,8 @@ public class NotasControlador {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
+                JOptionPane.showMessageDialog(vista.getDialogo(),
+                        "Error al guardar la nota.");
             }
         });
 

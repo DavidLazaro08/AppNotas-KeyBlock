@@ -1,39 +1,39 @@
 package app;
 
-import bbdd.GestorBBDD;
-import vista.PrincipalVista;
-import controlador.LoginControlador;
 import vista.LoginVista;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-
 import controlador.LoginControlador;
-import vista.LoginVista;
+
+/** Clase Main que inicia la aplicación.
+ *
+ * ➤ Muestra la ventana de Login al arrancar el programa.
+ * ➤ Inicializa el controlador correspondiente. */
 
 public class Main {
     public static void main(String[] args) {
         LoginVista loginVista = new LoginVista();
-        new controlador.LoginControlador(loginVista);
+        new LoginControlador(loginVista);
     }
 }
 
 /*
-public class Main {
-    public static void main(String[] args) {
-        try {
-            GestorBBDD.connect();
-            ResultSet rs = GestorBBDD.executeSelect("SELECT * FROM usuarios");
-            while (rs.next()) {
-                System.out.println("Usuario: " + rs.getString("nombre"));
-            }
-            GestorBBDD.disconnect();
-        } catch (SQLException e) {
-            System.out.println("Error al conectar con la base de datos:");
-            e.printStackTrace();
-        }
-    }
-}
+ // Código de prueba para verificar conexión a la base de datos
+ import bbdd.GestorBBDD;
+ import java.sql.ResultSet;
+ import java.sql.SQLException;
 
- */
+ public class Main {
+     public static void main(String[] args) {
+         try {
+             GestorBBDD.connect();
+             ResultSet rs = GestorBBDD.executeSelect("SELECT * FROM usuarios");
+             while (rs.next()) {
+                 System.out.println("Usuario: " + rs.getString("nombre"));
+             }
+             GestorBBDD.disconnect();
+         } catch (SQLException e) {
+             System.out.println("Error al conectar con la base de datos:");
+             e.printStackTrace();
+         }
+     }
+ }
+*/

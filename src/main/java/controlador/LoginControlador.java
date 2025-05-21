@@ -1,6 +1,5 @@
 package controlador;
 
-import modelo.UsuarioDAO;
 import vista.LoginVista;
 import vista.PrincipalVista;
 
@@ -17,13 +16,11 @@ public class LoginControlador {
     // ---------------------- ATRIBUTOS ----------------------
 
     private LoginVista vista;
-    private UsuarioDAO usuarioDAO;
 
     // ---------------------- CONSTRUCTOR ----------------------
 
     public LoginControlador(LoginVista vista) {
         this.vista = vista;
-        this.usuarioDAO = new UsuarioDAO();
 
         // ---------------------- EVENTO: Iniciar sesión ----------------------
 
@@ -31,12 +28,12 @@ public class LoginControlador {
             String usuario = vista.getUsuario();
             String contrasena = vista.getContrasena();
 
-            if (usuarioDAO.validarUsuario(usuario, contrasena)) {
+            if (UsuarioDAO.validarUsuario(usuario, contrasena)) {
                 vista.dispose(); // cerrar login
                 PrincipalVista principal = new PrincipalVista(usuario);
                 principal.setVisible(true);
 
-                if (usuarioDAO.esAdmin(usuario)) {
+                if (UsuarioDAO.esAdmin(usuario)) {
                     principal.mostrarAdmin();
                 }
             } else {

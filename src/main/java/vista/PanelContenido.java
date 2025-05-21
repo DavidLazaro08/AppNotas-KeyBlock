@@ -3,7 +3,7 @@ package vista;
 import modelo.Hashtag;
 import modelo.Nota;
 import bbdd.GestorBBDD;
-import modelo.NotaDAO;
+import controlador.NotaDAO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
