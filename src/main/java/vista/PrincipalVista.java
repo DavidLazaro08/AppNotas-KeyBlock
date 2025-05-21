@@ -7,13 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/** Clase PrincipalVista que representa la ventana principal del programa.
- * Usa BorderLayout como distribución principal y un panel central con CardLayout
- * para ir cambiando entre vistas internas (como notas, contraseñas o administración).
+/**
+ * Clase PrincipalVista que representa la ventana principal de la aplicación.
  *
- * ➤ Inspirado en teoría módulo 1.3 (BorderLayout), 1.6 (CardLayout)
- * ➤ Requisitos del proyecto: uso de interfaz gráfica organizada, mínimo 2 vistas conectadas.
- * ➤ Estilo visual mejorado con botón "+" central y estética tipo entorno de desarrollo. */
+ * ➤ Usa BorderLayout como layout principal y CardLayout para cambiar entre vistas internas:
+ *     - Notas
+ *     - Contraseñas (previa verificación)
+ *     - Panel de Administración (solo para usuarios admin)
+ *
+ * ➤ Estilo visual basado en interfaz tipo IDE, con modo oscuro, botones flotantes e iconografía.
+ * ➤ Integra PanelContenido como componente central unificado para vistas internas.
+ */
 
 public class PrincipalVista extends VentanaBase {
 
@@ -21,7 +25,7 @@ public class PrincipalVista extends VentanaBase {
 
     private JPanel panelCartas;
     private CardLayout cardLayout;
-    private PanelContenido panelContenido; // ✅ Ahora se usa PanelContenido fusionado
+    private PanelContenido panelContenido;
     private JLabel lblTituloCabecera;
     private String usuarioLogueado;
 
@@ -54,6 +58,8 @@ public class PrincipalVista extends VentanaBase {
         for (int i = 0; i < iconos.length; i++) {
             JButton btn = crearBotonEstiloIDE(iconos[i], fuenteNormal);
             btn.setToolTipText(tooltips[i]);
+
+            // ---------------------- BOTÓN CONFIGURACIÓN (verificación admin) ----------------------
 
             if (tooltips[i].equals("Configuración")) {
                 btn.addActionListener(e -> {
@@ -113,7 +119,7 @@ public class PrincipalVista extends VentanaBase {
 
         add(panelCartas, BorderLayout.CENTER);
 
-        // ---------------------- PANEL INFERIOR DE NAVEGACIÓN (modo oscuro y adaptativo) ----------------------
+        // ---------------------- PANEL INFERIOR DE NAVEGACIÓN ----------------------
 
         JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
         panelInferior.setPreferredSize(new Dimension(800, 100));

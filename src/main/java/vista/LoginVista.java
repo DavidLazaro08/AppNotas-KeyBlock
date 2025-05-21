@@ -3,11 +3,12 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 
-/** Clase LoginVista que representa la pantalla de inicio de sesión.
- *  Usa un GridLayout para organizar los campos y botones de forma sencilla.
+/* Clase LoginVista que representa la pantalla de inicio de sesión.
  *
- * ➤ Basado en ejemplos de formularios vistos en clase (Módulo 1.4)
- * ➤ Hereda de VentanaBase para mantener estilo visual unificado e icono común */
+ * ➤ Usa un GridLayout para organizar los campos de usuario y contraseña.
+ * ➤ Integra el botón de login y registro en una sola vista.
+ * ➤ Aplica estilo visual oscuro heredado desde VentanaBase.
+ * ➤ El registro se realiza directamente desde este formulario (sin ventana externa). */
 
 public class LoginVista extends VentanaBase {
 
@@ -33,7 +34,7 @@ public class LoginVista extends VentanaBase {
 
         // Campo Usuario
         JLabel lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setForeground(colorTextoClaro); // ✅ Texto claro para contraste
+        lblUsuario.setForeground(colorTextoClaro);
         panel.add(lblUsuario);
 
         tfUsuario = new JTextField();
@@ -41,7 +42,7 @@ public class LoginVista extends VentanaBase {
 
         // Campo Contraseña
         JLabel lblContrasena = new JLabel("Contraseña:");
-        lblContrasena.setForeground(colorTextoClaro); // ✅ Texto claro para contraste
+        lblContrasena.setForeground(colorTextoClaro);
         panel.add(lblContrasena);
 
         pfContrasena = new JPasswordField();
@@ -54,10 +55,9 @@ public class LoginVista extends VentanaBase {
         panel.add(btnLogin);
         panel.add(btnRegistrar);
 
-        // Añadir panel al contenido
         add(panel);
 
-        // ---------------------- EVENTO: Registrar usuario en el mismo cuadro ----------------------
+        // ---------------------- EVENTO: Registro desde mismo cuadro ----------------------
 
         btnRegistrar.addActionListener(e -> {
             String nuevoUsuario = tfUsuario.getText().trim();
@@ -71,7 +71,7 @@ public class LoginVista extends VentanaBase {
             modelo.UsuarioDAO dao = new modelo.UsuarioDAO();
             boolean registrado = dao.registrarUsuario(nuevoUsuario, nuevaContrasena);
 
-            // Aplicar estilo oscuro al JOptionPane
+            // Estilo oscuro para mensaje
             UIManager.put("OptionPane.background", new Color(43, 43, 43));
             UIManager.put("Panel.background", new Color(43, 43, 43));
             UIManager.put("OptionPane.messageForeground", Color.WHITE);
@@ -90,12 +90,10 @@ public class LoginVista extends VentanaBase {
 
     // ---------------------- MÉTODOS GETTERS ----------------------
 
-    // Devuelve el texto del campo usuario
     public String getUsuario() {
         return tfUsuario.getText().trim();
     }
 
-    // Devuelve la contraseña como texto
     public String getContrasena() {
         return new String(pfContrasena.getPassword());
     }
@@ -110,7 +108,6 @@ public class LoginVista extends VentanaBase {
 
     // ---------------------- MÉTODOS EXTRA ----------------------
 
-    // Limpia campos de texto
     public void limpiarCampos() {
         tfUsuario.setText("");
         pfContrasena.setText("");

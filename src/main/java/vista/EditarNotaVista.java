@@ -9,7 +9,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/** Clase EditarNotaVista que representa una ventana de diálogo
+ * para crear y guardar una nueva nota con título, contenido y hashtags.
+ *
+ * ➤ Usa estilo visual coherente con el resto de la app (modo oscuro).
+ * ➤ Guarda los datos en la base de datos incluyendo relación con hashtags.
+ * ➤ Se lanza desde el botón "+" en la interfaz principal. */
+
 public class EditarNotaVista {
+
+    // ---------------------- ATRIBUTOS ----------------------
 
     private final JDialog dialogo;
     private final JTextField campoTitulo;
@@ -17,6 +26,8 @@ public class EditarNotaVista {
     private final JTextPane campoContenido;
     private final JPanel panelBotones;
     private final JButton btnGuardar;
+
+    // ---------------------- CONSTRUCTOR ----------------------
 
     public EditarNotaVista(JFrame padre) {
         dialogo = new JDialog(padre, "Nueva Nota", true);
@@ -45,10 +56,12 @@ public class EditarNotaVista {
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        // Acción: guardar la nota al pulsar
+        // ---------------------- EVENTO: Guardar nota ----------------------
+
         btnGuardar.addActionListener(e -> guardarNota());
 
-        // 🎨 ESTILOS VISUALES AÑADIDOS PARA UNIFICAR CON LA APP
+        // ---------------------- ESTILO VISUAL OSCURO ----------------------
+
         Color fondo = new Color(43, 43, 43);
         Color campos = new Color(30, 30, 30);
         Color textoClaro = new Color(220, 220, 220);
@@ -87,11 +100,14 @@ public class EditarNotaVista {
         btnGuardar.setContentAreaFilled(true);
     }
 
+    // ---------------------- MÉTODO: Mostrar diálogo ----------------------
+
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
-    // ✅ NUEVO MÉTODO AÑADIDO
+    // ---------------------- MÉTODO: Guardar nota y hashtags ----------------------
+
     private void guardarNota() {
         String titulo = campoTitulo.getText();
         String contenido = campoContenido.getText();
@@ -124,7 +140,6 @@ public class EditarNotaVista {
                         if (texto.startsWith("#")) {
                             texto = texto.substring(1);
                         }
-
 
                         // Insertar hashtag si no existe
                         String insertarHashtag = "INSERT IGNORE INTO hashtags(nombre) VALUES (?)";
@@ -169,6 +184,8 @@ public class EditarNotaVista {
             JOptionPane.showMessageDialog(dialogo, "Por favor completa todos los campos.");
         }
     }
+
+    // ---------------------- MÉTODOS GETTERS ----------------------
 
     public JTextField getCampoTitulo() {
         return campoTitulo;

@@ -11,16 +11,16 @@ import java.awt.*;
 import java.sql.*;
 import java.util.List;
 
-/** Clase PanelContenido que centraliza las tres secciones visuales principales de la app:
+/* Clase PanelContenido que centraliza las tres secciones visuales principales de la app:
  * Notas, Contraseñas y Panel de Administración.
  *
  * ➤ Usa CardLayout (Módulo 1.6) para cambiar de panel sin recargar ventanas.
- * ➤ Sigue el principio de Responsabilidad Única (cada "sección" tiene su propio método de creación).
- * ➤ Permite simplificar la gestión visual desde PrincipalVista o cualquier controlador. */
+ * ➤ Permite alternar vistas desde PrincipalVista sin tener que usar múltiples ventanas. */
 
 public class PanelContenido extends JPanel {
 
     // ---------------------- ATRIBUTOS ----------------------
+
     private CardLayout cardLayout;
     private JPanel panelNotas;
     private JPanel panelContras;
@@ -28,6 +28,7 @@ public class PanelContenido extends JPanel {
     private JTable tablaAdmin;
 
     // ---------------------- CONSTRUCTOR ----------------------
+
     public PanelContenido() {
         cardLayout = new CardLayout();
         setLayout(cardLayout);
@@ -58,7 +59,7 @@ public class PanelContenido extends JPanel {
         cardLayout.show(this, "Admin");
     }
 
-    // ---------------------- PANEL NOTAS (restaurado con diseño original) ----------------------
+    // ---------------------- PANEL NOTAS ----------------------
 
     private JPanel crearPanelNotas() {
         JPanel panel = new JPanel(new BorderLayout());
@@ -180,7 +181,7 @@ public class PanelContenido extends JPanel {
         return panel;
     }
 
-    // ---------------------- PANEL ADMIN (tabla con estilo oscuro) ----------------------
+    // ---------------------- PANEL ADMINISTRADOR ----------------------
 
     private JPanel crearPanelAdmin() {
         JPanel panel = new JPanel(new BorderLayout());

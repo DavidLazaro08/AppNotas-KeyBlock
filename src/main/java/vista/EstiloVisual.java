@@ -3,7 +3,17 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 
+/** Clase EstiloVisual con métodos estáticos para aplicar estilos gráficos reutilizables.
+ *
+ * ➤ Centraliza la estética de la aplicación: botones personalizados y fondos con degradado.
+ * ➤ Facilita la consistencia visual en toda la interfaz. */
+
 public class EstiloVisual {
+
+    // ---------------------- BOTÓN CIRCULAR PERSONALIZADO ----------------------
+
+    // Crea un botón circular con comportamiento visual al pasar o pulsar el ratón.
+    // Lo usamos para el "+" de Añadir Nota.
 
     public static JButton crearBotonCircular(String texto, int diametro, Color color) {
         JButton boton = new JButton(texto) {
@@ -38,7 +48,7 @@ public class EstiloVisual {
         return boton;
     }
 
-    // Método para crear degradado.
+    // ---------------------- PANEL CON DEGRADADO VERTICAL ----------------------
 
     public static JPanel crearPanelDegradado(Color color1, Color color2) {
         return new JPanel() {
@@ -53,6 +63,4 @@ public class EstiloVisual {
             }
         };
     }
-
 }
-

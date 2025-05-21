@@ -3,7 +3,15 @@ package vista;
 import javax.swing.*;
 import java.awt.*;
 
+/* Clase VentanaBase que proporciona una base visual común para todas las vistas principales.
+ *
+ * ➤ Centraliza el estilo oscuro, la fuente y colores comunes.
+ * ➤ Carga el icono de la aplicación si está disponible.
+ * ➤ Ofrece método reutilizable para crear botones con estética tipo IDE. */
+
 public class VentanaBase extends JFrame {
+
+    // ---------------------- ATRIBUTOS DE ESTILO ----------------------
 
     protected Font fuenteTitulo = new Font("SansSerif", Font.BOLD, 26);
     protected Font fuenteNormal = new Font("SansSerif", Font.PLAIN, 14);
@@ -12,6 +20,8 @@ public class VentanaBase extends JFrame {
     protected Color colorTextoClaro = new Color(220, 220, 220);
     protected Color colorBoton = new Color(60, 63, 65);
     protected Color colorBotonHover = new Color(50, 53, 57);
+
+    // ---------------------- CONSTRUCTOR ----------------------
 
     public VentanaBase(String titulo) {
         setTitle(titulo);
@@ -28,6 +38,8 @@ public class VentanaBase extends JFrame {
         }
     }
 
+    // ---------------------- MÉTODO: Crear botón personalizado ----------------------
+
     protected JButton crearBotonEstiloIDE(String texto, Font fuente) {
         JButton boton = new JButton(texto);
         boton.setFont(fuente);
@@ -38,7 +50,7 @@ public class VentanaBase extends JFrame {
         boton.setContentAreaFilled(true);
         boton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
 
-        // Hover
+        // Hover y feedback visual
         boton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
@@ -64,4 +76,3 @@ public class VentanaBase extends JFrame {
         return boton;
     }
 }
-
