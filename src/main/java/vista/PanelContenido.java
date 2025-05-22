@@ -27,6 +27,7 @@ public class PanelContenido extends JPanel {
     // ---------------------- ATRIBUTOS ----------------------
 
     private CardLayout cardLayout;
+    private JPanel panelInicio;
     private JPanel panelNotas;
     private JPanel panelContras;
     private JPanel panelAdmin;
@@ -40,18 +41,34 @@ public class PanelContenido extends JPanel {
         setLayout(cardLayout);
         setBackground(new Color(25, 25, 25));
 
+        panelInicio = crearPanelInicio();
         panelNotas = new JPanel(new BorderLayout());
         panelNotas.setBackground(new Color(43, 43, 43));
         panelContras = crearPanelContras();
         panelAdmin = crearPanelAdmin();
 
-
+        add(panelInicio, "Inicio");
         add(panelNotas, "Notas");
         add(panelContras, "Contras");
         add(panelAdmin, "Admin");
+
+        cardLayout.show(this, "Inicio"); // Mostrar por defecto
     }
 
-    // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
+    // ---------------------- PANEL INICIO PERSONALIZADO ----------------------
+
+    private JPanel crearPanelInicio() {
+        JPanel panel = EstiloVisual.crearPanelDegradado(new Color(30, 30, 30), new Color(60, 60, 60));
+        panel.setLayout(new BorderLayout());
+
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/KEYBLOCK_INTRO2.png"));
+        JLabel lblLogo = new JLabel(originalIcon);
+        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblLogo.setVerticalAlignment(SwingConstants.CENTER);
+        panel.add(lblLogo, BorderLayout.CENTER);
+
+        return panel;
+    }
 
     // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
 
@@ -70,14 +87,13 @@ public class PanelContenido extends JPanel {
         cardLayout.show(this, "Admin");
     }
 
-
-// ---------------------- PANEL NOTAS ----------------------
+    // ---------------------- PANEL NOTAS ----------------------
 
     private void refrescarNotas(PrincipalVista principalVista) {
         panelNotas.removeAll();
         panelNotas.setLayout(new BorderLayout());
 
-        // 🔽 Obtener usuario logueado y cargar notas según su rol
+        // Obtener usuario logueado y cargar notas según su rol
         modelo.Usuario usuario = principalVista.getUsuarioLogueado();
         if (usuario.esAdmin()) {
             listaNotas = GestorBBDD.obtenerTodasLasNotas();
@@ -125,7 +141,6 @@ public class PanelContenido extends JPanel {
         panelNotas.repaint();
     }
 
-
     private JPanel crearTarjetaNota(Nota nota, boolean alternarColor) {
         Color fondo = alternarColor ? new Color(43, 43, 43) : new Color(36, 36, 36);
 
@@ -171,12 +186,28 @@ public class PanelContenido extends JPanel {
         btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
         btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         btnEliminar.addActionListener(e -> {
+            // Aplicar estilo oscuro al JOptionPane
+            UIManager.put("OptionPane.background", new Color(43, 43, 43));
+            UIManager.put("Panel.background", new Color(43, 43, 43));
+            UIManager.put("OptionPane.messageForeground", Color.WHITE);
+            UIManager.put("OptionPane.buttonFont", new Font("SansSerif", Font.PLAIN, 13));
+
             int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar esta nota?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
-                tarjeta.removeAll();
                 NotaDAO.eliminarNotaPorId(nota.getId());
+
+                Container contenedor = tarjeta.getParent();
+                if (contenedor != null) {
+                    contenedor.remove(tarjeta);
+                    contenedor.revalidate();
+                    contenedor.repaint();
+                }
+
+                JOptionPane.showMessageDialog(this, "Nota eliminada con éxito.");
             }
         });
+
+
 
         JPanel panelDerecho = new JPanel(new BorderLayout());
         panelDerecho.setBackground(fondo);
@@ -268,7 +299,5 @@ public class PanelContenido extends JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
         }
     }
-
-
 
 }

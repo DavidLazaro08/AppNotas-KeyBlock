@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.LoginControlador;
 import controlador.NotasControlador;
 import controlador.UsuarioDAO;
 import modelo.Usuario;
@@ -8,27 +9,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-/* Clase PrincipalVista que representa la ventana principal de la aplicación.
- *
- * ➤ Usa BorderLayout como layout principal y CardLayout para cambiar entre vistas internas:
- *     - Notas
- *     - Contraseñas (previa verificación)
- *     - Panel de Administración (solo para usuarios admin)
- *
- * ➤ Estilo visual basado en interfaz tipo IDE, con modo oscuro, botones flotantes e iconografía.
- * ➤ Integra PanelContenido como componente central unificado para vistas internas.*/
-
 public class PrincipalVista extends VentanaBase {
-
-    // ---------------------- ATRIBUTOS ----------------------
 
     private JPanel panelCartas;
     private CardLayout cardLayout;
     private PanelContenido panelContenido;
     private JLabel lblTituloCabecera;
     private Usuario usuarioLogueado;
-
-    // ---------------------- CONSTRUCTOR ----------------------
 
     public PrincipalVista(Usuario usuarioLogueado) {
         super("KeyBlock");
@@ -51,14 +38,12 @@ public class PrincipalVista extends VentanaBase {
         panelLateral.setBackground(colorFondoOscuro);
         panelLateral.setLayout(new GridLayout(5, 1, 0, 10));
 
-        String[] iconos = {"👤", "🗓️", "🌓", "🛠️", "🔍"};
-        String[] tooltips = {"Usuario|Login", "Calendario", "Cambiar Tema", "Configuración", "Buscar Notas"};
+        String[] iconos = {"👤", "🗓️", "🛠️", "🔍", "🚪"};
+        String[] tooltips = {"Usuario|Login", "Calendario", "Configuración", "Buscar Notas", "Cerrar sesión"};
 
         for (int i = 0; i < iconos.length; i++) {
             JButton btn = crearBotonEstiloIDE(iconos[i], fuenteNormal);
             btn.setToolTipText(tooltips[i]);
-
-            // ---------------------- BOTÓN CONFIGURACIÓN (verificación admin) ----------------------
 
             if (tooltips[i].equals("Configuración")) {
                 btn.addActionListener(e -> {
@@ -97,6 +82,26 @@ public class PrincipalVista extends VentanaBase {
                                 JOptionPane.showMessageDialog(this, "Credenciales incorrectas o sin privilegios", "Acceso denegado", JOptionPane.ERROR_MESSAGE);
                             }
                         }
+                    }
+                });
+            }
+
+            if (tooltips[i].equals("Cerrar sesión")) {
+                btn.addActionListener(e -> {
+                    UIManager.put("OptionPane.background", new Color(43, 43, 43));
+                    UIManager.put("Panel.background", new Color(43, 43, 43));
+                    UIManager.put("OptionPane.messageForeground", Color.WHITE);
+                    UIManager.put("OptionPane.buttonFont", new Font("SansSerif", Font.PLAIN, 13));
+
+                    int opcion = JOptionPane.showConfirmDialog(this,
+                            "¿Deseas cerrar sesión y volver al login?",
+                            "Cerrar sesión",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (opcion == JOptionPane.YES_OPTION) {
+                        dispose();
+                        LoginVista loginVista = new LoginVista();
+                        new LoginControlador(loginVista);
                     }
                 });
             }
@@ -186,8 +191,6 @@ public class PrincipalVista extends VentanaBase {
         setVisible(true);
     }
 
-    // ---------------------- MÉTODOS PÚBLICOS ----------------------
-
     public void refrescarNotas() {
         lblTituloCabecera.setText("📝 Mis Notas y Más");
         panelContenido.mostrarNotas(this);
@@ -201,9 +204,4 @@ public class PrincipalVista extends VentanaBase {
     public Usuario getUsuarioLogueado() {
         return usuarioLogueado;
     }
-
-    // ---------------------- MAIN DE PRUEBA ----------------------
-    // public static void main(String[] args) {
-    //     new PrincipalVista("admin");
-    // }
 }

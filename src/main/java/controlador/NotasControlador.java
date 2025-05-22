@@ -5,6 +5,7 @@ import vista.EditarNotaVista;
 import vista.PrincipalVista;
 
 import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.regex.*;
 
@@ -47,6 +48,11 @@ public class NotasControlador {
         vista.getBtnGuardar().addActionListener(e -> {
             try {
                 NotaDAO.guardarNota(nota);
+                UIManager.put("OptionPane.background", new Color(43, 43, 43));
+                UIManager.put("Panel.background", new Color(43, 43, 43));
+                UIManager.put("OptionPane.messageForeground", Color.WHITE);
+                UIManager.put("OptionPane.buttonFont", new Font("SansSerif", Font.PLAIN, 13));
+
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
 
@@ -56,6 +62,11 @@ public class NotasControlador {
 
             } catch (Exception ex) {
                 ex.printStackTrace();
+                UIManager.put("OptionPane.background", new Color(43, 43, 43));
+                UIManager.put("Panel.background", new Color(43, 43, 43));
+                UIManager.put("OptionPane.messageForeground", Color.WHITE);
+                UIManager.put("OptionPane.buttonFont", new Font("SansSerif", Font.PLAIN, 13));
+
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
             }
         });
