@@ -2,6 +2,7 @@ package vista;
 
 import controlador.NotasControlador;
 import controlador.UsuarioDAO;
+import modelo.Usuario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,10 +26,11 @@ public class PrincipalVista extends VentanaBase {
     private CardLayout cardLayout;
     private PanelContenido panelContenido;
     private JLabel lblTituloCabecera;
-    private String usuarioLogueado;
+    private Usuario usuarioLogueado;
+
     // ---------------------- CONSTRUCTOR ----------------------
 
-    public PrincipalVista(String usuarioLogueado) {
+    public PrincipalVista(Usuario usuarioLogueado) {
         super("KeyBlock");
         this.usuarioLogueado = usuarioLogueado;
 
@@ -60,7 +62,7 @@ public class PrincipalVista extends VentanaBase {
 
             if (tooltips[i].equals("Configuración")) {
                 btn.addActionListener(e -> {
-                    if (UsuarioDAO.esAdmin(usuarioLogueado)) {
+                    if (usuarioLogueado.esAdmin()) {
                         mostrarAdmin();
                     } else {
                         JPanel panel = new JPanel(new GridLayout(2, 2));
@@ -138,7 +140,7 @@ public class PrincipalVista extends VentanaBase {
 
         btnVerNotas.addActionListener(e -> {
             lblTituloCabecera.setText("📝 Mis Notas y Más");
-            panelContenido.mostrarNotas(PrincipalVista.this);
+            panelContenido.mostrarNotas(this);
         });
 
         btnVerContras.addActionListener(e -> {
@@ -178,7 +180,7 @@ public class PrincipalVista extends VentanaBase {
         });
 
         botonMas.addActionListener(e -> {
-            NotasControlador.crearYEditarNota(PrincipalVista.this);
+            NotasControlador.crearYEditarNota(this);
         });
 
         setVisible(true);
@@ -188,7 +190,7 @@ public class PrincipalVista extends VentanaBase {
 
     public void refrescarNotas() {
         lblTituloCabecera.setText("📝 Mis Notas y Más");
-        panelContenido.mostrarNotas( PrincipalVista.this);
+        panelContenido.mostrarNotas(this);
     }
 
     public void mostrarAdmin() {
@@ -196,8 +198,11 @@ public class PrincipalVista extends VentanaBase {
         panelContenido.mostrarAdmin();
     }
 
-    // ---------------------- MAIN DE PRUEBA ----------------------
+    public Usuario getUsuarioLogueado() {
+        return usuarioLogueado;
+    }
 
+    // ---------------------- MAIN DE PRUEBA ----------------------
     // public static void main(String[] args) {
     //     new PrincipalVista("admin");
     // }

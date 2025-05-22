@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.Usuario;
 import vista.LoginVista;
 import vista.PrincipalVista;
 
@@ -8,7 +9,7 @@ import javax.swing.*;
 /** Clase LoginControlador que gestiona la lógica de inicio de sesión.
  *
  * ➤ Valida usuario y contraseña usando UsuarioDAO.
- * ➤ Si el login es correcto, abre la ventana principal.
+ * ➤ Si el login es correcto, abre la ventana principal con el objeto Usuario.
  * ➤ El registro de usuario ahora se gestiona desde LoginVista directamente. */
 
 public class LoginControlador {
@@ -25,15 +26,17 @@ public class LoginControlador {
         // ---------------------- EVENTO: Iniciar sesión ----------------------
 
         this.vista.getLoginButton().addActionListener(e -> {
-            String usuario = vista.getUsuario();
+            String nombre = vista.getUsuario();
             String contrasena = vista.getContrasena();
 
-            if (UsuarioDAO.validarUsuario(usuario, contrasena)) {
+            if (UsuarioDAO.validarUsuario(nombre, contrasena)) {
+                Usuario usuario = UsuarioDAO.obtenerUsuarioPorNombre(nombre); // ✅ obtener objeto completo
+
                 vista.dispose(); // cerrar login
                 PrincipalVista principal = new PrincipalVista(usuario);
                 principal.setVisible(true);
 
-                if (UsuarioDAO.esAdmin(usuario)) {
+                if (usuario.esAdmin()) {
                     principal.mostrarAdmin();
                 }
 

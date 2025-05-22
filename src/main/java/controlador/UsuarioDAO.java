@@ -75,4 +75,29 @@ public class UsuarioDAO {
         }
         return false;
     }
+
+    // ---------------------- MÉTODO: Obtener objeto Usuario completo ----------------------
+
+    public static modelo.Usuario obtenerUsuarioPorNombre(String nombreUsuario) {
+        String sql = "SELECT * FROM usuarios WHERE nombre = ?";
+        try (Connection conn = GestorBBDD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombreUsuario);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String contrasena = rs.getString("contraseña");
+                String rol = rs.getString("rol");
+
+                return new modelo.Usuario(id, nombreUsuario, contrasena, rol);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

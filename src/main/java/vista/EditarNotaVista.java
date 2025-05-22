@@ -10,7 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5b357b8 (Subo últimos cambios)
 /** Clase EditarNotaVista que representa una ventana de diálogo
  * para crear y guardar una nueva nota con título, contenido y hashtags.
  *

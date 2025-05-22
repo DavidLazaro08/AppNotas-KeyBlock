@@ -2,6 +2,7 @@ package controlador;
 
 import modelo.*;
 import vista.EditarNotaVista;
+import vista.PrincipalVista;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -15,8 +16,7 @@ import java.util.regex.*;
 
 public class NotasControlador {
 
-    /* Extrae los hashtags del texto escrito y los añade al objeto Nota.
-     * Usa expresiones regulares para identificar palabras que empiecen por #. */
+    // ---------------------- HASHTAGS ----------------------
 
     public static void procesarHashtags(String textoHashtags, Nota nota) {
         Pattern pattern = Pattern.compile("#([\\p{L}0-9_-]+)");
@@ -27,61 +27,31 @@ public class NotasControlador {
         }
     }
 
-    /* Crea la ventana de edición de notas y vincula los campos a un objeto Nota.
-     * Se utiliza un solo objeto Nota reutilizable y se enlaza con los campos visuales.
-     *
-     * ➤ Incluye botón para aplicar estilos a hashtags manualmente.
-     * ➤ Guarda la nota en la base de datos al pulsar "Guardar". */
+    // ---------------------- NUEVA NOTA ----------------------
 
     public static void crearYEditarNota(JFrame padre) {
         EditarNotaVista vista = new EditarNotaVista(padre);
 
-        // ✅ Usamos una sola nota
-        Nota nota = new Nota(0, "", "", LocalDate.now(), 1);
-        ActualizarNota.vincularCampos(vista, nota);
-
-        vista.getBtnGuardar().addActionListener(e -> {
-            try {
-                // ⛔ Ya no se crea una nota nueva, usamos la enlazada
-                NotaDAO.guardarNota(nota);
-                JOptionPane.showMessageDialog(vista.getDialogo(),
-                        "Nota guardada en la base de datos.");
-                vista.getDialogo().dispose();
-
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(vista.getDialogo(),
-                        "Error al guardar la nota.");
+        // ✅ Obtener usuario logueado para asignar su ID
+        int idUsuario = 1; // valor por defecto
+        if (padre instanceof PrincipalVista) {
+            Usuario u = ((PrincipalVista) padre).getUsuarioLogueado();
+            if (u != null) {
+                idUsuario = u.getId();
             }
-        });
+        }
 
-        vista.mostrar();
-    }
-
-    public static void EditarNota(JFrame padre, String titulo, String contenido) {
-        EditarNotaVista vista = new EditarNotaVista(padre);
-
-        // Creamos una nota base con datos recibidos
-        Nota nota = new Nota(0, titulo, contenido, java.time.LocalDate.now(), 1);
-
-        // Enlazamos campos visuales con la nota
+        Nota nota = new Nota(0, "", "", LocalDate.now(), idUsuario);
         ActualizarNota.vincularCampos(vista, nota);
 
-        // Prellenar los campos visuales
-        vista.getCampoTitulo().setText(titulo);
-        vista.getCampoContenido().setText(contenido);
-
-
-        // Acción de guardar
         vista.getBtnGuardar().addActionListener(e -> {
             try {
-                NotaDAO.guardarNota(nota); // actualiza o inserta según lógica interna
+                NotaDAO.guardarNota(nota);
                 JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
 
-                if (padre instanceof vista.PrincipalVista) {
-                    ((vista.PrincipalVista) padre).refrescarNotas();
+                if (padre instanceof PrincipalVista) {
+                    ((PrincipalVista) padre).refrescarNotas();
                 }
 
             } catch (Exception ex) {
@@ -93,4 +63,41 @@ public class NotasControlador {
         vista.mostrar();
     }
 
+    // ---------------------- EDITAR NOTA EXISTENTE ----------------------
+
+    public static void EditarNota(JFrame padre, String titulo, String contenido) {
+        EditarNotaVista vista = new EditarNotaVista(padre);
+
+        int idUsuario = 1;
+        if (padre instanceof PrincipalVista) {
+            Usuario u = ((PrincipalVista) padre).getUsuarioLogueado();
+            if (u != null) {
+                idUsuario = u.getId();
+            }
+        }
+
+        Nota nota = new Nota(0, titulo, contenido, LocalDate.now(), idUsuario);
+        ActualizarNota.vincularCampos(vista, nota);
+
+        vista.getCampoTitulo().setText(titulo);
+        vista.getCampoContenido().setText(contenido);
+
+        vista.getBtnGuardar().addActionListener(e -> {
+            try {
+                NotaDAO.guardarNota(nota);
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
+                vista.getDialogo().dispose();
+
+                if (padre instanceof PrincipalVista) {
+                    ((PrincipalVista) padre).refrescarNotas();
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
+            }
+        });
+
+        vista.mostrar();
+    }
 }
