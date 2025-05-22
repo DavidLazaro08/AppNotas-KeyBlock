@@ -138,4 +138,8 @@ public class GestorBBDD {
 
         return listaNotas;
     }
+
+    public static int obtenerIdNota(){
+        return 0;
+    }
 }

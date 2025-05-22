@@ -36,6 +36,7 @@ public class LoginControlador {
                 if (UsuarioDAO.esAdmin(usuario)) {
                     principal.mostrarAdmin();
                 }
+
             } else {
                 // Estilo oscuro para el mensaje de error
                 UIManager.put("OptionPane.background", new java.awt.Color(43, 43, 43));

@@ -1,4 +1,4 @@
-CREATE database notelab;
+CREATE database if not exists notelab ;
 USE notelab;
 
 -- Crear tabla de usuarios (si aún no existe)

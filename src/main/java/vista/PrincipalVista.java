@@ -26,7 +26,6 @@ public class PrincipalVista extends VentanaBase {
     private PanelContenido panelContenido;
     private JLabel lblTituloCabecera;
     private String usuarioLogueado;
-
     // ---------------------- CONSTRUCTOR ----------------------
 
     public PrincipalVista(String usuarioLogueado) {
@@ -139,7 +138,7 @@ public class PrincipalVista extends VentanaBase {
 
         btnVerNotas.addActionListener(e -> {
             lblTituloCabecera.setText("📝 Mis Notas y Más");
-            panelContenido.mostrarNotas();
+            panelContenido.mostrarNotas(PrincipalVista.this);
         });
 
         btnVerContras.addActionListener(e -> {
@@ -189,7 +188,7 @@ public class PrincipalVista extends VentanaBase {
 
     public void refrescarNotas() {
         lblTituloCabecera.setText("📝 Mis Notas y Más");
-        panelContenido.mostrarNotas();
+        panelContenido.mostrarNotas( PrincipalVista.this);
     }
 
     public void mostrarAdmin() {
