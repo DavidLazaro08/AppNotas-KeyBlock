@@ -109,6 +109,7 @@ public class PanelContenido extends JPanel {
                     }
                 });
 
+
                 contenedor.add(tarjeta);
                 contenedor.add(Box.createVerticalStrut(8));
             }
@@ -167,10 +168,10 @@ public class PanelContenido extends JPanel {
         btnEliminar.setForeground(Color.LIGHT_GRAY);
         btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
         btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
-
         btnEliminar.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar esta nota?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
+                tarjeta.removeAll();
                 NotaDAO.eliminarNotaPorId(nota.getId());
             }
         });

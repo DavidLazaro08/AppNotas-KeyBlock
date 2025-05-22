@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import static modelo.Notas.notas;
 
 /** Clase EditarNotaVista que representa una ventana de diálogo
  * para crear y guardar una nueva nota con título, contenido y hashtags.
