@@ -142,4 +142,44 @@ public class GestorBBDD {
     public static int obtenerIdNota(){
         return 0;
     }
+
+    /* Devuelve todas las notas asociadas a un usuario concreto (por su ID).
+     * ➤ Se utiliza para mostrar solo las notas del usuario que ha iniciado sesión.
+     * ➤ Incluye los hashtags de cada nota. */
+
+    public static List<Nota> obtenerNotasPorUsuario(int usuarioId) {
+        List<Nota> listaNotas = new ArrayList<>();
+        String sql = "SELECT id, titulo, contenido, fecha_creacion FROM notas WHERE usuario_id = ? ORDER BY fecha_creacion DESC";
+
+        try {
+            connect();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Nota nota = new Nota();
+                nota.setId(rs.getInt("id"));
+                nota.setTitulo(rs.getString("titulo"));
+                nota.setContenido(rs.getString("contenido"));
+                nota.setFecha(rs.getDate("fecha_creacion").toLocalDate());
+
+                // ✅ Se asigna el ID de usuario a la nota cargada
+                nota.setUsuarioId(usuarioId);
+
+                // ✅ Carga de hashtags asociados
+                nota.setHashtags(obtenerHashtagsDeNota(nota.getId()));
+
+                listaNotas.add(nota);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaNotas;
+    }
+
 }

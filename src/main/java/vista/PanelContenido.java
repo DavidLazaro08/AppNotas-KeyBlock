@@ -40,14 +40,18 @@ public class PanelContenido extends JPanel {
         setLayout(cardLayout);
         setBackground(new Color(25, 25, 25));
 
-        panelNotas = crearPanelNotas();
+        panelNotas = new JPanel(new BorderLayout());
+        panelNotas.setBackground(new Color(43, 43, 43));
         panelContras = crearPanelContras();
         panelAdmin = crearPanelAdmin();
+
 
         add(panelNotas, "Notas");
         add(panelContras, "Contras");
         add(panelAdmin, "Admin");
     }
+
+    // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
 
     // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
 
@@ -66,19 +70,20 @@ public class PanelContenido extends JPanel {
         cardLayout.show(this, "Admin");
     }
 
-    // ---------------------- PANEL NOTAS ----------------------
 
-    private JPanel crearPanelNotas() {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(new Color(43, 43, 43));
-        return panel;
-    }
+// ---------------------- PANEL NOTAS ----------------------
 
     private void refrescarNotas(PrincipalVista principalVista) {
         panelNotas.removeAll();
         panelNotas.setLayout(new BorderLayout());
 
-        listaNotas = GestorBBDD.obtenerTodasLasNotas();
+        // 🔽 Obtener usuario logueado y cargar notas según su rol
+        modelo.Usuario usuario = principalVista.getUsuarioLogueado();
+        if (usuario.esAdmin()) {
+            listaNotas = GestorBBDD.obtenerTodasLasNotas();
+        } else {
+            listaNotas = GestorBBDD.obtenerNotasPorUsuario(usuario.getId());
+        }
 
         if (listaNotas == null || listaNotas.isEmpty()) {
             JLabel mensaje = new JLabel("Aquí se mostrarán tus notas 🗒️", SwingConstants.CENTER);
@@ -91,24 +96,20 @@ public class PanelContenido extends JPanel {
             contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.Y_AXIS));
             contenedor.setBackground(new Color(43, 43, 43));
 
-            //aquí se están creando las tarjetas con las que existen en la bbdd
             for (int i = 0; i < listaNotas.size(); i++) {
                 Nota nota = listaNotas.get(i);
                 boolean alternar = i % 2 == 0;
                 JPanel tarjeta = crearTarjetaNota(nota, alternar);
-                //vinculo el id de la nota al cuadro de la nota
-                tarjeta.putClientProperty("notaId",nota.getId());
+                tarjeta.putClientProperty("notaId", nota.getId());
 
-                //a cada tarjeta le añado un listener para generar abrir el editor
                 tarjeta.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         int idNota = (int) tarjeta.getClientProperty("notaId");
                         contenedor.remove(tarjeta);
-                        NotasControlador.EditarNota(principalVista, nota.getTitulo(),nota.getContenido());
+                        NotasControlador.EditarNota(principalVista, nota.getTitulo(), nota.getContenido());
                     }
                 });
-
 
                 contenedor.add(tarjeta);
                 contenedor.add(Box.createVerticalStrut(8));
@@ -123,6 +124,7 @@ public class PanelContenido extends JPanel {
         panelNotas.revalidate();
         panelNotas.repaint();
     }
+
 
     private JPanel crearTarjetaNota(Nota nota, boolean alternarColor) {
         Color fondo = alternarColor ? new Color(43, 43, 43) : new Color(36, 36, 36);

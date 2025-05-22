@@ -87,6 +87,11 @@ public class Nota {
         hashtags.add(hashtag);
     }
 
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+
     // ---------------------- TO STRING ----------------------
 
     @Override
