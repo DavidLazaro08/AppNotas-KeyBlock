@@ -66,4 +66,46 @@ public class NotasControlador {
 
         vista.mostrar();
     }
+
+    public static void EditarNota(JFrame padre, String titulo, String contenido) {
+        EditarNotaVista vista = new EditarNotaVista(padre);
+
+        // Creamos una nota base con datos recibidos
+        Nota nota = new Nota(0, titulo, contenido, java.time.LocalDate.now(), 1);
+
+        // Enlazamos campos visuales con la nota
+        ActualizarNota.vincularCampos(vista, nota);
+
+        // Prellenar los campos visuales
+        vista.getCampoTitulo().setText(titulo);
+        vista.getCampoContenido().setText(contenido);
+
+
+
+        // Botón adicional para actualizar estilos
+        JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
+        btnActualizarEstilos.addActionListener(e ->
+                EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
+        vista.getPanelBotones().add(btnActualizarEstilos);
+
+        // Acción de guardar
+        vista.getBtnGuardar().addActionListener(e -> {
+            try {
+                NotaDAO.guardarNota(nota); // actualiza o inserta según lógica interna
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Nota guardada en la base de datos.");
+                vista.getDialogo().dispose();
+
+                if (padre instanceof vista.PrincipalVista) {
+                    ((vista.PrincipalVista) padre).refrescarNotas();
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(vista.getDialogo(), "Error al guardar la nota.");
+            }
+        });
+
+        vista.mostrar();
+    }
+
 }

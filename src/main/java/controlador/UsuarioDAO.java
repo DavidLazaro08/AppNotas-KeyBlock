@@ -46,6 +46,7 @@ public class UsuarioDAO {
             stmt.setString(1, nombreUsuario);
             stmt.setString(2, contrasena);
             stmt.executeUpdate();
+            conn.close();
             return true;
 
         } catch (Exception e) {

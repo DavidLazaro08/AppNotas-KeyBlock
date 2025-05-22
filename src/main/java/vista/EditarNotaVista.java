@@ -1,6 +1,7 @@
 package vista;
 
 import bbdd.GestorBBDD;
+import modelo.Nota;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -8,6 +9,8 @@ import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import static modelo.Notas.notas;
 
 /** Clase EditarNotaVista que representa una ventana de diálogo
  * para crear y guardar una nueva nota con título, contenido y hashtags.
@@ -128,6 +131,7 @@ public class EditarNotaVista {
                 int notaId = -1;
                 if (rsNota.next()) {
                     notaId = rsNota.getInt(1);
+
                 }
                 rsNota.close();
                 psNota.close();

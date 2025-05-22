@@ -1,5 +1,6 @@
 package vista;
 
+import controlador.NotasControlador;
 import modelo.Hashtag;
 import modelo.Nota;
 import bbdd.GestorBBDD;
@@ -8,8 +9,12 @@ import controlador.NotaDAO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.List;
+
+import static controlador.NotasControlador.crearYEditarNota;
 
 /* Clase PanelContenido que centraliza las tres secciones visuales principales de la app:
  * Notas, Contraseñas y Panel de Administración.
@@ -45,8 +50,8 @@ public class PanelContenido extends JPanel {
 
     // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
 
-    public void mostrarNotas() {
-        refrescarNotas();
+    public void mostrarNotas(PrincipalVista principalVista) {
+        refrescarNotas(principalVista);
         cardLayout.show(this, "Notas");
     }
 
@@ -67,7 +72,7 @@ public class PanelContenido extends JPanel {
         return panel;
     }
 
-    private void refrescarNotas() {
+    private void refrescarNotas(PrincipalVista principalVista) {
         panelNotas.removeAll();
         panelNotas.setLayout(new BorderLayout());
 
@@ -84,10 +89,23 @@ public class PanelContenido extends JPanel {
             contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.Y_AXIS));
             contenedor.setBackground(new Color(43, 43, 43));
 
+            //aquí se están creando las tarjetas con las que existen en la bbdd
             for (int i = 0; i < listaNotas.size(); i++) {
                 Nota nota = listaNotas.get(i);
                 boolean alternar = i % 2 == 0;
                 JPanel tarjeta = crearTarjetaNota(nota, alternar);
+                //vinculo el id de la nota al cuadro de la nota
+                tarjeta.putClientProperty("notaId",nota.getId());
+
+                //a cada tarjeta le añado un listener para generar abrir el editor
+                tarjeta.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        int idNota = (int) tarjeta.getClientProperty("notaId");
+                        NotasControlador.EditarNota(principalVista, nota.getTitulo(),nota.getContenido());
+                    }
+                });
+
                 contenedor.add(tarjeta);
                 contenedor.add(Box.createVerticalStrut(8));
             }
@@ -150,7 +168,6 @@ public class PanelContenido extends JPanel {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar esta nota?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 NotaDAO.eliminarNotaPorId(nota.getId());
-                refrescarNotas();
             }
         });
 
