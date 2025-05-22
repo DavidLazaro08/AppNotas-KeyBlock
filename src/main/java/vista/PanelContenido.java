@@ -31,6 +31,7 @@ public class PanelContenido extends JPanel {
     private JPanel panelContras;
     private JPanel panelAdmin;
     private JTable tablaAdmin;
+    private List<Nota> listaNotas;
 
     // ---------------------- CONSTRUCTOR ----------------------
 
@@ -51,6 +52,7 @@ public class PanelContenido extends JPanel {
     // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
 
     public void mostrarNotas(PrincipalVista principalVista) {
+        panelNotas.removeAll();
         refrescarNotas(principalVista);
         cardLayout.show(this, "Notas");
     }
@@ -76,7 +78,7 @@ public class PanelContenido extends JPanel {
         panelNotas.removeAll();
         panelNotas.setLayout(new BorderLayout());
 
-        List<Nota> listaNotas = GestorBBDD.obtenerTodasLasNotas();
+        listaNotas = GestorBBDD.obtenerTodasLasNotas();
 
         if (listaNotas == null || listaNotas.isEmpty()) {
             JLabel mensaje = new JLabel("Aquí se mostrarán tus notas 🗒️", SwingConstants.CENTER);
@@ -102,6 +104,7 @@ public class PanelContenido extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         int idNota = (int) tarjeta.getClientProperty("notaId");
+                        contenedor.remove(tarjeta);
                         NotasControlador.EditarNota(principalVista, nota.getTitulo(),nota.getContenido());
                     }
                 });
@@ -164,6 +167,7 @@ public class PanelContenido extends JPanel {
         btnEliminar.setForeground(Color.LIGHT_GRAY);
         btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
         btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+
         btnEliminar.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this, "¿Eliminar esta nota?", "Confirmar", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
@@ -261,4 +265,7 @@ public class PanelContenido extends JPanel {
             JOptionPane.showMessageDialog(this, "Error al cargar los datos: " + e.getMessage());
         }
     }
+
+
+
 }

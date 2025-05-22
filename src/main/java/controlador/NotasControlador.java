@@ -40,11 +40,6 @@ public class NotasControlador {
         Nota nota = new Nota(0, "", "", LocalDate.now(), 1);
         ActualizarNota.vincularCampos(vista, nota);
 
-        JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
-        btnActualizarEstilos.addActionListener(e ->
-                EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
-        vista.getPanelBotones().add(btnActualizarEstilos);
-
         vista.getBtnGuardar().addActionListener(e -> {
             try {
                 // ⛔ Ya no se crea una nota nueva, usamos la enlazada
@@ -53,9 +48,6 @@ public class NotasControlador {
                         "Nota guardada en la base de datos.");
                 vista.getDialogo().dispose();
 
-                if (padre instanceof vista.PrincipalVista) {
-                    ((vista.PrincipalVista) padre).refrescarNotas();
-                }
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -80,13 +72,6 @@ public class NotasControlador {
         vista.getCampoTitulo().setText(titulo);
         vista.getCampoContenido().setText(contenido);
 
-
-
-        // Botón adicional para actualizar estilos
-        JButton btnActualizarEstilos = new JButton("Actualizar Estilos");
-        btnActualizarEstilos.addActionListener(e ->
-                EditorEstiloNotas.aplicarEstilos(vista.getCampoContenido()));
-        vista.getPanelBotones().add(btnActualizarEstilos);
 
         // Acción de guardar
         vista.getBtnGuardar().addActionListener(e -> {
