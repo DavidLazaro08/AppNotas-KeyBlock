@@ -23,6 +23,10 @@ public class ActualizarNota {
 
     // ---------------------- MÉTODO PÚBLICO ----------------------
 
+    /* Este método enlaza cada campo de la ventana de edición con los datos reales de la nota.
+     * De esta forma, lo que escribimos se guarda directamente en el objeto Nota mientras escribimos.
+     * También se encarga de procesar los hashtags que se escriban y aplicarles estilo visual. */
+
     public static void vincularCampos(EditarNotaVista vista, Nota nota) {
         vincularCampo(vista.getCampoTitulo(), (texto, e) -> nota.setTitulo(texto));
         vincularCampo(vista.getCampoContenido(), (texto, e) -> nota.setContenido(texto));
@@ -41,6 +45,10 @@ public class ActualizarNota {
 
     // ---------------------- MÉTODO AUXILIAR ----------------------
 
+    /* Añade un listener al campo para detectar cualquier cambio (cuando escribimos o borramos texto).
+     * Cada vez que el campo cambia, se actualiza el contenido correspondiente en la nota.
+     * Así nos aseguramos de que el objeto Nota siempre esté al día con lo que se ve en pantalla. */
+
     private static void vincularCampo(JTextComponent campo, CampoListener listener) {
         campo.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { actualizar(e); }
@@ -55,8 +63,12 @@ public class ActualizarNota {
 
     // ---------------------- INTERFAZ FUNCIONAL ----------------------
 
+    /* Esta interfaz permite definir de forma sencilla qué hacer con el texto
+     * cuando cambia su contenido en el campo correspondiente. */
+
     @FunctionalInterface
     private interface CampoListener {
         void cambio(String texto, DocumentEvent e);
     }
 }
+

@@ -1,81 +1,114 @@
-# 📝 NOTASAPP - PROYECTO DE PROGRAMACIÓN
+# 🗂️ KEYBLOCK - APP DE NOTAS MULTIUSUARIO
 
-Este proyecto es una base para nuestra aplicación de notas. Ya incluye la estructura de carpetas y las clases Java mínimas para que podamos empezar a trabajar directamente desde Eclipse (o desde el repositorio en GitHub cuando lo tengamos).
-
----
-
-## 📂 ESTRUCTURA PRINCIPAL
-
-- `src/app`: contiene el `Main.java` para iniciar la aplicación.
-- `src/modelo`: clases principales como `Usuario`, `Nota`, `Hashtag`, etc.
-- `src/bbdd`: gestión de la base de datos (`GestorBBDD.java`).
-- `src/vista`: interfaz gráfica (`Login`, `Principal`, etc.).
-- `src/controlador`: clases donde se programará lo que ocurre cuando se pulsa un botón, se guarda una nota, etc.
+**Proyecto final del módulo de Programación (DAM) desarrollado en Java.** KeyBlock es una aplicación de escritorio para la gestión de notas personales, con interfaz gráfica estilo IDE, base de datos MySQL y funcionalidades como etiquetas con hashtags, sección de contraseñas y roles de acceso.
 
 ---
 
-## 🔄 FUNCIONAMIENTO INICIAL
+## 🧠 OBJETIVO DEL PROYECTO
 
-- Al ejecutar `Main.java`, se abre una ventana de prueba simple.
-- Cada parte del proyecto está preparada para que podamos trabajar de forma organizada y en paralelo.
-
----
-
-## ✍️ REPARTO Y PRÓXIMOS PASOS
-
-- Podemos dividirnos por áreas: interfaz, lógica, datos, etc.
-- Lo siguiente sería:
-  - Diseñar la base de datos (con tablas y relaciones).
-  - Hacer funcional la interfaz de login.
-  - Programar acciones como crear nota, editar, filtrar, etc.
-  - Ir conectando cada parte poco a poco.
+Crear una aplicación funcional, visualmente cuidada y técnicamente estructurada, poniendo en práctica los conceptos vistos en clase: POO, Swing, JDBC, modularidad y diseño de interfaces. El proyecto se desarrolla como una experiencia completa de trabajo en equipo.
 
 ---
 
-## 🚀 VAMOS
+## 📁 ESTRUCTURA DEL CÓDIGO
 
-Gestion notas.
+Organizado por paquetes siguiendo el patrón MVC:
 
-Sería importante que por cada usuario hubiese un documento .json con los nombres de las notas que hay, para que de esa manera fuese mas sencillo según se elija, crear las lineas de comando para ejecutar los select o los update.
+- `app`: punto de entrada (`Main.java`)
+- `modelo`: datos (`Usuario`, `Nota`, `Hashtag`, `ContraseñaGuardada`, etc.)
+- `vista`: interfaz gráfica (`PrincipalVista`, `LoginVista`, `PanelContenido`, etc.)
+- `controlador`: lógica de interacción (`LoginControlador`, `ActualizarNota`, etc.)
+- `bbdd`: conexión con la base de datos y queries (`GestorBBDD`, `NotaDAO`)
 
-### Patrones de búsqueda
+---
 
-````
-Pattern pattern = Pattern.compile("### (.*)");
+## 💻 FUNCIONALIDADES
 
-```
-````
+### 👤 Gestión de usuarios
 
-qué hace el código anterior? pattern registra una expresión regular, quen en el caso de ("### (.*)") apunta a todos los elementos que aparezcan después de tres almohadillas y un espacio. De esta manera podemos aplicar estilos diferentes a los elementos que haya en escritos en el txt.
+- Inicio de sesión con verificación
+- Roles diferenciados: usuario normal y administrador
+- Carga personalizada de notas según el usuario logueado
 
-Por otro lado tenemos Matcher
+### 📝 Gestión de notas
 
-````
-Pattern pattern = Pattern.compile("### (.*)");
-Matcher matcher = pattern.matcher(text);
+- Crear, editar y eliminar notas
+- Guardado únicamente al pulsar “Guardar”
+- Hashtags detectados automáticamente y coloreados
+- Filtro de notas por hashtags
+- Estilos visuales mediante markdown simplificado:
+  - `### título` → encabezado
+  - `**negrita**`, `*cursiva*`, `~~tachado~~`, ``código``
 
-matcher.start(1); // para "###"
-matcher.start(2); // para el texto después
-```
-````
+### 🔐 Contraseñas protegidas
 
-Usamos `start(1)` y `end(1)` para aplicar estilo **solo** al texto tras `###`.
+- Zona exclusiva accesible desde el panel de navegación
+- Datos cifrados (base64)
+- Visualización y gestión solo por parte del usuario logueado
+
+### ⚙️ Panel de administración (rol admin)
+
+- Vista diferenciada con posibles gestiones extra (estructura preparada)
+- Acceso limitado según rol
+
+---
+
+## 🎨 DISEÑO Y EXPERIENCIA
+
+- Modo oscuro con estética de editor de código
+- Botón flotante "+" para añadir notas
+- Iconos y disposición adaptada a tareas de escritura
+- Uso de `CardLayout` para navegación entre secciones
+- Clase `EstiloVisual` centraliza colores y fuentes
+
+---
+
+## 🔧 TECNOLOGÍAS USADAS
+
+- Java 17 + Swing
+- MySQL + JDBC
+- IntelliJ IDEA + XAMPP (entorno local)
+- Git y GitHub (control de versiones)
+- Regex para estilizado de texto y detección de etiquetas
+
+---
+
+## 🧪 MODO PRUEBA
+
+Durante el desarrollo, se utilizó la clase `NotasTemporal` para mostrar ejemplos sin necesidad de base de datos. Ya no es necesaria salvo para pruebas aisladas.
+
+---
+
+## 👥 EQUIPO Y MÉTODO DE TRABAJO
+
+El desarrollo de KeyBlock ha sido totalmente colaborativo. Aunque se asignaron algunas partes concretas según afinidad (interfaz, lógica, base de datos…), el trabajo se organizó con una filosofía de implicación conjunta: todos los miembros del equipo han revisado y probado las distintas secciones del proyecto.
+
+Se dividieron responsabilidades de forma lógica:
+- **Diseño de interfaz** y experiencia de usuario (vista)
+- **Lógica y validaciones** entre botones y datos (controlador)
+- **Estructura de datos** y conexión con la base de datos (modelo + bbdd)
+
+El uso de GitHub, reuniones informales y pruebas continuas permitieron mantener la coherencia general del proyecto y facilitar el aprendizaje compartido.
 
 
-| Grupo | Qué captura         | Ejemplo              |
-| ----- | -------------------- | -------------------- |
-| `0`   | Coincidencia total   | `### Título grande` |
-| `1`   | Lo que hay tras`###` | `Título grande`     |
+---
 
-G
+## ✅ ESTADO ACTUAL
 
+- ✔ Aplicación funcional completa
+- ✔ Gestión por usuarios terminada
+- ✔ Estilos de texto implementados
+- ✔ Hashtags funcionales y visuales
+- ✔ Zona de contraseñas operativa
+- ✔ Base de datos estructurada y conectada
+- ⏳ Panel admin preparado (funcionalidades en desarrollo)
 
-| Formato en texto      | Estilo visual        | Regex (Java)        | Grupo útil |
-| --------------------- | -------------------- | ------------------- | ----------- |
-| `### Encabezado`      | Título (como H3)    | `### (.*)`          | `1`         |
-| `**negrita**`         | Negrita              | `\\*\\*(.*?)\\*\\*` | `1`         |
-| `*cursiva*`           | Cursiva              | `\\*(.*?)\\*`       | `1`         |
-| `~~tachado~~`         | Tachado              | `~~(.*?)~~`         | `1`         |
-| ``código``           | Texto estilo código | ``([^`]+)``         | `1`         |
-| `- elemento de lista` | Viñeta simple       | `(?m)^- (.*)`       | `1`         |
-| `> cita`              | Cita estilo bloque   | `(?m)^> (.*)`       | `1`         |
+---
+
+## 🧩 EXPERIENCIA
+
+El proyecto ha sido desarrollado en equipo, con división clara de tareas, seguimiento en GitHub, revisiones compartidas y un enfoque realista sobre el flujo de trabajo. Cada clase ha sido comentada de forma pedagógica, respetando lo visto en clase.
+
+---
+
+Gracias por revisar nuestro trabajo.  

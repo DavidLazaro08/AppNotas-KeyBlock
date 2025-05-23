@@ -59,6 +59,9 @@ public class LoginVista extends VentanaBase {
 
         // ---------------------- EVENTO: Registro desde mismo cuadro ----------------------
 
+        // Aquí se controla directamente el registro sin necesidad de ventana nueva.
+        // Si se validan correctamente los campos, se intenta guardar en la base de datos.
+
         btnRegistrar.addActionListener(e -> {
             String nuevoUsuario = tfUsuario.getText().trim();
             String nuevaContrasena = new String(pfContrasena.getPassword());
@@ -71,7 +74,7 @@ public class LoginVista extends VentanaBase {
             controlador.UsuarioDAO dao = new controlador.UsuarioDAO();
             boolean registrado = dao.registrarUsuario(nuevoUsuario, nuevaContrasena);
 
-            // Estilo oscuro para mensaje
+            // Se aplica estilo visual oscuro a las ventanas emergentes
             UIManager.put("OptionPane.background", new Color(43, 43, 43));
             UIManager.put("Panel.background", new Color(43, 43, 43));
             UIManager.put("OptionPane.messageForeground", Color.WHITE);

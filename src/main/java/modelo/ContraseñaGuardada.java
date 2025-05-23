@@ -19,6 +19,8 @@ public class ContraseñaGuardada {
 
     // ---------------------- CONSTRUCTOR ----------------------
 
+    /* Al crear una nueva contraseña, se le asignan todos los campos relevantes.
+     * ➤ El ID puede ser 0 si aún no se ha guardado en base de datos. */
     public ContraseñaGuardada(int id, String servicio, String usuario, String contraseñaCodificada, int usuarioId) {
         this.id = id;
         this.servicio = servicio;
@@ -51,6 +53,8 @@ public class ContraseñaGuardada {
 
     // ---------------------- TO STRING ----------------------
 
+    /* Se sobrescribe toString() para que, al mostrar este objeto en una lista visual,
+     * aparezca el nombre del servicio seguido del usuario en corchetes. */
     @Override
     public String toString() {
         return servicio + " [" + usuario + "]";

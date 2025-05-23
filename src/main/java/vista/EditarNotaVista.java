@@ -31,6 +31,7 @@ public class EditarNotaVista {
     // ---------------------- CONSTRUCTOR ----------------------
 
     public EditarNotaVista(JFrame padre) {
+        // Se crea un cuadro de diálogo modal que se cierra antes de volver al menú
         dialogo = new JDialog(padre, "Nueva Nota", true);
         dialogo.setSize(400, 300);
         dialogo.setLocationRelativeTo(null);
@@ -59,6 +60,7 @@ public class EditarNotaVista {
 
         // ---------------------- EVENTO: Guardar nota ----------------------
 
+        // Cuando se pulsa "Guardar", se intenta guardar la nota y hashtags
         btnGuardar.addActionListener(e -> guardarNota());
 
         // ---------------------- ESTILO VISUAL OSCURO ----------------------
@@ -114,31 +116,32 @@ public class EditarNotaVista {
         String contenido = campoContenido.getText();
         String textoHashtags = campoHashtags.getText();
 
+        // Comprobación mínima para que no se guarden notas vacías
         if (!titulo.isEmpty() && !contenido.isEmpty()) {
             try {
                 Connection connection = GestorBBDD.getConnection();
 
-                // Insertar nota
+                // Guardar la nota en la base de datos
                 String sqlNota = "INSERT INTO notas(titulo, contenido) VALUES (?, ?)";
                 PreparedStatement psNota = connection.prepareStatement(sqlNota, PreparedStatement.RETURN_GENERATED_KEYS);
                 psNota.setString(1, titulo);
                 psNota.setString(2, contenido);
                 psNota.executeUpdate();
 
+                // Obtener el ID generado automáticamente
                 ResultSet rsNota = psNota.getGeneratedKeys();
                 int notaId = -1;
                 if (rsNota.next()) {
                     notaId = rsNota.getInt(1);
-
                 }
                 rsNota.close();
                 psNota.close();
 
-                // Procesar hashtags
+                // Procesar hashtags si se han escrito
                 if (textoHashtags != null && !textoHashtags.trim().isEmpty()) {
                     String[] tagsSeparados = textoHashtags.split(",");
-                    for (int i = 0; i < tagsSeparados.length; i++) {
-                        String texto = tagsSeparados[i].trim().toLowerCase();
+                    for (String tag : tagsSeparados) {
+                        String texto = tag.trim().toLowerCase();
                         if (texto.startsWith("#")) {
                             texto = texto.substring(1);
                         }
@@ -150,7 +153,7 @@ public class EditarNotaVista {
                         ps1.executeUpdate();
                         ps1.close();
 
-                        // Obtener ID del hashtag
+                        // Obtener ID del hashtag insertado o existente
                         String buscarHashtag = "SELECT id FROM hashtags WHERE nombre = ?";
                         PreparedStatement ps2 = connection.prepareStatement(buscarHashtag);
                         ps2.setString(1, texto);
@@ -163,7 +166,7 @@ public class EditarNotaVista {
                         rs.close();
                         ps2.close();
 
-                        // Insertar en tabla intermedia
+                        // Crear relación entre la nota y el hashtag
                         if (hashtagId != -1) {
                             String insertarRelacion = "INSERT IGNORE INTO nota_hashtag(nota_id, hashtag_id) VALUES (?, ?)";
                             PreparedStatement ps3 = connection.prepareStatement(insertarRelacion);
@@ -175,6 +178,7 @@ public class EditarNotaVista {
                     }
                 }
 
+                // Mostrar mensaje y cerrar la ventana
                 JOptionPane.showMessageDialog(dialogo, "Nota guardada correctamente.");
                 dialogo.dispose();
 

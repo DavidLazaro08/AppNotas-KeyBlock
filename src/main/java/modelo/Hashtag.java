@@ -10,10 +10,13 @@ public class Hashtag {
 
     // ---------------------- ATRIBUTOS ----------------------
 
+    // Guarda el texto del hashtag (ej: "importante", "idea", etc.)
     private String texto;
 
     // ---------------------- CONSTRUCTOR ----------------------
 
+    /* Al crear un hashtag, se pasa directamente el texto (sin #).
+     * El constructor es simple porque esta clase actúa como contenedor. */
     public Hashtag(String texto) {
         this.texto = texto;
     }
@@ -28,8 +31,8 @@ public class Hashtag {
         this.texto = texto;
     }
 
-    /* Alias de getTexto(). Lo dejamos por compatibilidad con otras clases si lo necesitan. */
-
+    /* Alias de getTexto().
+     * Se mantiene este método por si lo usamos con ese nombre en otras partes del código */
     public String getNombre() {
         return texto;
     }

@@ -52,12 +52,13 @@ public class PanelContenido extends JPanel {
         add(panelContras, "Contras");
         add(panelAdmin, "Admin");
 
-        cardLayout.show(this, "Inicio"); // Mostrar por defecto
+        cardLayout.show(this, "Inicio"); // Mostrar por defecto al iniciar la app
     }
 
     // ---------------------- PANEL INICIO PERSONALIZADO ----------------------
 
     private JPanel crearPanelInicio() {
+        // Crea el panel de bienvenida con degradado y el logo en el centro
         JPanel panel = EstiloVisual.crearPanelDegradado(new Color(30, 30, 30), new Color(60, 60, 60));
         panel.setLayout(new BorderLayout());
 
@@ -93,7 +94,7 @@ public class PanelContenido extends JPanel {
         panelNotas.removeAll();
         panelNotas.setLayout(new BorderLayout());
 
-        // Obtener usuario logueado y cargar notas según su rol
+        // Dependiendo del tipo de usuario, se cargan todas las notas o solo las propias
         modelo.Usuario usuario = principalVista.getUsuarioLogueado();
         if (usuario.esAdmin()) {
             listaNotas = GestorBBDD.obtenerTodasLasNotas();
@@ -102,12 +103,14 @@ public class PanelContenido extends JPanel {
         }
 
         if (listaNotas == null || listaNotas.isEmpty()) {
+            // Si no hay notas, se muestra un mensaje
             JLabel mensaje = new JLabel("Aquí se mostrarán tus notas 🗒️", SwingConstants.CENTER);
             mensaje.setFont(new Font("Consolas", Font.PLAIN, 20));
             mensaje.setForeground(new Color(187, 187, 187));
             mensaje.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
             panelNotas.add(mensaje, BorderLayout.CENTER);
         } else {
+            // Si hay notas, se generan tarjetas visuales con título, fecha y hashtags
             JPanel contenedor = new JPanel();
             contenedor.setLayout(new BoxLayout(contenedor, BoxLayout.Y_AXIS));
             contenedor.setBackground(new Color(43, 43, 43));
@@ -142,6 +145,7 @@ public class PanelContenido extends JPanel {
     }
 
     private JPanel crearTarjetaNota(Nota nota, boolean alternarColor) {
+        // Crea el diseño visual de cada tarjeta con título, fecha, hashtags y botón de eliminar
         Color fondo = alternarColor ? new Color(43, 43, 43) : new Color(36, 36, 36);
 
         JPanel tarjeta = new JPanel(new BorderLayout(10, 10));
@@ -186,7 +190,7 @@ public class PanelContenido extends JPanel {
         btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
         btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         btnEliminar.addActionListener(e -> {
-            // Aplicar estilo oscuro al JOptionPane
+            // Estilo oscuro para la confirmación
             UIManager.put("OptionPane.background", new Color(43, 43, 43));
             UIManager.put("Panel.background", new Color(43, 43, 43));
             UIManager.put("OptionPane.messageForeground", Color.WHITE);
@@ -206,8 +210,6 @@ public class PanelContenido extends JPanel {
                 JOptionPane.showMessageDialog(this, "Nota eliminada con éxito.");
             }
         });
-
-
 
         JPanel panelDerecho = new JPanel(new BorderLayout());
         panelDerecho.setBackground(fondo);

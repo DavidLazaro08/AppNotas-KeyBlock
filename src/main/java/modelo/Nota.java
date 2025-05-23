@@ -24,9 +24,10 @@ public class Nota {
     // ---------------------- CONSTRUCTORES ----------------------
 
     public Nota() {
-        // Constructor vacío necesario para frameworks o compatibilidad
+        // Constructor vacío necesario para ciertas operaciones o frameworks
     }
 
+    // Constructor principal con todos los datos
     public Nota(int id, String titulo, String contenido, LocalDate fecha, int usuarioId) {
         this.id = id;
         this.titulo = titulo;
@@ -83,6 +84,7 @@ public class Nota {
         this.hashtags = hashtags;
     }
 
+    // Añade un solo hashtag a la lista
     public void setHashtag(Hashtag hashtag) {
         hashtags.add(hashtag);
     }
@@ -91,9 +93,10 @@ public class Nota {
         this.usuarioId = usuarioId;
     }
 
-
     // ---------------------- TO STRING ----------------------
 
+    /* Muestra la nota como texto simple (fecha + título).
+     * Se utilizaría al imprimir objetos de tipo Nota como en listas. */
     @Override
     public String toString() {
         return "[" + fecha + "] " + titulo;

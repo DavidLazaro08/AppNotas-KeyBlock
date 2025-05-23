@@ -5,21 +5,21 @@ import java.util.prefs.Preferences;
 
 /* Clase Usuario que representa a un usuario del sistema, ya sea normal o administrador.
  *
- * ➤ Almacena nombre, contraseña, tipo y su lista de notas asociadas.
- * ➤ Ofrece métodos para guardar y recuperar el último usuario logueado usando Preferences de Java.
- * ➤ Incluye utilidad para comprobar si es un administrador y para mostrarlo como texto. */
+ * ➤ Almacena nombre, contraseña, tipo (rol) y su lista de notas asociadas.
+ * ➤ Permite saber si el usuario es admin y mostrarlo en texto.
+ * ➤ Gestiona las preferencias locales para recordar el último usuario logueado. */
 
 public class Usuario {
 
     // ---------------------- ATRIBUTOS ----------------------
 
-    private int id;
-    private String nombre;
-    private String contraseña;
-    private String tipo; // "admin" o "normal"
-    private ArrayList<Nota> notas;
+    private int id;                    // ID del usuario (clave primaria)
+    private String nombre;            // Nombre de usuario
+    private String contraseña;        // Contraseña (sin cifrar en esta versión)
+    private String tipo;              // Puede ser "admin" o "normal"
+    private ArrayList<Nota> notas;    // Lista de notas creadas (no usada activamente en esta versión)
 
-    // Instancia para guardar datos localmente (último usuario)
+    // Instancia de Preferences (almacén local de claves/valores por usuario del sistema)
     private static final Preferences prefs = Preferences.userNodeForPackage(Usuario.class);
 
     // ---------------------- CONSTRUCTOR ----------------------
@@ -51,36 +51,39 @@ public class Usuario {
 
     // ---------------------- OTROS MÉTODOS ----------------------
 
+    /* Devuelve true si el usuario tiene rol "admin". */
     public boolean esAdmin() {
         return "admin".equalsIgnoreCase(tipo);
     }
 
+    /* Representación textual: nombre (tipo) */
     @Override
     public String toString() {
         return nombre + " (" + tipo + ")";
     }
 
-    /* Guarda en las preferencias del sistema el último usuario que se ha logueado. */
-
+    /* Guarda en las preferencias del sistema el último usuario logueado.
+     * ➤ Se recuerda solo el ID y el nombre (no la contraseña).
+     * ➤ Esto permite cargarlo automáticamente si se desea. */
     public static void guardarUltimoUsuario(Usuario usuario) {
         prefs.putInt("ultimoUsuarioId", usuario.getId());
         prefs.put("ultimoUsuarioNombre", usuario.getNombre());
     }
 
-    /* Recupera los datos del último usuario registrado (solo ID y nombre). */
-
+    /* Recupera los datos del último usuario guardado en local.
+     * ➤ Por simplicidad, se asume que el tipo es "normal" y la contraseña vacía. */
     public static Usuario obtenerUltimoUsuario() {
         int ultimoId = prefs.getInt("ultimoUsuarioId", -1);
         String ultimoNombre = prefs.get("ultimoUsuarioNombre", null);
 
         if (ultimoId != -1 && ultimoNombre != null) {
-            return new Usuario(ultimoId, ultimoNombre, "", "normal"); // El tipo se asume como "normal"
+            return new Usuario(ultimoId, ultimoNombre, "", "normal");
         }
         return null;
     }
 
-    /* Borra los datos del último usuario guardado en las preferencias. */
-
+    /* Borra los datos del último usuario guardado.
+     * ➤ Se puede usar por ejemplo al cerrar sesión. */
     public static void borrarUltimoUsuario() {
         prefs.remove("ultimoUsuarioId");
         prefs.remove("ultimoUsuarioNombre");
