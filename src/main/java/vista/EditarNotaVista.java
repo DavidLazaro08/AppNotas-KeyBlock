@@ -19,7 +19,9 @@ import java.sql.ResultSet;
 
 public class EditarNotaVista {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private final JDialog dialogo;
     private final JTextField campoTitulo;
@@ -28,7 +30,9 @@ public class EditarNotaVista {
     private final JPanel panelBotones;
     private final JButton btnGuardar;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public EditarNotaVista(JFrame padre) {
         // Se crea un cuadro de diálogo modal que se cierra antes de volver al menú
@@ -58,12 +62,16 @@ public class EditarNotaVista {
         panelBotones.add(btnGuardar);
         dialogo.add(panelBotones, BorderLayout.SOUTH);
 
-        // ---------------------- EVENTO: Guardar nota ----------------------
+        //-----------------------------------------------------------------------------
+        // EVENTO: Guardar nota
+        //-----------------------------------------------------------------------------
 
         // Cuando se pulsa "Guardar", se intenta guardar la nota y hashtags
         btnGuardar.addActionListener(e -> guardarNota());
 
-        // ---------------------- ESTILO VISUAL OSCURO ----------------------
+        //-----------------------------------------------------------------------------
+        // ESTILO VISUAL OSCURO
+        //-----------------------------------------------------------------------------
 
         Color fondo = new Color(43, 43, 43);
         Color campos = new Color(30, 30, 30);
@@ -103,13 +111,17 @@ public class EditarNotaVista {
         btnGuardar.setContentAreaFilled(true);
     }
 
-    // ---------------------- MÉTODO: Mostrar diálogo ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Mostrar diálogo
+    //-----------------------------------------------------------------------------
 
     public void mostrar() {
         dialogo.setVisible(true);
     }
 
-    // ---------------------- MÉTODO: Guardar nota y hashtags ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Guardar nota y hashtags
+    //-----------------------------------------------------------------------------
 
     private void guardarNota() {
         String titulo = campoTitulo.getText();
@@ -191,7 +203,9 @@ public class EditarNotaVista {
         }
     }
 
-    // ---------------------- MÉTODOS GETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS GETTERS
+    //-----------------------------------------------------------------------------
 
     public JTextField getCampoTitulo() {
         return campoTitulo;

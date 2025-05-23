@@ -14,16 +14,22 @@ import javax.swing.*;
 
 public class LoginControlador {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private LoginVista vista;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public LoginControlador(LoginVista vista) {
         this.vista = vista;
 
-        // ---------------------- EVENTO: Iniciar sesión ----------------------
+        //-----------------------------------------------------------------------------
+        // EVENTO: Iniciar sesión
+        //-----------------------------------------------------------------------------
 
         // Al pulsar el botón de login, se validan los datos introducidos
         this.vista.getLoginButton().addActionListener(e -> {
@@ -56,4 +62,3 @@ public class LoginControlador {
         });
     }
 }
-

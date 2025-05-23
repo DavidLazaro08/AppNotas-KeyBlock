@@ -16,12 +16,16 @@ import java.util.regex.*;
 
 public class EditorEstiloNotas {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     // Expresión regular que detecta los hashtags que empiezan por #
     private static final Pattern PATRON_HASHTAG = Pattern.compile("#(\\S+)");
 
-    // ---------------------- MÉTODOS PÚBLICOS ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS PÚBLICOS
+    //-----------------------------------------------------------------------------
 
     /* Recorre el texto del campo y, si encuentra hashtags, les aplica un estilo especial:
      * negrita y un color aleatorio.
@@ -81,7 +85,9 @@ public class EditorEstiloNotas {
         }
     }
 
-    // ---------------------- MÉTODO AUXILIAR ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO AUXILIAR
+    //-----------------------------------------------------------------------------
 
     /* Genera un color pastel suave para los hashtags, para que no moleste a la vista. */
     private static Color generarColorAleatorio() {
@@ -92,7 +98,10 @@ public class EditorEstiloNotas {
         return new Color(r, g, b);
     }
 
-    // ---------------------- RESERVADO ----------------------
+    //-----------------------------------------------------------------------------
+    // RESERVADO
+    //-----------------------------------------------------------------------------
+
     /*Este código estaba preparado para detectar otros estilos además de hashtags,
     pero no se llegó a usar en esta versión del proyecto.
 
@@ -106,4 +115,3 @@ public class EditorEstiloNotas {
         }
     }    */
 }
-

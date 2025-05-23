@@ -10,7 +10,9 @@ import java.awt.*;
 
 public class EstiloVisual {
 
-    // ---------------------- BOTÓN CIRCULAR PERSONALIZADO ----------------------
+    //-----------------------------------------------------------------------------
+    // BOTÓN CIRCULAR PERSONALIZADO
+    //-----------------------------------------------------------------------------
 
     // Crea un botón circular con comportamiento visual al pasar o pulsar el ratón.
     // Lo usamos para el "+" de Añadir Nota. Su estilo recuerda a los botones flotantes de apps móviles.
@@ -52,7 +54,9 @@ public class EstiloVisual {
         return boton;
     }
 
-    // ---------------------- PANEL CON DEGRADADO VERTICAL ----------------------
+    //-----------------------------------------------------------------------------
+    // PANEL CON DEGRADADO VERTICAL
+    //-----------------------------------------------------------------------------
 
     // Devuelve un panel con fondo degradado entre dos colores.
     // Se usa para darle un aspecto visual más moderno al panel inicial.
@@ -72,3 +76,4 @@ public class EstiloVisual {
         };
     }
 }
+

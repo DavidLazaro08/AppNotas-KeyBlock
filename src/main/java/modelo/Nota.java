@@ -12,7 +12,9 @@ import java.util.List;
 
 public class Nota {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private int id;
     private String titulo;
@@ -21,7 +23,9 @@ public class Nota {
     private int usuarioId;
     private List<Hashtag> hashtags = new ArrayList<>();
 
-    // ---------------------- CONSTRUCTORES ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTORES
+    //-----------------------------------------------------------------------------
 
     public Nota() {
         // Constructor vacío necesario para ciertas operaciones o frameworks
@@ -36,7 +40,9 @@ public class Nota {
         this.usuarioId = usuarioId;
     }
 
-    // ---------------------- GETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // GETTERS
+    //-----------------------------------------------------------------------------
 
     public int getId() {
         return id;
@@ -62,7 +68,9 @@ public class Nota {
         return hashtags;
     }
 
-    // ---------------------- SETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // SETTERS
+    //-----------------------------------------------------------------------------
 
     public void setId(int id) {
         this.id = id;
@@ -93,7 +101,9 @@ public class Nota {
         this.usuarioId = usuarioId;
     }
 
-    // ---------------------- TO STRING ----------------------
+    //-----------------------------------------------------------------------------
+    // TO STRING
+    //-----------------------------------------------------------------------------
 
     /* Muestra la nota como texto simple (fecha + título).
      * Se utilizaría al imprimir objetos de tipo Nota como en listas. */

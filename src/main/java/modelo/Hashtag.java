@@ -8,12 +8,16 @@ package modelo;
 
 public class Hashtag {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     // Guarda el texto del hashtag (ej: "importante", "idea", etc.)
     private String texto;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     /* Al crear un hashtag, se pasa directamente el texto (sin #).
      * El constructor es simple porque esta clase actúa como contenedor. */
@@ -21,7 +25,9 @@ public class Hashtag {
         this.texto = texto;
     }
 
-    // ---------------------- MÉTODOS ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS
+    //-----------------------------------------------------------------------------
 
     public String getTexto() {
         return texto;

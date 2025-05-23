@@ -11,7 +11,9 @@ import java.util.prefs.Preferences;
 
 public class Usuario {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private int id;                    // ID del usuario (clave primaria)
     private String nombre;            // Nombre de usuario
@@ -22,7 +24,9 @@ public class Usuario {
     // Instancia de Preferences (almacén local de claves/valores por usuario del sistema)
     private static final Preferences prefs = Preferences.userNodeForPackage(Usuario.class);
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public Usuario(int id, String nombre, String contraseña, String tipo) {
         this.id = id;
@@ -31,7 +35,9 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // ---------------------- GETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // GETTERS
+    //-----------------------------------------------------------------------------
 
     public int getId() {
         return id;
@@ -49,7 +55,9 @@ public class Usuario {
         return tipo;
     }
 
-    // ---------------------- OTROS MÉTODOS ----------------------
+    //-----------------------------------------------------------------------------
+    // OTROS MÉTODOS
+    //-----------------------------------------------------------------------------
 
     /* Devuelve true si el usuario tiene rol "admin". */
     public boolean esAdmin() {

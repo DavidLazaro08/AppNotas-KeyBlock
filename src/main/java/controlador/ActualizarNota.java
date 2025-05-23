@@ -21,7 +21,9 @@ import static controlador.NotasControlador.procesarHashtags;
 
 public class ActualizarNota {
 
-    // ---------------------- MÉTODO PÚBLICO ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO PÚBLICO
+    //-----------------------------------------------------------------------------
 
     /* Este método enlaza cada campo de la ventana de edición con los datos reales de la nota.
      * De esta forma, lo que escribimos se guarda directamente en el objeto Nota mientras escribimos.
@@ -43,7 +45,9 @@ public class ActualizarNota {
         });
     }
 
-    // ---------------------- MÉTODO AUXILIAR ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO AUXILIAR
+    //-----------------------------------------------------------------------------
 
     /* Añade un listener al campo para detectar cualquier cambio (cuando escribimos o borramos texto).
      * Cada vez que el campo cambia, se actualiza el contenido correspondiente en la nota.
@@ -61,7 +65,9 @@ public class ActualizarNota {
         });
     }
 
-    // ---------------------- INTERFAZ FUNCIONAL ----------------------
+    //-----------------------------------------------------------------------------
+    // INTERFAZ FUNCIONAL
+    //-----------------------------------------------------------------------------
 
     /* Esta interfaz permite definir de forma sencilla qué hacer con el texto
      * cuando cambia su contenido en el campo correspondiente. */
@@ -71,4 +77,3 @@ public class ActualizarNota {
         void cambio(String texto, DocumentEvent e);
     }
 }
-

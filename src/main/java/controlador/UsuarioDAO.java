@@ -17,7 +17,9 @@ import java.sql.ResultSet;
 
 public class UsuarioDAO {
 
-    // ---------------------- MÉTODO: Validar credenciales ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Validar credenciales
+    //-----------------------------------------------------------------------------
 
     /* Comprueba si el nombre y contraseña coinciden con un usuario existente.
      * ➤ Se usa en el login para permitir el acceso.
@@ -39,7 +41,9 @@ public class UsuarioDAO {
         return valido;
     }
 
-    // ---------------------- MÉTODO: Registrar nuevo usuario ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Registrar nuevo usuario
+    //-----------------------------------------------------------------------------
 
     /* Inserta un nuevo usuario con rol "usuario" por defecto.
      * ➤ Usado desde el botón de registro.
@@ -61,7 +65,9 @@ public class UsuarioDAO {
         }
     }
 
-    // ---------------------- MÉTODO: Verificar si el usuario es admin ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Verificar si el usuario es admin
+    //-----------------------------------------------------------------------------
 
     /* Devuelve true si el usuario tiene rol "admin".
      * ➤ Se usa para mostrar o permitir acceso al panel de administración. */
@@ -84,7 +90,9 @@ public class UsuarioDAO {
         return false;
     }
 
-    // ---------------------- MÉTODO: Obtener objeto Usuario completo ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODO: Obtener objeto Usuario completo
+    //-----------------------------------------------------------------------------
 
     /* Carga el usuario desde la base de datos y lo devuelve como objeto Usuario.
      * ➤ Este método permite trabajar con toda la información del usuario (id, contraseña, rol...).

@@ -14,11 +14,15 @@ import java.awt.event.ActionListener;
 
 public class RegistroControlador {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private LoginVista loginVista;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public RegistroControlador(LoginVista loginVista) {
         this.loginVista = loginVista;

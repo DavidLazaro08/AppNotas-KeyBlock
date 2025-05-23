@@ -24,7 +24,9 @@ import static controlador.NotasControlador.crearYEditarNota;
 
 public class PanelContenido extends JPanel {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private CardLayout cardLayout;
     private JPanel panelInicio;
@@ -34,7 +36,9 @@ public class PanelContenido extends JPanel {
     private JTable tablaAdmin;
     private List<Nota> listaNotas;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public PanelContenido() {
         cardLayout = new CardLayout();
@@ -52,10 +56,13 @@ public class PanelContenido extends JPanel {
         add(panelContras, "Contras");
         add(panelAdmin, "Admin");
 
-        cardLayout.show(this, "Inicio"); // Mostrar por defecto al iniciar la app
+        // Mostrar por defecto al iniciar la app
+        cardLayout.show(this, "Inicio");
     }
 
-    // ---------------------- PANEL INICIO PERSONALIZADO ----------------------
+    //-----------------------------------------------------------------------------
+    // PANEL INICIO PERSONALIZADO
+    //-----------------------------------------------------------------------------
 
     private JPanel crearPanelInicio() {
         // Crea el panel de bienvenida con degradado y el logo en el centro
@@ -71,7 +78,9 @@ public class PanelContenido extends JPanel {
         return panel;
     }
 
-    // ---------------------- MÉTODOS DE CAMBIO DE VISTA ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS DE CAMBIO DE VISTA
+    //-----------------------------------------------------------------------------
 
     public void mostrarNotas(PrincipalVista principalVista) {
         panelNotas.removeAll();
@@ -88,7 +97,9 @@ public class PanelContenido extends JPanel {
         cardLayout.show(this, "Admin");
     }
 
-    // ---------------------- PANEL NOTAS ----------------------
+    //-----------------------------------------------------------------------------
+    // PANEL DE NOTAS - VISUALIZACIÓN Y EDICIÓN
+    //-----------------------------------------------------------------------------
 
     private void refrescarNotas(PrincipalVista principalVista) {
         panelNotas.removeAll();
@@ -190,7 +201,6 @@ public class PanelContenido extends JPanel {
         btnEliminar.setFont(new Font("SansSerif", Font.PLAIN, 12));
         btnEliminar.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         btnEliminar.addActionListener(e -> {
-            // Estilo oscuro para la confirmación
             UIManager.put("OptionPane.background", new Color(43, 43, 43));
             UIManager.put("Panel.background", new Color(43, 43, 43));
             UIManager.put("OptionPane.messageForeground", Color.WHITE);
@@ -222,7 +232,9 @@ public class PanelContenido extends JPanel {
         return tarjeta;
     }
 
-    // ---------------------- PANEL CONTRASEÑAS ----------------------
+    //-----------------------------------------------------------------------------
+    // PANEL CONTRASEÑAS
+    //-----------------------------------------------------------------------------
 
     private JPanel crearPanelContras() {
         JPanel panel = new JPanel();
@@ -238,7 +250,9 @@ public class PanelContenido extends JPanel {
         return panel;
     }
 
-    // ---------------------- PANEL ADMINISTRADOR ----------------------
+    //-----------------------------------------------------------------------------
+    // PANEL ADMINISTRADOR
+    //-----------------------------------------------------------------------------
 
     private JPanel crearPanelAdmin() {
         JPanel panel = new JPanel(new BorderLayout());

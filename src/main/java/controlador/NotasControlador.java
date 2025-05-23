@@ -17,7 +17,9 @@ import java.util.regex.*;
 
 public class NotasControlador {
 
-    // ---------------------- HASHTAGS ----------------------
+    //-----------------------------------------------------------------------------
+    // HASHTAGS
+    //-----------------------------------------------------------------------------
 
     /* Extrae todos los hashtags válidos del campo de texto y los añade a la nota.
      * ➤ Se usa cuando el usuario escribe en el campo correspondiente. */
@@ -30,7 +32,9 @@ public class NotasControlador {
         }
     }
 
-    // ---------------------- NUEVA NOTA ----------------------
+    //-----------------------------------------------------------------------------
+    // NUEVA NOTA
+    //-----------------------------------------------------------------------------
 
     /* Lanza la vista de edición para crear una nueva nota vacía.
      * ➤ Se obtiene el ID del usuario logueado para asignarlo a la nota.
@@ -75,7 +79,9 @@ public class NotasControlador {
         vista.mostrar();
     }
 
-    // ---------------------- EDITAR NOTA EXISTENTE ----------------------
+    //-----------------------------------------------------------------------------
+    // EDITAR NOTA EXISTENTE
+    //-----------------------------------------------------------------------------
 
     /* Lanza el editor para una nota ya existente (recibe título y contenido).
      * ➤ Se genera un nuevo objeto Nota pero con el contenido ya precargado.

@@ -9,7 +9,9 @@ package modelo;
 
 public class ContraseñaGuardada {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private int id;
     private String servicio;
@@ -17,7 +19,9 @@ public class ContraseñaGuardada {
     private String contraseñaCodificada;
     private int usuarioId;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     /* Al crear una nueva contraseña, se le asignan todos los campos relevantes.
      * ➤ El ID puede ser 0 si aún no se ha guardado en base de datos. */
@@ -29,7 +33,9 @@ public class ContraseñaGuardada {
         this.usuarioId = usuarioId;
     }
 
-    // ---------------------- GETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // GETTERS
+    //-----------------------------------------------------------------------------
 
     public int getId() {
         return id;
@@ -51,7 +57,9 @@ public class ContraseñaGuardada {
         return usuarioId;
     }
 
-    // ---------------------- TO STRING ----------------------
+    //-----------------------------------------------------------------------------
+    // TO STRING
+    //-----------------------------------------------------------------------------
 
     /* Se sobrescribe toString() para que, al mostrar este objeto en una lista visual,
      * aparezca el nombre del servicio seguido del usuario en corchetes. */

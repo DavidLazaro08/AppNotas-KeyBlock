@@ -18,18 +18,29 @@ import java.awt.event.*;
 
 public class PrincipalVista extends VentanaBase {
 
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
+
     private JPanel panelCartas;
     private CardLayout cardLayout;
     private PanelContenido panelContenido;
     private JLabel lblTituloCabecera;
     private Usuario usuarioLogueado;
 
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
+
     public PrincipalVista(Usuario usuarioLogueado) {
         super("KeyBlock");
         this.usuarioLogueado = usuarioLogueado;
 
-        // ---------------------- PANEL SUPERIOR ----------------------
+        //-----------------------------------------------------------------------------
+        // PANEL SUPERIOR: CABECERA
+        //-----------------------------------------------------------------------------
         // Cabecera con el título principal de la sección actual
+
         lblTituloCabecera = new JLabel("📝 Mis Notas y Más", SwingConstants.CENTER);
         lblTituloCabecera.setFont(fuenteTitulo);
         lblTituloCabecera.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -38,8 +49,11 @@ public class PrincipalVista extends VentanaBase {
         lblTituloCabecera.setForeground(colorTextoClaro);
         add(lblTituloCabecera, BorderLayout.NORTH);
 
-        // ---------------------- PANEL LATERAL IZQUIERDO ----------------------
+        //-----------------------------------------------------------------------------
+        // PANEL LATERAL IZQUIERDO: MENÚ DE ICONOS
+        //-----------------------------------------------------------------------------
         // Menú lateral con botones verticales de navegación
+
         JPanel panelLateral = new JPanel();
         panelLateral.setPreferredSize(new Dimension(70, 0));
         panelLateral.setBackground(colorFondoOscuro);
@@ -120,8 +134,11 @@ public class PrincipalVista extends VentanaBase {
 
         add(panelLateral, BorderLayout.WEST);
 
-        // ---------------------- PANEL CENTRAL CON CARDLAYOUT ----------------------
+        //-----------------------------------------------------------------------------
+        // PANEL CENTRAL: CARDLAYOUT CON PANELCONTENIDO
+        //-----------------------------------------------------------------------------
         // Panel que va cambiando entre las vistas: Notas, Contraseñas, Admin...
+
         cardLayout = new CardLayout();
         panelCartas = new JPanel(cardLayout);
         panelCartas.setBackground(colorFondoOscuro);
@@ -131,8 +148,11 @@ public class PrincipalVista extends VentanaBase {
 
         add(panelCartas, BorderLayout.CENTER);
 
-        // ---------------------- PANEL INFERIOR DE NAVEGACIÓN ----------------------
+        //-----------------------------------------------------------------------------
+        // PANEL INFERIOR: BOTONES DE NAVEGACIÓN Y ACCIÓN
+        //-----------------------------------------------------------------------------
         // Botones de acción rápida: ver notas, ver contraseñas y crear nueva nota
+
         JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 10));
         panelInferior.setPreferredSize(new Dimension(800, 100));
         panelInferior.setBackground(new Color(30, 30, 30));
@@ -150,7 +170,9 @@ public class PrincipalVista extends VentanaBase {
 
         add(panelInferior, BorderLayout.SOUTH);
 
-        // ---------------------- EVENTOS ----------------------
+        //-----------------------------------------------------------------------------
+        // EVENTOS: BOTONES INFERIORES
+        //-----------------------------------------------------------------------------
 
         // Mostrar lista de notas
         btnVerNotas.addActionListener(e -> {
@@ -203,7 +225,9 @@ public class PrincipalVista extends VentanaBase {
         setVisible(true);
     }
 
-    // ---------------------- MÉTODOS AUXILIARES ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS AUXILIARES
+    //-----------------------------------------------------------------------------
 
     public void refrescarNotas() {
         lblTituloCabecera.setText("📝 Mis Notas y Más");
@@ -219,3 +243,4 @@ public class PrincipalVista extends VentanaBase {
         return usuarioLogueado;
     }
 }
+

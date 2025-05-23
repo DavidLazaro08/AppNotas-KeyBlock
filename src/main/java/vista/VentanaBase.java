@@ -12,7 +12,9 @@ import java.awt.*;
 
 public class VentanaBase extends JFrame {
 
-    // ---------------------- ATRIBUTOS DE ESTILO ----------------------
+    //-----------------------------------------------------------------------------
+    //  ATRIBUTOS DE ESTILO
+    //-----------------------------------------------------------------------------
 
     // Fuentes predeterminadas
     protected Font fuenteTitulo = new Font("SansSerif", Font.BOLD, 26);
@@ -24,7 +26,9 @@ public class VentanaBase extends JFrame {
     protected Color colorBoton = new Color(60, 63, 65);
     protected Color colorBotonHover = new Color(50, 53, 57);
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
 
     public VentanaBase(String titulo) {
         setTitle(titulo);
@@ -41,17 +45,12 @@ public class VentanaBase extends JFrame {
             System.out.println("⚠️ Icono no encontrado.");
         }
     }
+    //-----------------------------------------------------------------------------
+    // METODO: Crear botón personalizado
+    //-----------------------------------------------------------------------------
 
-    // ---------------------- MÉTODO: Crear botón personalizado ----------------------
-
-    /**
-     * Crea un botón con aspecto moderno y adaptado al estilo oscuro de la app.
-     * Incluye comportamiento al pasar el ratón y al hacer clic.
-     *
-     * @param texto  Texto del botón
-     * @param fuente Fuente que se aplicará
-     * @return JButton estilizado
-     */
+    /* Crea un botón con aspecto moderno y adaptado al estilo oscuro de la app.
+     * Incluye comportamiento al pasar el ratón y al hacer clic. */
     protected JButton crearBotonEstiloIDE(String texto, Font fuente) {
         JButton boton = new JButton(texto);
         boton.setFont(fuente);

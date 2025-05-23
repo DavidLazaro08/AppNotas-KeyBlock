@@ -17,7 +17,9 @@ import java.sql.SQLException;
 
 public class NotaDAO {
 
-    // ---------------------- GUARDAR NOTA ----------------------
+    //-----------------------------------------------------------------------------
+    // GUARDAR NOTA
+    //-----------------------------------------------------------------------------
 
     /* Método que guarda una nueva nota en la base de datos y sus hashtags asociados.
      * ➤ Se usa al crear o editar una nota desde la interfaz.
@@ -74,7 +76,9 @@ public class NotaDAO {
         nota.setHashtags(GestorBBDD.obtenerHashtagsDeNota(idGenerado));
     }
 
-    // ---------------------- ELIMINAR NOTA ----------------------
+    //-----------------------------------------------------------------------------
+    // ELIMINAR NOTA
+    //-----------------------------------------------------------------------------
 
     /* Método que elimina una nota y sus relaciones con hashtags.
      * ➤ Primero borra las asociaciones en la tabla intermedia.

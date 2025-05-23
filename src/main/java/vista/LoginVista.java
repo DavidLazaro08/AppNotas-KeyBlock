@@ -12,21 +12,28 @@ import java.awt.*;
 
 public class LoginVista extends VentanaBase {
 
-    // ---------------------- ATRIBUTOS ----------------------
+    //-----------------------------------------------------------------------------
+    // ATRIBUTOS
+    //-----------------------------------------------------------------------------
 
     private JTextField tfUsuario;
     private JPasswordField pfContrasena;
     private JButton btnLogin;
     private JButton btnRegistrar;
 
-    // ---------------------- CONSTRUCTOR ----------------------
+    //-----------------------------------------------------------------------------
+    // CONSTRUCTOR
+    //-----------------------------------------------------------------------------
+
 
     public LoginVista() {
         super("Login");
         setSize(300, 180);
         setLocationRelativeTo(null);
 
-        // ---------------------- PANEL PRINCIPAL (Formulario) ----------------------
+        //-----------------------------------------------------------------------------
+        // PANEL PRINCIPAL (Formulario)
+        //-----------------------------------------------------------------------------
 
         JPanel panel = new JPanel(new GridLayout(4, 2, 5, 5));
         panel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -57,7 +64,9 @@ public class LoginVista extends VentanaBase {
 
         add(panel);
 
-        // ---------------------- EVENTO: Registro desde mismo cuadro ----------------------
+        //-----------------------------------------------------------------------------
+        // EVENTO: Registro desde mismo cuadro
+        //-----------------------------------------------------------------------------
 
         // Aquí se controla directamente el registro sin necesidad de ventana nueva.
         // Si se validan correctamente los campos, se intenta guardar en la base de datos.
@@ -91,7 +100,9 @@ public class LoginVista extends VentanaBase {
         setVisible(true);
     }
 
-    // ---------------------- MÉTODOS GETTERS ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS GETTERS
+    //-----------------------------------------------------------------------------
 
     public String getUsuario() {
         return tfUsuario.getText().trim();
@@ -109,7 +120,9 @@ public class LoginVista extends VentanaBase {
         return btnRegistrar;
     }
 
-    // ---------------------- MÉTODOS EXTRA ----------------------
+    //-----------------------------------------------------------------------------
+    // MÉTODOS EXTRA
+    //-----------------------------------------------------------------------------
 
     public void limpiarCampos() {
         tfUsuario.setText("");
