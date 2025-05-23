@@ -1,9 +1,23 @@
+
+/* PROYECTO FINAL - Aplicación de Notas "KeyBlock"
+ *
+ * Desarrollado como actividad evaluable para el módulo de Programación.
+ * La aplicación permite crear, gestionar y eliminar notas con hashtags,
+ * usando interfaz gráfica en Java (Swing) y base de datos MySQL.
+ *
+ * Autores:
+ * - Alberto Estepa Gómez
+ * - Juan Jiménez Nieto
+ * - David Gutiérrez Ortiz
+ *
+ * Curso 2025/2026 */
+
 package app;
 
 import vista.LoginVista;
 import controlador.LoginControlador;
 
-/** Clase Main que inicia la aplicación.
+/* Clase Main que inicia la aplicación.
  *
  * ➤ Muestra la ventana de Login al arrancar el programa.
  * ➤ Inicializa el controlador correspondiente. */
