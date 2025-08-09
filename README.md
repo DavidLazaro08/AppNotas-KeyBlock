@@ -111,4 +111,18 @@ El proyecto ha sido desarrollado en equipo, con división clara de tareas, segui
 
 ---
 
+## 👥 AUTORES
+
+- [Alberto Estepa Gómez](https://github.com/SantanaOlmo)  
+- [Juan Jiménez Nieto](https://github.com/True-Felas)  
+- [David Gutiérrez Ortiz](https://github.com/DavidLazaro08)  
+
+---
+
+## 📌 REPOSITORIO ORIGINAL
+
+[https://github.com/SantanaOlmo/NoteLab](https://github.com/SantanaOlmo/NoteLab)
+
+---
+
 Gracias por revisar nuestro trabajo.  
